@@ -44,19 +44,21 @@
 		<main class="bg-white rounded-lg shadow-lg p-6 mt-4">
 			<div class="border-b border-gray-200 mb-4">
 				<nav aria-label="Tabs" class="-mb-px flex space-x-8">
-					<a aria-current="page"
-						class="border-gray-800 text-gray-900 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-						href="#">
+					<button id="clanMembersTab"
+						class="border-gray-800 text-gray-900 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm tab-button active"
+						data-tab="clanMembers">
 						Clan Members
-					</a>
-					<a class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-						href="#">
+					</button>
+					<button id="spousesTab"
+						class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm tab-button"
+						data-tab="spouses">
 						Spouses
-					</a>
-					<a class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-						href="#">
+					</button>
+					<button id="retainersTab"
+						class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm tab-button"
+						data-tab="retainers">
 						Retainers
-					</a>
+					</button>
 				</nav>
 			</div>
 			<div class="flex justify-between items-center mb-4">
@@ -461,6 +463,113 @@
 	</div>
 
 	<script>
+		// Data sets for different tabs
+		const clanMembersData = [
+			{ name: "Zilan Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
+			{ name: "Yier Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "None", skillValue: 100 },
+			{ name: "Boxun Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "None", skillValue: 100 },
+			{ name: "Zhuyan Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
+			{ name: "Yuanguang Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
+			{ name: "Lugeng Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
+			{ name: "Wangtao Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Craft", skillValue: 100 },
+			{ name: "Xinying Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
+			{ name: "Mingyan Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "None", skillValue: 100 },
+			{ name: "Yushou Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
+			{ name: "Xizhi Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
+			{ name: "Chengxiang Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 }
+		];
+
+		const spousesData = [
+			{ name: "Lady Chen", age: 45, literature: 95, martial: 15, commerce: 85, art: 90, strategy: 70, reputation: 88, luck: 75, charm: 95, health: 92, talent: "Commerce", talentValue: 88, skill: "Medical", skillValue: 85 },
+			{ name: "Madam Liu", age: 38, literature: 88, martial: 20, commerce: 78, art: 85, strategy: 65, reputation: 82, luck: 70, charm: 90, health: 85, talent: "Art", talentValue: 85, skill: "None", skillValue: 0 },
+			{ name: "Lady Wang", age: 42, literature: 92, martial: 18, commerce: 80, art: 88, strategy: 68, reputation: 85, luck: 72, charm: 88, health: 90, talent: "Literature", talentValue: 92, skill: "Craft", skillValue: 78 },
+			{ name: "Madam Zhang", age: 35, literature: 85, martial: 22, commerce: 75, art: 82, strategy: 62, reputation: 80, luck: 68, charm: 85, health: 88, talent: "Charm", talentValue: 85, skill: "Medical", skillValue: 80 },
+			{ name: "Lady Li", age: 40, literature: 90, martial: 16, commerce: 83, art: 87, strategy: 66, reputation: 84, luck: 74, charm: 92, health: 86, talent: "Commerce", talentValue: 83, skill: "None", skillValue: 0 }
+		];
+
+		const retainersData = [
+			{ name: "Captain Zhou", age: 55, literature: 45, martial: 95, commerce: 30, art: 25, strategy: 88, reputation: 75, luck: 60, charm: 50, health: 90, talent: "Strategy", talentValue: 88, skill: "Martial", skillValue: 95 },
+			{ name: "Guard Chen", age: 48, literature: 40, martial: 90, commerce: 25, art: 20, strategy: 75, reputation: 70, luck: 55, charm: 45, health: 85, talent: "Martial", talentValue: 90, skill: "None", skillValue: 0 },
+			{ name: "Steward Wu", age: 52, literature: 75, martial: 35, commerce: 88, art: 40, strategy: 70, reputation: 82, luck: 65, charm: 60, health: 80, talent: "Commerce", talentValue: 88, skill: "Craft", skillValue: 75 },
+			{ name: "Scout Yang", age: 35, literature: 50, martial: 85, commerce: 40, art: 30, strategy: 80, reputation: 65, luck: 85, charm: 55, health: 88, talent: "Luck", talentValue: 85, skill: "Martial", skillValue: 85 }
+		];
+
+		let currentTabData = clanMembersData;
+
+		// Tab functionality
+		document.addEventListener('DOMContentLoaded', function() {
+			const tabButtons = document.querySelectorAll('.tab-button');
+			
+			tabButtons.forEach(button => {
+				button.addEventListener('click', function() {
+					const tabName = this.getAttribute('data-tab');
+					switchTab(tabName, this);
+				});
+			});
+		});
+
+		function switchTab(tabName, clickedButton) {
+			// Update tab appearance
+			document.querySelectorAll('.tab-button').forEach(btn => {
+				btn.classList.remove('border-gray-800', 'text-gray-900', 'active');
+				btn.classList.add('border-transparent', 'text-gray-500');
+			});
+			
+			clickedButton.classList.remove('border-transparent', 'text-gray-500');
+			clickedButton.classList.add('border-gray-800', 'text-gray-900', 'active');
+
+			// Switch data based on tab
+			switch(tabName) {
+				case 'clanMembers':
+					currentTabData = clanMembersData;
+					break;
+				case 'spouses':
+					currentTabData = spousesData;
+					break;
+				case 'retainers':
+					currentTabData = retainersData;
+					break;
+			}
+
+			// Render new table data
+			renderTableData();
+		}
+
+		function renderTableData() {
+			const tbody = document.querySelector('tbody');
+			tbody.innerHTML = '';
+
+			currentTabData.forEach(person => {
+				const row = document.createElement('tr');
+				row.className = 'hover:bg-gray-50';
+				
+				const skillClass = person.skill === 'None' ? 'text-gray-500' : 'text-gray-600';
+				
+				row.innerHTML = `
+					<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${person.name}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.age}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.literature}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.martial}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.commerce}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.art}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.strategy}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.reputation}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.luck}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.charm}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.health}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.talent}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.talentValue}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm ${skillClass}">${person.skill}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.skillValue}</td>
+					<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+						<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
+					</td>
+				`;
+				
+				tbody.appendChild(row);
+			});
+		}
+
 		// Modal functionality
 		const modal = document.getElementById('editModal');
 		const closeModalBtn = document.getElementById('closeModal');
