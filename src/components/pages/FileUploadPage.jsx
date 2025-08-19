@@ -53,44 +53,57 @@ function FileUploadPage({ fileInputRef }) {
 		}
 	};
 	return (
-		<div className="min-h-screen flex items-center justify-center p-6">
-			<div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl">
-				<div className="text-center mb-6">
-					<h1 className="text-3xl font-semibold text-gray-900 mb-3">House of Legacy Save Editor</h1>
+		<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+			<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 w-full max-w-lg">
+				<div className="text-center space-y-8">
+					{/* Header */}
+					<div className="space-y-3">
+						<h1 className="text-2xl font-semibold text-gray-900">
+							House of Legacy Save Editor
+						</h1>
+						<p className="text-gray-600 text-sm">
+							Upload your GameData.es3 file to get started
+						</p>
+					</div>
 					
-					{/* Game Banner Image - Compact Version */}
-					<div className="mb-4">
+					{/* Game Banner */}
+					<div>
 						<img 
 							src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2503770/b33b96f5e8795a6ddad37c3cc1e5abb3557b8274/capsule_616x353.jpg?t=1752485158" 
 							alt="House of Legacy Game Banner" 
-							className="mx-auto rounded-md shadow-sm max-w-full h-auto"
-							style={{ maxWidth: '280px', height: 'auto' }}
+							className="w-full h-32 object-cover rounded-lg"
 						/>
 					</div>
 					
-					<p className="text-gray-600 text-base mb-4">
-						Locate House of Legacy save file on your computer:
-					</p>
-					<div className="text-sm text-gray-500 space-y-1 bg-gray-50 p-3 rounded-lg">
-						<div>C:\Users\{'{Username}'}\AppData\LocalLow\S3Studio\House of Legacy\FW\{'{index}'}\GameData.es3</div>
-						<div className="text-gray-400 text-xs">For example:</div>
-						<div>C:\Users\DaveAdams\AppData\LocalLow\S3Studio\House of Legacy\FW\0\GameData.es3</div>
+					{/* File Path Info */}
+					<div className="text-left space-y-3">
+						<p className="text-sm font-medium text-gray-900">Save file location:</p>
+						<div className="bg-gray-50 p-4 rounded-lg text-xs font-mono text-gray-600 space-y-2">
+							<div>C:\Users\{'{Username}'}\AppData\LocalLow\S3Studio\House of Legacy\FW\{'{index}'}\GameData.es3</div>
+							<div className="text-gray-500">Example:</div>
+							<div className="text-gray-800">C:\Users\DaveAdams\AppData\LocalLow\S3Studio\House of Legacy\FW\0\GameData.es3</div>
+						</div>
 					</div>
 				</div>
 
-				<div className="space-y-4">
+				<div className="space-y-6">
 					{/* File Upload Area */}
 					<div 
-						className="file-upload-area rounded-lg p-8 text-center cursor-pointer"
+						className="file-upload-area border-2 border-dashed border-gray-300 rounded-lg p-10 text-center cursor-pointer hover:border-gray-400 transition-colors"
 						onClick={() => fileInputRef.current.click()}
 						onDragOver={handleDragOver}
 						onDragLeave={handleDragLeave}
 						onDrop={handleFileDrop}
 					>
-						<div className="flex flex-col items-center">
-							<span className="material-icons text-5xl text-gray-400 mb-3">cloud_upload</span>
-							<p className="text-gray-600 font-medium text-lg">Choose File</p>
-							<p className="text-sm text-gray-500 mt-1">or drag and drop</p>
+						<div className="space-y-3">
+							<svg className="w-8 h-8 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+							</svg>
+							<div className="space-y-1">
+								<p className="text-sm font-medium text-gray-900">Choose a file</p>
+								<p className="text-xs text-gray-500">or drag and drop</p>
+								<p className="text-xs text-gray-400">ES3 files only</p>
+							</div>
 						</div>
 					</div>
 
@@ -105,10 +118,12 @@ function FileUploadPage({ fileInputRef }) {
 
 					{/* Selected file display */}
 					{selectedFile && (
-						<div className="p-3 bg-gray-50 rounded-lg border text-base">
+						<div className="bg-gray-50 p-3 rounded-lg border">
 							<div className="flex items-center">
-								<span className="material-icons text-gray-500 mr-3 text-xl">description</span>
-								<span className="text-gray-700 font-medium">{selectedFile.name}</span>
+								<svg className="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+								</svg>
+								<span className="text-sm font-medium text-gray-900">{selectedFile.name}</span>
 							</div>
 						</div>
 					)}
@@ -117,14 +132,13 @@ function FileUploadPage({ fileInputRef }) {
 					<button 
 						onClick={openEditor} 
 						disabled={!selectedFile}
-						className={`w-full py-3 px-6 rounded-lg font-medium text-lg transition-colors flex items-center justify-center ${
+						className={`w-full py-3 px-4 rounded-lg text-sm font-medium transition-colors ${
 							selectedFile 
-								? 'bg-gray-800 hover:bg-gray-900 text-white' 
-								: 'bg-gray-300 text-gray-500 cursor-not-allowed'
+								? 'bg-gray-900 hover:bg-gray-800 text-white' 
+								: 'bg-gray-100 text-gray-400 cursor-not-allowed'
 						}`}
 					>
-						<span className="material-icons mr-2 text-xl">edit</span>
-						Open Editor
+						{selectedFile ? 'Open Editor' : 'Select a file to continue'}
 					</button>
 				</div>
 			</div>
