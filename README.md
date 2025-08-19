@@ -3,8 +3,15 @@
 <div align="center">
   <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2503770/b33b96f5e8795a6ddad37c3cc1e5abb3557b8274/capsule_616x353.jpg?t=1752485158" alt="House of Legacy Game Banner" width="600">
 </div>
+<br />
 
 A modern web-based save editor for [House of Legacy](https://store.steampowered.com/app/2503770/House_of_Legacy/), the addictive dynasty management game. This tool allows you to customize your save files to enhance your gameplay experience and skip the early-game grind.
+
+## 🌐 Quick Start
+
+**[✨ Try the Editor Online →](https://riandyrn.github.io/house-of-legacy-editor/)**
+
+*No installation required - runs entirely in your browser with secure client-side processing*
 
 ## ✨ Features
 
