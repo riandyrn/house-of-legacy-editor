@@ -501,6 +501,25 @@
 					switchTab(tabName, this);
 				});
 			});
+
+			// Initialize the page with the correct table for the active tab
+			const activeTab = document.querySelector('.tab-button.active');
+			if (activeTab) {
+				const tabName = activeTab.getAttribute('data-tab');
+				updateTableHeaders(tabName);
+				renderTableData(tabName);
+				
+				// Initialize skills selector visibility
+				const skillsSelector = document.getElementById('skillsSelector');
+				const divider = document.getElementById('divider');
+				if (tabName === 'retainers') {
+					skillsSelector.style.display = 'none';
+					divider.style.display = 'none';
+				} else {
+					skillsSelector.style.display = 'flex';
+					divider.style.display = 'block';
+				}
+			}
 		});
 
 		function switchTab(tabName, clickedButton) {
