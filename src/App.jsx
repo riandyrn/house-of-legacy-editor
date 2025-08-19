@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import FileUploadPage from './components/FileUploadPage';
 import EditorPage from './components/EditorPage';
+import ErrorDialog from './components/ErrorDialog';
 import useAppStore from './store/useAppStore';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 			) : (
 				<EditorPage goBackToUpload={handleGoBackToUpload} />
 			)}
+			<ErrorDialog />
 		</div>
 	);
 }
