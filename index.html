@@ -442,10 +442,6 @@
 								<label class="text-sm text-gray-700">Skill Value</label>
 								<input type="number" id="skillValueInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
 							</div>
-							<div class="flex justify-between items-center" id="monthlySalaryField" style="display: none;">
-								<label class="text-sm text-gray-700">Monthly Salary</label>
-								<input type="number" id="monthlySalaryInput" value="0" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
 						</div>
 					</div>
 					
@@ -506,6 +502,76 @@
 				<!-- Modal Footer -->
 				<div class="flex justify-end items-center p-6 border-t border-gray-200">
 					<button id="applyResourcesChanges" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
+						Apply
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Retainers Modal -->
+	<div id="retainersModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+		<div class="flex items-center justify-center min-h-screen p-4">
+			<div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+				<!-- Modal Header -->
+				<div class="flex justify-between items-center p-6 border-b border-gray-200">
+					<h2 id="retainersModalTitle" class="text-xl font-semibold text-gray-900">Retainer Name</h2>
+					<button id="closeRetainersModal" class="text-gray-400 hover:text-gray-600">
+						<span class="material-icons">close</span>
+					</button>
+				</div>
+				
+				<!-- Modal Body -->
+				<div class="p-6">
+					<div class="grid grid-cols-2 gap-6">
+						<!-- Left Column -->
+						<div class="space-y-3">
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Age</label>
+								<input type="number" id="retainersAgeInput" value="35" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Literature</label>
+								<input type="number" id="retainersLiteratureInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Martial</label>
+								<input type="number" id="retainersMartialInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Commerce</label>
+								<input type="number" id="retainersCommerceInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+						</div>
+						
+						<!-- Right Column -->
+						<div class="space-y-3">
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Art</label>
+								<input type="number" id="retainersArtInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Strategy</label>
+								<input type="number" id="retainersStrategyInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Reputation</label>
+								<input type="number" id="retainersReputationInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Monthly Salary</label>
+								<input type="number" id="retainersMonthlySalaryInput" value="0" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Modal Footer -->
+				<div class="flex justify-between items-center p-6 border-t border-gray-200">
+					<button id="maxAllRetainersAttributes" class="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-900">
+						Max All Attributes
+					</button>
+					<button id="applyRetainersChanges" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
 						Apply
 					</button>
 				</div>
@@ -766,6 +832,13 @@
 		const applyResourcesBtn = document.getElementById('applyResourcesChanges');
 		let currentEditingResourcesRow = null;
 
+		// Retainers Modal functionality
+		const retainersModal = document.getElementById('retainersModal');
+		const closeRetainersModalBtn = document.getElementById('closeRetainersModal');
+		const applyRetainersBtn = document.getElementById('applyRetainersChanges');
+		const maxAllRetainersBtn = document.getElementById('maxAllRetainersAttributes');
+		let currentEditingRetainersRow = null;
+
 		// Open modal when Edit link is clicked
 		document.addEventListener('click', function(e) {
 			if (e.target.textContent === 'Edit' && e.target.tagName === 'A') {
@@ -776,6 +849,9 @@
 				if (activeTab === 'resources') {
 					currentEditingResourcesRow = row;
 					openResourcesModal(row);
+				} else if (activeTab === 'retainers') {
+					currentEditingRetainersRow = row;
+					openRetainersModal(row);
 				} else {
 					currentEditingRow = row;
 					openModal(row);
@@ -814,6 +890,30 @@
 			}
 		});
 
+		// Retainers Modal event handlers
+		closeRetainersModalBtn.addEventListener('click', closeRetainersModal);
+		retainersModal.addEventListener('click', function(e) {
+			if (e.target === retainersModal) {
+				closeRetainersModal();
+			}
+		});
+
+		applyRetainersBtn.addEventListener('click', function() {
+			if (currentEditingRetainersRow) {
+				updateRetainersRowData(currentEditingRetainersRow);
+				closeRetainersModal();
+			}
+		});
+
+		maxAllRetainersBtn.addEventListener('click', function() {
+			const inputs = retainersModal.querySelectorAll('input[type="number"]');
+			inputs.forEach(input => {
+				if (input.id !== 'retainersAgeInput') { // Don't max out age
+					input.value = '100';
+				}
+			});
+		});
+
 		// Max All Attributes button
 		maxAllBtn.addEventListener('click', function() {
 			const inputs = modal.querySelectorAll('input[type="number"]');
@@ -826,41 +926,26 @@
 
 		function openModal(row) {
 			const cells = row.querySelectorAll('td');
-			const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
+			const name = cells[0].textContent;
 			
-			// Populate form fields with current row data based on tab
-			if (activeTab === 'retainers') {
-				const name = cells[0].textContent;
-				document.getElementById('modalTitle').textContent = name;
-				document.getElementById('ageInput').value = cells[1].textContent;
-				document.getElementById('literatureInput').value = cells[2].textContent;
-				document.getElementById('martialInput').value = cells[3].textContent;
-				document.getElementById('commerceInput').value = cells[4].textContent;
-				document.getElementById('artInput').value = cells[5].textContent;
-				document.getElementById('strategyInput').value = cells[6].textContent;
-				document.getElementById('reputationInput').value = cells[7].textContent;
-				document.getElementById('monthlySalaryInput').value = cells[8].textContent;
-				hideFieldsForRetainers();
-			} else {
-				// For clan members and spouses
-				const name = cells[0].textContent;
-				document.getElementById('modalTitle').textContent = name;
-				document.getElementById('ageInput').value = cells[1].textContent;
-				document.getElementById('literatureInput').value = cells[2].textContent;
-				document.getElementById('martialInput').value = cells[3].textContent;
-				document.getElementById('commerceInput').value = cells[4].textContent;
-				document.getElementById('artInput').value = cells[5].textContent;
-				document.getElementById('strategyInput').value = cells[6].textContent;
-				document.getElementById('reputationInput').value = cells[7].textContent;
-				document.getElementById('luckInput').value = cells[8].textContent;
-				document.getElementById('charmInput').value = cells[9].textContent;
-				document.getElementById('healthInput').value = cells[10].textContent;
-				// Skip talent (cells[11]) as it's text
-				document.getElementById('talentValueInput').value = cells[12].textContent;
-				document.getElementById('skillSelect').value = cells[13].textContent;
-				document.getElementById('skillValueInput').value = cells[14].textContent;
-				showAllFields();
-			}
+			// Set modal title
+			document.getElementById('modalTitle').textContent = name;
+			
+			// Populate form fields with current row data for clan members and spouses
+			document.getElementById('ageInput').value = cells[1].textContent;
+			document.getElementById('literatureInput').value = cells[2].textContent;
+			document.getElementById('martialInput').value = cells[3].textContent;
+			document.getElementById('commerceInput').value = cells[4].textContent;
+			document.getElementById('artInput').value = cells[5].textContent;
+			document.getElementById('strategyInput').value = cells[6].textContent;
+			document.getElementById('reputationInput').value = cells[7].textContent;
+			document.getElementById('luckInput').value = cells[8].textContent;
+			document.getElementById('charmInput').value = cells[9].textContent;
+			document.getElementById('healthInput').value = cells[10].textContent;
+			// Skip talent (cells[11]) as it's text
+			document.getElementById('talentValueInput').value = cells[12].textContent;
+			document.getElementById('skillSelect').value = cells[13].textContent;
+			document.getElementById('skillValueInput').value = cells[14].textContent;
 			
 			// Show modal
 			modal.classList.remove('hidden');
@@ -915,67 +1000,72 @@
 			currentTabData[0].meat = meat;
 		}
 
-		function hideFieldsForRetainers() {
-			// Hide fields not used by retainers
-			document.getElementById('luckInput').parentElement.style.display = 'none';
-			document.getElementById('charmInput').parentElement.style.display = 'none';
-			document.getElementById('healthInput').parentElement.style.display = 'none';
-			document.getElementById('talentValueInput').parentElement.style.display = 'none';
-			document.getElementById('skillSelect').parentElement.style.display = 'none';
-			document.getElementById('skillValueInput').parentElement.style.display = 'none';
-			// Show monthly salary field
-			document.getElementById('monthlySalaryField').style.display = 'flex';
+		function openRetainersModal(row) {
+			const cells = row.querySelectorAll('td');
+			const name = cells[0].textContent;
+			
+			// Set modal title
+			document.getElementById('retainersModalTitle').textContent = name;
+			
+			// Populate retainers form fields with current row data
+			document.getElementById('retainersAgeInput').value = cells[1].textContent;
+			document.getElementById('retainersLiteratureInput').value = cells[2].textContent;
+			document.getElementById('retainersMartialInput').value = cells[3].textContent;
+			document.getElementById('retainersCommerceInput').value = cells[4].textContent;
+			document.getElementById('retainersArtInput').value = cells[5].textContent;
+			document.getElementById('retainersStrategyInput').value = cells[6].textContent;
+			document.getElementById('retainersReputationInput').value = cells[7].textContent;
+			document.getElementById('retainersMonthlySalaryInput').value = cells[8].textContent;
+			
+			// Show retainers modal
+			retainersModal.classList.remove('hidden');
 		}
 
-		function showAllFields() {
-			// Show all fields for clan members and spouses
-			document.getElementById('luckInput').parentElement.style.display = 'flex';
-			document.getElementById('charmInput').parentElement.style.display = 'flex';
-			document.getElementById('healthInput').parentElement.style.display = 'flex';
-			document.getElementById('talentValueInput').parentElement.style.display = 'flex';
-			document.getElementById('skillSelect').parentElement.style.display = 'flex';
-			document.getElementById('skillValueInput').parentElement.style.display = 'flex';
-			// Hide monthly salary field
-			document.getElementById('monthlySalaryField').style.display = 'none';
+		function closeRetainersModal() {
+			retainersModal.classList.add('hidden');
+			currentEditingRetainersRow = null;
 		}
+
+		function updateRetainersRowData(row) {
+			const cells = row.querySelectorAll('td');
+			
+			// Update table cells with new values
+			cells[1].textContent = document.getElementById('retainersAgeInput').value;
+			cells[2].textContent = document.getElementById('retainersLiteratureInput').value;
+			cells[3].textContent = document.getElementById('retainersMartialInput').value;
+			cells[4].textContent = document.getElementById('retainersCommerceInput').value;
+			cells[5].textContent = document.getElementById('retainersArtInput').value;
+			cells[6].textContent = document.getElementById('retainersStrategyInput').value;
+			cells[7].textContent = document.getElementById('retainersReputationInput').value;
+			cells[8].textContent = document.getElementById('retainersMonthlySalaryInput').value;
+		}
+
+
 
 		function updateRowData(row) {
 			const cells = row.querySelectorAll('td');
-			const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
 			
-			// Update row with new values based on tab
-			if (activeTab === 'retainers') {
-				cells[1].textContent = document.getElementById('ageInput').value;
-				cells[2].textContent = document.getElementById('literatureInput').value;
-				cells[3].textContent = document.getElementById('martialInput').value;
-				cells[4].textContent = document.getElementById('commerceInput').value;
-				cells[5].textContent = document.getElementById('artInput').value;
-				cells[6].textContent = document.getElementById('strategyInput').value;
-				cells[7].textContent = document.getElementById('reputationInput').value;
-				cells[8].textContent = document.getElementById('monthlySalaryInput').value;
+			// Update row with new values for clan members and spouses
+			cells[1].textContent = document.getElementById('ageInput').value;
+			cells[2].textContent = document.getElementById('literatureInput').value;
+			cells[3].textContent = document.getElementById('martialInput').value;
+			cells[4].textContent = document.getElementById('commerceInput').value;
+			cells[5].textContent = document.getElementById('artInput').value;
+			cells[6].textContent = document.getElementById('strategyInput').value;
+			cells[7].textContent = document.getElementById('reputationInput').value;
+			cells[8].textContent = document.getElementById('luckInput').value;
+			cells[9].textContent = document.getElementById('charmInput').value;
+			cells[10].textContent = document.getElementById('healthInput').value;
+			cells[12].textContent = document.getElementById('talentValueInput').value;
+			cells[13].textContent = document.getElementById('skillSelect').value;
+			cells[14].textContent = document.getElementById('skillValueInput').value;
+			
+			// Update skill color based on selection
+			const skillCell = cells[13];
+			if (document.getElementById('skillSelect').value === 'None') {
+				skillCell.className = skillCell.className.replace('text-gray-600', 'text-gray-500');
 			} else {
-				// For clan members and spouses
-				cells[1].textContent = document.getElementById('ageInput').value;
-				cells[2].textContent = document.getElementById('literatureInput').value;
-				cells[3].textContent = document.getElementById('martialInput').value;
-				cells[4].textContent = document.getElementById('commerceInput').value;
-				cells[5].textContent = document.getElementById('artInput').value;
-				cells[6].textContent = document.getElementById('strategyInput').value;
-				cells[7].textContent = document.getElementById('reputationInput').value;
-				cells[8].textContent = document.getElementById('luckInput').value;
-				cells[9].textContent = document.getElementById('charmInput').value;
-				cells[10].textContent = document.getElementById('healthInput').value;
-				cells[12].textContent = document.getElementById('talentValueInput').value;
-				cells[13].textContent = document.getElementById('skillSelect').value;
-				cells[14].textContent = document.getElementById('skillValueInput').value;
-				
-				// Update skill color based on selection
-				const skillCell = cells[13];
-				if (document.getElementById('skillSelect').value === 'None') {
-					skillCell.className = skillCell.className.replace('text-gray-600', 'text-gray-500');
-				} else {
-					skillCell.className = skillCell.className.replace('text-gray-500', 'text-gray-600');
-				}
+				skillCell.className = skillCell.className.replace('text-gray-500', 'text-gray-600');
 			}
 		}
 
@@ -986,6 +1076,8 @@
 					closeModal();
 				} else if (!resourcesModal.classList.contains('hidden')) {
 					closeResourcesModal();
+				} else if (!retainersModal.classList.contains('hidden')) {
+					closeRetainersModal();
 				}
 			}
 		});
