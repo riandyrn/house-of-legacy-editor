@@ -50,7 +50,7 @@ function SpouseTable() {
 							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{spouse.skillValue}</td>
 							<td className="px-3 py-4 whitespace-nowrap text-sm font-medium">
 								<button 
-									onClick={() => openSpouseModal(spouse, index)} 
+									onClick={() => openSpouseModal(index)} 
 									className="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer"
 								>
 									Edit

@@ -48,7 +48,7 @@ const useUIStore = create((set) => ({
   }),
   
   // Clan member modal actions
-  openClanMemberModal: (character, index) => set({
+  openClanMemberModal: (index) => set({
     currentClanMemberIdx: index,
     showClanMemberModal: true
   }),
@@ -61,7 +61,7 @@ const useUIStore = create((set) => ({
 
   
   // Spouse modal actions
-  openSpouseModal: (spouse, spouseIdx) => set({
+  openSpouseModal: (spouseIdx) => set({
     currentSpouseIdx: spouseIdx,
     showSpouseModal: true
   }),
