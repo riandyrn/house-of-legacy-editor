@@ -1,8 +1,12 @@
 {
   "name": "house-of-legacy-editor",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Save editor for House of Legacy game.",
   "type": "module",
+  "author": {
+    "name": "Riandy R.N",
+    "url": "https://github.com/riandyrn"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
