@@ -642,7 +642,7 @@ const useGameDataStore = create((set, get) => ({
   },
 
   // Character data operations
-  saveCharacter: (updatedCharacter, editingIndex, activeTab) => {
+  saveClanMember: (updatedCharacter, editingIndex, activeTab) => {
     if (editingIndex >= 0) {
       if (activeTab === 'clanMembers') {
         const { clanMembersData } = get();
@@ -658,7 +658,7 @@ const useGameDataStore = create((set, get) => ({
     }
   },
 
-  maxCharacterAttributes: (character) => {
+  maxClanMemberAttributes: (character) => {
     const newCharacter = { ...character };
     Object.keys(newCharacter).forEach(key => {
       if (typeof newCharacter[key] === 'number' && key !== 'age') {

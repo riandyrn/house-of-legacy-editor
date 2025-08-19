@@ -10,11 +10,11 @@ const useUIStore = create((set) => ({
   selectedSkill: 'Medical',
   
   // Modal state
-  showCharacterModal: false,
+  showClanMemberModal: false,
   showSpouseModal: false,
   showRetainerModal: false,
   showResourceModal: false,
-  editingCharacter: {},
+  editingClanMember: {},
   editingIndex: -1,
   currentSpouseIdx: -1,
   currentRetainerIdx: -1,
@@ -47,21 +47,21 @@ const useUIStore = create((set) => ({
     errorMessage: '' 
   }),
   
-  // Character modal actions
-  openCharacterModal: (character, index) => set({
-    editingCharacter: { ...character },
+  // Clan member modal actions
+  openClanMemberModal: (character, index) => set({
+    editingClanMember: { ...character },
     editingIndex: index,
-    showCharacterModal: true
+    showClanMemberModal: true
   }),
   
-  closeCharacterModal: () => set({
-    showCharacterModal: false,
-    editingCharacter: {},
+  closeClanMemberModal: () => set({
+    showClanMemberModal: false,
+    editingClanMember: {},
     editingIndex: -1
   }),
   
-  updateEditingCharacter: (character) => set({
-    editingCharacter: character
+  updateEditingClanMember: (character) => set({
+    editingClanMember: character
   }),
   
   // Spouse modal actions

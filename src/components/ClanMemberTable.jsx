@@ -1,4 +1,12 @@
-function CharacterTable({ data, onEdit }) {
+import useUIStore from '../store/useUIStore';
+import useGameDataStore from '../store/useGameDataStore';
+
+function ClanMemberTable() {
+	const { openClanMemberModal } = useUIStore();
+	const { getCurrentData } = useGameDataStore();
+
+	const data = getCurrentData('clanMembers');
+
 	return (
 		<div className="overflow-x-auto">
 			<table className="w-full divide-y divide-gray-200">
@@ -42,7 +50,7 @@ function CharacterTable({ data, onEdit }) {
 							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{character.skillValue}</td>
 							<td className="px-3 py-4 whitespace-nowrap text-sm font-medium">
 								<button 
-									onClick={() => onEdit(character, index)} 
+									onClick={() => openClanMemberModal(character, index)} 
 									className="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer"
 								>
 									Edit
@@ -56,4 +64,4 @@ function CharacterTable({ data, onEdit }) {
 	);
 }
 
-export default CharacterTable;
+export default ClanMemberTable;

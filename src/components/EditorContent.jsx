@@ -1,8 +1,8 @@
-import CharacterTable from './CharacterTable';
+import ClanMemberTable from './ClanMemberTable';
 import SpouseTable from './SpouseTable';
 import RetainerTable from './RetainerTable';
 import ResourceTable from './ResourceTable';
-import CharacterModal from './CharacterModal';
+import ClanMemberModal from './ClanMemberModal';
 import SpouseModal from './SpouseModal';
 import RetainerModal from './RetainerModal';
 import ResourceModal from './ResourceModal';
@@ -14,35 +14,19 @@ function EditorContent() {
 	const {
 		activeTab,
 		selectedSkill,
-		showCharacterModal,
-		editingCharacter,
-		editingIndex,
 		setActiveTab,
-		setSelectedSkill,
-		openCharacterModal,
-		closeCharacterModal,
-		updateEditingCharacter
+		setSelectedSkill
 	} = useUIStore();
-	
+
 	// Game Data Store
 	const {
-		getCurrentData,
 		applySkillToNone,
 		maxAllAttributes,
 		maxAllResources,
-		allRetainersBestAttributes,
-		saveCharacter,
-		maxCharacterAttributes
+		allRetainersBestAttributes
 	} = useGameDataStore();
-	
-	const handleSaveCharacter = (updatedCharacter) => {
-		saveCharacter(updatedCharacter, editingIndex, activeTab);
-	};
-	
-	const handleMaxCharacterAttributes = () => {
-		const maxedCharacter = maxCharacterAttributes(editingCharacter);
-		updateEditingCharacter(maxedCharacter);
-	};
+
+
 
 
 	return (
@@ -51,18 +35,17 @@ function EditorContent() {
 				<div className="flex justify-between items-end">
 					<nav aria-label="Tabs" className="-mb-px flex space-x-8">
 						{['clanMembers', 'spouses', 'retainers', 'resources'].map((tab) => (
-							<button 
+							<button
 								key={tab}
 								onClick={() => setActiveTab(tab)}
-								className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base ${
-									activeTab === tab 
-										? 'border-gray-800 text-gray-900' 
+								className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base ${activeTab === tab
+										? 'border-gray-800 text-gray-900'
 										: 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-								}`}
+									}`}
 							>
-								{tab === 'clanMembers' ? 'Clan Members' : 
-								 tab === 'spouses' ? 'Spouses' :
-								 tab === 'retainers' ? 'Retainers' : 'Resources'}
+								{tab === 'clanMembers' ? 'Clan Members' :
+									tab === 'spouses' ? 'Spouses' :
+										tab === 'retainers' ? 'Retainers' : 'Resources'}
 							</button>
 						))}
 					</nav>
@@ -71,8 +54,8 @@ function EditorContent() {
 						<div className="flex items-center space-x-4 py-4">
 							<div className="flex items-center space-x-2">
 								<label className="text-sm font-medium text-gray-700">Set None Skills to:</label>
-								<select 
-									value={selectedSkill} 
+								<select
+									value={selectedSkill}
 									onChange={(e) => setSelectedSkill(e.target.value)}
 									className="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
 								>
@@ -97,8 +80,8 @@ function EditorContent() {
 						<div className="flex items-center space-x-4 py-4">
 							<div className="flex items-center space-x-2">
 								<label className="text-sm font-medium text-gray-700">Set None Skills to:</label>
-								<select 
-									value={selectedSkill} 
+								<select
+									value={selectedSkill}
 									onChange={(e) => setSelectedSkill(e.target.value)}
 									className="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
 								>
@@ -140,7 +123,7 @@ function EditorContent() {
 
 			{/* Characters Table (Clan Members) */}
 			{activeTab === 'clanMembers' && (
-				<CharacterTable data={getCurrentData(activeTab)} onEdit={openCharacterModal} />
+				<ClanMemberTable />
 			)}
 
 			{/* Spouses Table */}
@@ -158,14 +141,8 @@ function EditorContent() {
 				<ResourceTable />
 			)}
 
-			{/* Character Modal */}
-			<CharacterModal 
-				isOpen={showCharacterModal}
-				character={editingCharacter}
-				onClose={closeCharacterModal}
-				onSave={handleSaveCharacter}
-				onMaxAttributes={handleMaxCharacterAttributes}
-			/>
+			{/* Clan Member Modal */}
+			<ClanMemberModal />
 
 			{/* Spouse Modal */}
 			<SpouseModal />
