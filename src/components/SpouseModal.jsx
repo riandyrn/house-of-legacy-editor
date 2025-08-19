@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import useUIStore from '../store/useUIStore';
-import useGameDataStore from '../store/useGameDataStore';
+import useGameDataStore, { rangeAttrs } from '../store/useGameDataStore';
 
 function SpouseModal() {
 	const ageRef = useRef(null);
@@ -13,6 +13,7 @@ function SpouseModal() {
 	const luckRef = useRef(null);
 	const charmRef = useRef(null);
 	const healthRef = useRef(null);
+	const talentRef = useRef(null);
 	const talentValueRef = useRef(null);
 	const skillRef = useRef(null);
 	const skillValueRef = useRef(null);
@@ -27,38 +28,38 @@ function SpouseModal() {
 
 	const handleApply = () => {
 		const updateData = {
-			age: Number(ageRef.current?.value) || 18,
-			literature: Number(literatureRef.current?.value) || 0,
-			martial: Number(martialRef.current?.value) || 0,
-			commerce: Number(commerceRef.current?.value) || 0,
-			art: Number(artRef.current?.value) || 0,
-			strategy: Number(strategyRef.current?.value) || 0,
-			reputation: Number(reputationRef.current?.value) || 0,
-			luck: Number(luckRef.current?.value) || 0,
-			charm: Number(charmRef.current?.value) || 0,
-			health: Number(healthRef.current?.value) || 0,
-			talentValue: Number(talentValueRef.current?.value) || 0,
+			age: Number(ageRef.current?.value) || rangeAttrs.age[0],
+			literature: Number(literatureRef.current?.value) || rangeAttrs.literature[0],
+			martial: Number(martialRef.current?.value) || rangeAttrs.martial[0],
+			commerce: Number(commerceRef.current?.value) || rangeAttrs.commerce[0],
+			art: Number(artRef.current?.value) || rangeAttrs.art[0],
+			strategy: Number(strategyRef.current?.value) || rangeAttrs.strategy[0],
+			reputation: Number(reputationRef.current?.value) || rangeAttrs.reputation[0],
+			luck: Number(luckRef.current?.value) || rangeAttrs.luck[0],
+			charm: Number(charmRef.current?.value) || rangeAttrs.charm[0],
+			health: Number(healthRef.current?.value) || rangeAttrs.health[0],
+			talent: talentRef.current?.value || 'None',
+			talentValue: Number(talentValueRef.current?.value) || rangeAttrs.talentValue[0],
 			skill: skillRef.current?.value || 'None',
-			skillValue: Number(skillValueRef.current?.value) || 0,
+			skillValue: Number(skillValueRef.current?.value) || rangeAttrs.skillValue[0],
 		};
 		setSpouse(currentSpouseIdx, updateData);
 		closeSpouseModal();
 	};
 
 	const handleMaxAttributes = () => {
-		// Update the form fields with maximum values
-		if (ageRef.current) ageRef.current.value = 18; // Minimum age
-		if (literatureRef.current) literatureRef.current.value = 100; // Maximum
-		if (martialRef.current) martialRef.current.value = 100; // Maximum
-		if (commerceRef.current) commerceRef.current.value = 100; // Maximum
-		if (artRef.current) artRef.current.value = 100; // Maximum
-		if (strategyRef.current) strategyRef.current.value = 100; // Maximum
-		if (reputationRef.current) reputationRef.current.value = 100; // Maximum
-		if (luckRef.current) luckRef.current.value = 100; // Maximum
-		if (charmRef.current) charmRef.current.value = 100; // Maximum
-		if (healthRef.current) healthRef.current.value = 100; // Maximum
-		if (talentValueRef.current) talentValueRef.current.value = 100; // Maximum
-		if (skillValueRef.current) skillValueRef.current.value = 100; // Maximum
+		// Update the form fields with maximum values from rangeAttrs
+		if (literatureRef.current) literatureRef.current.value = rangeAttrs.literature[1]; // Maximum
+		if (martialRef.current) martialRef.current.value = rangeAttrs.martial[1]; // Maximum
+		if (commerceRef.current) commerceRef.current.value = rangeAttrs.commerce[1]; // Maximum
+		if (artRef.current) artRef.current.value = rangeAttrs.art[1]; // Maximum
+		if (strategyRef.current) strategyRef.current.value = rangeAttrs.strategy[1]; // Maximum
+		if (reputationRef.current) reputationRef.current.value = rangeAttrs.reputation[1]; // Maximum
+		if (luckRef.current) luckRef.current.value = rangeAttrs.luck[1]; // Maximum
+		if (charmRef.current) charmRef.current.value = rangeAttrs.charm[1]; // Maximum
+		if (healthRef.current) healthRef.current.value = rangeAttrs.health[1]; // Maximum
+		if (talentValueRef.current) talentValueRef.current.value = rangeAttrs.talentValue[1]; // Maximum
+		if (skillValueRef.current) skillValueRef.current.value = rangeAttrs.skillValue[1]; // Maximum
 	};
 
 	return (
@@ -82,9 +83,9 @@ function SpouseModal() {
 									<input 
 										ref={ageRef}
 										type="number" 
-										defaultValue={currentSpouse.age || 18} 
-										min="18"
-										max="100"
+										defaultValue={currentSpouse.age || rangeAttrs.age[0]} 
+										min={rangeAttrs.age[0]}
+										max={rangeAttrs.age[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -93,9 +94,9 @@ function SpouseModal() {
 									<input 
 										ref={literatureRef}
 										type="number" 
-										defaultValue={currentSpouse.literature || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.literature || rangeAttrs.literature[0]} 
+										min={rangeAttrs.literature[0]}
+										max={rangeAttrs.literature[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -104,9 +105,9 @@ function SpouseModal() {
 									<input 
 										ref={martialRef}
 										type="number" 
-										defaultValue={currentSpouse.martial || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.martial || rangeAttrs.martial[0]} 
+										min={rangeAttrs.martial[0]}
+										max={rangeAttrs.martial[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -115,9 +116,9 @@ function SpouseModal() {
 									<input 
 										ref={commerceRef}
 										type="number" 
-										defaultValue={currentSpouse.commerce || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.commerce || rangeAttrs.commerce[0]} 
+										min={rangeAttrs.commerce[0]}
+										max={rangeAttrs.commerce[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -126,9 +127,9 @@ function SpouseModal() {
 									<input 
 										ref={artRef}
 										type="number" 
-										defaultValue={currentSpouse.art || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.art || rangeAttrs.art[0]} 
+										min={rangeAttrs.art[0]}
+										max={rangeAttrs.art[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -137,9 +138,9 @@ function SpouseModal() {
 									<input 
 										ref={strategyRef}
 										type="number" 
-										defaultValue={currentSpouse.strategy || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.strategy || rangeAttrs.strategy[0]} 
+										min={rangeAttrs.strategy[0]}
+										max={rangeAttrs.strategy[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -148,9 +149,9 @@ function SpouseModal() {
 									<input 
 										ref={reputationRef}
 										type="number" 
-										defaultValue={currentSpouse.reputation || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.reputation || rangeAttrs.reputation[0]} 
+										min={rangeAttrs.reputation[0]}
+										max={rangeAttrs.reputation[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -161,9 +162,9 @@ function SpouseModal() {
 									<input 
 										ref={luckRef}
 										type="number" 
-										defaultValue={currentSpouse.luck || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.luck || rangeAttrs.luck[0]} 
+										min={rangeAttrs.luck[0]}
+										max={rangeAttrs.luck[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -172,9 +173,9 @@ function SpouseModal() {
 									<input 
 										ref={charmRef}
 										type="number" 
-										defaultValue={currentSpouse.charm || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.charm || rangeAttrs.charm[0]} 
+										min={rangeAttrs.charm[0]}
+										max={rangeAttrs.charm[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -183,20 +184,34 @@ function SpouseModal() {
 									<input 
 										ref={healthRef}
 										type="number" 
-										defaultValue={currentSpouse.health || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.health || rangeAttrs.health[0]} 
+										min={rangeAttrs.health[0]}
+										max={rangeAttrs.health[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
+								</div>
+								<div className="flex justify-between items-center">
+									<label className="text-sm text-gray-700">Talent</label>
+									<select 
+										ref={talentRef}
+										defaultValue={currentSpouse.talent || 'None'} 
+										className="w-32 px-2 py-2 border border-gray-300 rounded text-center text-xs"
+									>
+										<option value="None">None</option>
+										<option value="Literature">Literature</option>
+										<option value="Martial">Martial</option>
+										<option value="Commerce">Commerce</option>
+										<option value="Art">Art</option>
+									</select>
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Talent Value</label>
 									<input 
 										ref={talentValueRef}
 										type="number" 
-										defaultValue={currentSpouse.talentValue || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.talentValue || rangeAttrs.talentValue[0]} 
+										min={rangeAttrs.talentValue[0]}
+										max={rangeAttrs.talentValue[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
@@ -221,9 +236,9 @@ function SpouseModal() {
 									<input 
 										ref={skillValueRef}
 										type="number" 
-										defaultValue={currentSpouse.skillValue || 0} 
-										min="0"
-										max="100"
+										defaultValue={currentSpouse.skillValue || rangeAttrs.skillValue[0]} 
+										min={rangeAttrs.skillValue[0]}
+										max={rangeAttrs.skillValue[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>

@@ -16,6 +16,11 @@ export const rangeAttrs = {
   art: [0, 100],
   strategy: [0, 100],
   reputation: [0, 100],
+  luck: [0, 100],
+  charm: [0, 100],
+  health: [0, 100],
+  talentValue: [0, 100],
+  skillValue: [0, 100],
   monthlySalary: [0, 9999],
 }
 
@@ -333,10 +338,26 @@ const useGameDataStore = create((set, get) => ({
       rawRecord[15] = updateData.charm?.toString() || rawRecord[15];
       rawRecord[16] = updateData.health?.toString() || rawRecord[16];
       
-      // Update talent value and skill if provided
-      if (updateData.talentValue !== undefined) {
+      // Update talent and talent value if provided
+      if (updateData.talent !== undefined || updateData.talentValue !== undefined) {
         const tokens = rawRecord[2].split("|");
-        tokens[3] = updateData.talentValue.toString();
+        
+        // Map talent names to IDs
+        const talentMap = {
+          'None': '0',
+          'Literature': '1',
+          'Martial': '2',
+          'Commerce': '3',
+          'Art': '4'
+        };
+        
+        if (updateData.talent) {
+          tokens[2] = talentMap[updateData.talent] || '0';
+        }
+        if (updateData.talentValue !== undefined) {
+          tokens[3] = updateData.talentValue.toString();
+        }
+        
         rawRecord[2] = tokens.join("|");
       }
       
