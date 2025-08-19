@@ -62,7 +62,7 @@
 				</nav>
 			</div>
 			<div class="flex justify-between items-center mb-4">
-				<div class="flex items-center space-x-2">
+				<div class="flex items-center space-x-2" id="skillsSelector">
 					<label class="text-sm font-medium text-gray-700" for="set-skill">Set None Skills to:</label>
 					<select
 						class="w-36 rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
@@ -521,6 +521,17 @@
 				case 'retainers':
 					currentTabData = retainersData;
 					break;
+			}
+
+			// Show/hide skills selector based on tab
+			const skillsSelector = document.getElementById('skillsSelector');
+			const controlsContainer = skillsSelector.parentElement;
+			if (tabName === 'retainers') {
+				skillsSelector.style.display = 'none';
+				controlsContainer.style.justifyContent = 'flex-end';
+			} else {
+				skillsSelector.style.display = 'flex';
+				controlsContainer.style.justifyContent = 'space-between';
 			}
 
 			// Update table headers and render new table data
