@@ -45,7 +45,7 @@ A modern web-based save editor for [House of Legacy](https://store.steampowered.
    npm run dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+4. Open your browser and navigate to `http://localhost:5173/house-of-legacy-editor/`
 
 ### Building for Production
 
