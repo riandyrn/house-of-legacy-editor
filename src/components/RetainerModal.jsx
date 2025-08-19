@@ -13,7 +13,7 @@ function RetainerModal() {
 	const monthlySalaryRef = useRef(null);
 
 	const { showRetainerModal, currentRetainerIdx, closeRetainerModal } = useUIStore();
-	const { setRetainer, maxRetainerAttributes, getRetainer } = useGameDataStore();
+	const { setRetainer, getRetainer } = useGameDataStore();
 
 	if (!showRetainerModal) return null;
 
@@ -35,17 +35,18 @@ function RetainerModal() {
 		closeRetainerModal();
 	};
 
-	const handleMaxAttributes = () => {
-		const maxedRetainer = maxRetainerAttributes(currentRetainer);
-		// Update the form fields with maxed values
-		if (ageRef.current) ageRef.current.value = maxedRetainer.age;
-		if (literatureRef.current) literatureRef.current.value = maxedRetainer.literature;
-		if (martialRef.current) martialRef.current.value = maxedRetainer.martial;
-		if (commerceRef.current) commerceRef.current.value = maxedRetainer.commerce;
-		if (artRef.current) artRef.current.value = maxedRetainer.art;
-		if (strategyRef.current) strategyRef.current.value = maxedRetainer.strategy;
-		if (reputationRef.current) reputationRef.current.value = maxedRetainer.reputation;
-		if (monthlySalaryRef.current) monthlySalaryRef.current.value = maxedRetainer.monthlySalary;
+	const handleSetBestAttributes = () => {
+		// Update the form fields with best values
+		// Age and salary: minimum (youngest age, lowest cost)
+		// All other attributes: maximum (best performance)
+		if (ageRef.current) ageRef.current.value = rangeAttrs.age[0]; // Minimum age
+		if (literatureRef.current) literatureRef.current.value = rangeAttrs.literature[1]; // Maximum
+		if (martialRef.current) martialRef.current.value = rangeAttrs.martial[1]; // Maximum
+		if (commerceRef.current) commerceRef.current.value = rangeAttrs.commerce[1]; // Maximum
+		if (artRef.current) artRef.current.value = rangeAttrs.art[1]; // Maximum
+		if (strategyRef.current) strategyRef.current.value = rangeAttrs.strategy[1]; // Maximum
+		if (reputationRef.current) reputationRef.current.value = rangeAttrs.reputation[1]; // Maximum
+		if (monthlySalaryRef.current) monthlySalaryRef.current.value = rangeAttrs.monthlySalary[0]; // Minimum salary
 	};
 
 	return (
@@ -160,8 +161,8 @@ function RetainerModal() {
 
 					{/* Modal Footer */}
 					<div className="flex justify-between items-center p-6 border-t border-gray-200">
-						<button onClick={handleMaxAttributes} className="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-900">
-							Max All Attributes
+						<button onClick={handleSetBestAttributes} className="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-900">
+							Set Best Attributes
 						</button>
 						<button onClick={handleApply} className="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
 							Apply

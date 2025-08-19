@@ -313,16 +313,6 @@ const useGameDataStore = create((set, get) => ({
     return newCharacter;
   },
 
-  maxRetainerAttributes: (retainer) => {
-    const newRetainer = { ...retainer };
-    Object.keys(newRetainer).forEach(key => {
-      if (typeof newRetainer[key] === 'number' && key !== 'age') {
-        newRetainer[key] = 100;
-      }
-    });
-    return newRetainer;
-  },
-
   // Resource data operations
   saveResource: (updatedResource) => {
     const { setMoney, setYuanbao, setFood, setVegetables, setMeat } = get();
