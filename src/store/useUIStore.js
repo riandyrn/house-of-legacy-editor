@@ -14,8 +14,8 @@ const useUIStore = create((set) => ({
   showRetainerModal: false,
   showResourceModal: false,
   editingCharacter: {},
-  editingRetainer: {},
   editingIndex: -1,
+  currentRetainerIdx: -1,
   
   // Error state
   showErrorDialog: false,
@@ -63,20 +63,16 @@ const useUIStore = create((set) => ({
   }),
   
   // Retainer modal actions
-  openRetainerModal: (retainer, index) => set({
-    editingRetainer: { ...retainer },
-    editingIndex: index,
-    showRetainerModal: true
-  }),
+  openRetainerModal: (retainerIdx) => {
+    set({
+      currentRetainerIdx: retainerIdx,
+      showRetainerModal: true
+    });
+  },
   
   closeRetainerModal: () => set({
     showRetainerModal: false,
-    editingRetainer: {},
-    editingIndex: -1
-  }),
-  
-  updateEditingRetainer: (retainer) => set({
-    editingRetainer: retainer
+    currentRetainerIdx: -1
   }),
   
   // Resource modal actions

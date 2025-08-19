@@ -13,18 +13,13 @@ function EditorContent() {
 		activeTab,
 		selectedSkill,
 		showCharacterModal,
-		showRetainerModal, 
 		editingCharacter,
-		editingRetainer,
 		editingIndex,
 		setActiveTab,
 		setSelectedSkill,
 		openCharacterModal,
 		closeCharacterModal,
-		openRetainerModal,
-		closeRetainerModal,
-		updateEditingCharacter,
-		updateEditingRetainer
+		updateEditingCharacter
 	} = useUIStore();
 	
 	// Game Data Store
@@ -34,9 +29,7 @@ function EditorContent() {
 		maxAllAttributes,
 		maxAllResources,
 		saveCharacter,
-		maxCharacterAttributes,
-		saveRetainer,
-		maxRetainerAttributes
+		maxCharacterAttributes
 	} = useGameDataStore();
 	
 	const showSkillsSelector = activeTab === 'clanMembers' || activeTab === 'spouses';
@@ -54,18 +47,9 @@ function EditorContent() {
 		saveCharacter(updatedCharacter, editingIndex, activeTab);
 	};
 	
-	const handleSaveRetainer = (updatedRetainer) => {
-		saveRetainer(updatedRetainer, editingIndex);
-	};
-	
 	const handleMaxCharacterAttributes = () => {
 		const maxedCharacter = maxCharacterAttributes(editingCharacter);
 		updateEditingCharacter(maxedCharacter);
-	};
-	
-	const handleMaxRetainerAttributes = () => {
-		const maxedRetainer = maxRetainerAttributes(editingRetainer);
-		updateEditingRetainer(maxedRetainer);
 	};
 
 
@@ -123,7 +107,7 @@ function EditorContent() {
 
 			{/* Retainers Table */}
 			{activeTab === 'retainers' && (
-				<RetainerTable data={getCurrentData()} onEdit={openRetainerModal} />
+				<RetainerTable />
 			)}
 
 			{/* Resources Table */}
@@ -141,13 +125,7 @@ function EditorContent() {
 			/>
 
 			{/* Retainer Modal */}
-			<RetainerModal 
-				isOpen={showRetainerModal}
-				retainer={editingRetainer}
-				onClose={closeRetainerModal}
-				onSave={handleSaveRetainer}
-				onMaxAttributes={handleMaxRetainerAttributes}
-			/>
+			<RetainerModal />
 
 			{/* Resource Modal */}
 			<ResourceModal />

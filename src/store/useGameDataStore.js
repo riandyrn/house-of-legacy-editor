@@ -197,6 +197,24 @@ const useGameDataStore = create((set, get) => ({
     return newRetainer(gameData.MenKe_Now.value[retainerIdx]);
   },
 
+  setRetainer: (retainerIdx, { age, literature, martial, commerce, art, strategy, reputation, monthlySalary }) => {
+    const { gameData } = get();
+    const updatedGameData = structuredClone(gameData);
+    
+    const rawRecord = updatedGameData.MenKe_Now.value[retainerIdx];
+    rawRecord[3] = age.toString();
+    rawRecord[4] = literature.toString();
+    rawRecord[5] = martial.toString();
+    rawRecord[6] = commerce.toString();
+    rawRecord[7] = art.toString();
+    rawRecord[15] = strategy.toString();
+    rawRecord[11] = reputation.toString();
+    rawRecord[18] = monthlySalary.toString();
+
+    updatedGameData.MenKe_Now.value[retainerIdx] = rawRecord;
+    set({ gameData: updatedGameData });
+  },
+
   // Get current data based on active tab
   getCurrentData: (activeTab) => {
     const { clanMembersData, spousesData, getRetainersData, getResourcesData } = get();
@@ -282,16 +300,6 @@ const useGameDataStore = create((set, get) => ({
       }
     });
     return newCharacter;
-  },
-
-  // Retainer data operations
-  saveRetainer: (updatedRetainer, editingIndex) => {
-    if (editingIndex >= 0) {
-      const { retainersData } = get();
-      const updated = [...retainersData];
-      updated[editingIndex] = { ...updatedRetainer };
-      set({ retainersData: updated });
-    }
   },
 
   maxRetainerAttributes: (retainer) => {

@@ -1,4 +1,12 @@
-function RetainerTable({ data, onEdit }) {
+import useUIStore from '../store/useUIStore';
+import useGameDataStore from '../store/useGameDataStore';
+
+function RetainerTable() {
+	const { openRetainerModal } = useUIStore();
+	const { getRetainersData } = useGameDataStore();
+	
+	const data = getRetainersData();
+
 	return (
 		<div className="overflow-x-auto">
 			<table className="w-full divide-y divide-gray-200">
@@ -30,7 +38,7 @@ function RetainerTable({ data, onEdit }) {
 							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{retainer.monthlySalary}</td>
 							<td className="px-3 py-4 whitespace-nowrap text-sm font-medium">
 								<button 
-									onClick={() => onEdit(retainer, retainer.retainerIdx)} 
+									onClick={() => openRetainerModal(retainer.retainerIdx)} 
 									className="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer"
 								>
 									Edit
