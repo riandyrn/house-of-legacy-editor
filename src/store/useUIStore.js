@@ -14,8 +14,8 @@ const useUIStore = create((set) => ({
   showSpouseModal: false,
   showRetainerModal: false,
   showResourceModal: false,
-  editingClanMember: {},
-  editingIndex: -1,
+
+  currentClanMemberIdx: -1,
   currentSpouseIdx: -1,
   currentRetainerIdx: -1,
   
@@ -49,20 +49,16 @@ const useUIStore = create((set) => ({
   
   // Clan member modal actions
   openClanMemberModal: (character, index) => set({
-    editingClanMember: { ...character },
-    editingIndex: index,
+    currentClanMemberIdx: index,
     showClanMemberModal: true
   }),
   
   closeClanMemberModal: () => set({
     showClanMemberModal: false,
-    editingClanMember: {},
-    editingIndex: -1
+    currentClanMemberIdx: -1
   }),
   
-  updateEditingClanMember: (character) => set({
-    editingClanMember: character
-  }),
+
   
   // Spouse modal actions
   openSpouseModal: (spouse, spouseIdx) => set({
