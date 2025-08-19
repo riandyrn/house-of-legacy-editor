@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import useUIStore from '../store/useUIStore';
-import useGameDataStore from '../store/useGameDataStore';
+import useGameDataStore, { rangeAttrs } from '../store/useGameDataStore';
 
 function RetainerModal() {
 	const ageRef = useRef(null);
@@ -21,15 +21,15 @@ function RetainerModal() {
 	const currentRetainer = getRetainer(currentRetainerIdx);
 
 	const handleApply = () => {
-		const updateData =  {
-			age: Number(ageRef.current?.value) || 0,
-			literature: Number(literatureRef.current?.value) || 0,
-			martial: Number(martialRef.current?.value) || 0,
-			commerce: Number(commerceRef.current?.value) || 0,
-			art: Number(artRef.current?.value) || 0,
-			strategy: Number(strategyRef.current?.value) || 0,
-			reputation: Number(reputationRef.current?.value) || 0,
-			monthlySalary: Number(monthlySalaryRef.current?.value) || 0,
+		const updateData = {
+			age: Number(ageRef.current?.value) || rangeAttrs.age[0],
+			literature: Number(literatureRef.current?.value) || rangeAttrs.literature[0],
+			martial: Number(martialRef.current?.value) || rangeAttrs.martial[0],
+			commerce: Number(commerceRef.current?.value) || rangeAttrs.commerce[0],
+			art: Number(artRef.current?.value) || rangeAttrs.art[0],
+			strategy: Number(strategyRef.current?.value) || rangeAttrs.strategy[0],
+			reputation: Number(reputationRef.current?.value) || rangeAttrs.reputation[0],
+			monthlySalary: Number(monthlySalaryRef.current?.value) || rangeAttrs.monthlySalary[0],
 		};
 		setRetainer(currentRetainerIdx, updateData);
 		closeRetainerModal();
@@ -69,8 +69,9 @@ function RetainerModal() {
 																	<input 
 									ref={ageRef}
 									type="number" 
-									defaultValue={currentRetainer.age || 0} 
-									min="0"
+									defaultValue={currentRetainer.age || rangeAttrs.age[0]} 
+									min={rangeAttrs.age[0]}
+									max={rangeAttrs.age[1]}
 									className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
 							</div>
@@ -79,9 +80,9 @@ function RetainerModal() {
 								<input 
 									ref={literatureRef}
 									type="number" 
-									defaultValue={currentRetainer.literature || 0} 
-									min="0"
-									max="100"
+									defaultValue={currentRetainer.literature || rangeAttrs.literature[0]} 
+									min={rangeAttrs.literature[0]}
+									max={rangeAttrs.literature[1]}
 									className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
 							</div>
@@ -90,9 +91,9 @@ function RetainerModal() {
 								<input 
 									ref={martialRef}
 									type="number" 
-									defaultValue={currentRetainer.martial || 0} 
-									min="0"
-									max="100"
+									defaultValue={currentRetainer.martial || rangeAttrs.martial[0]} 
+									min={rangeAttrs.martial[0]}
+									max={rangeAttrs.martial[1]}
 									className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
 							</div>
@@ -101,9 +102,9 @@ function RetainerModal() {
 								<input 
 									ref={commerceRef}
 									type="number" 
-									defaultValue={currentRetainer.commerce || 0} 
-									min="0"
-									max="100"
+									defaultValue={currentRetainer.commerce || rangeAttrs.commerce[0]} 
+									min={rangeAttrs.commerce[0]}
+									max={rangeAttrs.commerce[1]}
 									className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
 								</div>
@@ -114,9 +115,9 @@ function RetainerModal() {
 																	<input 
 									ref={artRef}
 									type="number" 
-									defaultValue={currentRetainer.art || 0} 
-									min="0"
-									max="100"
+									defaultValue={currentRetainer.art || rangeAttrs.art[0]} 
+									min={rangeAttrs.art[0]}
+									max={rangeAttrs.art[1]}
 									className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
 							</div>
@@ -125,9 +126,9 @@ function RetainerModal() {
 								<input 
 									ref={strategyRef}
 									type="number" 
-									defaultValue={currentRetainer.strategy || 0} 
-									min="0"
-									max="100"
+									defaultValue={currentRetainer.strategy || rangeAttrs.strategy[0]} 
+									min={rangeAttrs.strategy[0]}
+									max={rangeAttrs.strategy[1]}
 									className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
 							</div>
@@ -136,9 +137,9 @@ function RetainerModal() {
 								<input 
 									ref={reputationRef}
 									type="number" 
-									defaultValue={currentRetainer.reputation || 0} 
-									min="0"
-									max="100"
+									defaultValue={currentRetainer.reputation || rangeAttrs.reputation[0]} 
+									min={rangeAttrs.reputation[0]}
+									max={rangeAttrs.reputation[1]}
 									className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
 							</div>
@@ -147,8 +148,9 @@ function RetainerModal() {
 								<input 
 									ref={monthlySalaryRef}
 									type="number" 
-									defaultValue={currentRetainer.monthlySalary || 0} 
-									min="0"
+									defaultValue={currentRetainer.monthlySalary || rangeAttrs.monthlySalary[0]} 
+									min={rangeAttrs.monthlySalary[0]}
+									max={rangeAttrs.monthlySalary[1]}
 									className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
 								</div>

@@ -8,6 +8,17 @@ export const maxResourceValues = {
   meat: 99_999_999,
 }
 
+export const rangeAttrs = {
+  age: [18, 100],
+  literature: [0, 100],
+  martial: [0, 100],
+  commerce: [0, 100],
+  art: [0, 100],
+  strategy: [0, 100],
+  reputation: [0, 100],
+  monthlySalary: [0, 9999],
+}
+
 const useGameDataStore = create((set, get) => ({
   // Game data state
   gameData: null,
