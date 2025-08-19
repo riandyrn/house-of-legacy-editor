@@ -17,8 +17,8 @@ function RetainerTable({ data, onEdit }) {
 					</tr>
 				</thead>
 				<tbody className="bg-white divide-y divide-gray-200">
-					{data.map((retainer, index) => (
-						<tr key={retainer.name + index} className="hover:bg-gray-50">
+					{data.map((retainer) => (
+						<tr key={retainer.name + retainer.retainerIdx} className="hover:bg-gray-50">
 							<td className="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{retainer.name}</td>
 							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{retainer.age}</td>
 							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{retainer.literature}</td>
@@ -30,7 +30,7 @@ function RetainerTable({ data, onEdit }) {
 							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{retainer.monthlySalary}</td>
 							<td className="px-3 py-4 whitespace-nowrap text-sm font-medium">
 								<button 
-									onClick={() => onEdit(retainer, index)} 
+									onClick={() => onEdit(retainer, retainer.retainerIdx)} 
 									className="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer"
 								>
 									Edit

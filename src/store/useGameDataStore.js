@@ -164,13 +164,39 @@ const useGameDataStore = create((set, get) => ({
     }];
   },
 
+  getRetainersData: () => {
+    /**
+     * We need to return data with the following format:
+     * 
+     *    retainersData: [
+            { name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0, retainerIdx: 0 },
+            { name: "Retainer Two", age: 28, literature: 90, martial: 95, commerce: 85, art: 80, strategy: 88, reputation: 92, monthlySalary: 50, retainerIdx: 1 }
+          ]
+     */
+    const { gameData } = get();
+    return gameData.MenKe_Now.value.map((rawRecord, retainerIdx) => {
+      return {
+        name: rawRecord[2].split("|")[0],
+        age: Number(rawRecord[3]) || 0,
+        literature: Number(rawRecord[4]) || 0,
+        martial: Number(rawRecord[5]) || 0,
+        commerce: Number(rawRecord[6]) || 0,
+        art: Number(rawRecord[7]) || 0,
+        strategy: Number(rawRecord[15]) || 0,
+        reputation: Number(rawRecord[11]) || 0,
+        monthlySalary: Number(rawRecord[18]) || 0,
+        retainerIdx,
+      }
+    });
+  },
+
   // Get current data based on active tab
   getCurrentData: (activeTab) => {
-    const { clanMembersData, spousesData, retainersData, getResourcesData } = get();
+    const { clanMembersData, spousesData, getRetainersData, getResourcesData } = get();
     switch (activeTab) {
       case 'clanMembers': return clanMembersData;
       case 'spouses': return spousesData;
-      case 'retainers': return retainersData;
+      case 'retainers': return getRetainersData();
       case 'resources': return getResourcesData();
       default: return [];
     }
