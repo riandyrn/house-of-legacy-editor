@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import FileUploadPage from './components/FileUploadPage';
-import EditorPage from './components/EditorPage';
-import ErrorDialog from './components/ErrorDialog';
+import FileUploadPage from './components/pages/FileUploadPage';
+import EditorPage from './components/pages/EditorPage';
+import ErrorDialog from './components/layout/ErrorDialog';
 import useUIStore from './store/useUIStore';
 
 function App() {

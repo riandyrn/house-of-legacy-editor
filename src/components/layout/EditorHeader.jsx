@@ -1,4 +1,4 @@
-import useGameDataStore from '../store/useGameDataStore';
+import useGameDataStore from '../../store/useGameDataStore';
 
 function EditorHeader({ goBackToUpload }) {
 	const { saveToFile } = useGameDataStore();

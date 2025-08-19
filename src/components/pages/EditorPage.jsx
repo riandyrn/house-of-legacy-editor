@@ -1,5 +1,5 @@
-import EditorHeader from './EditorHeader';
-import EditorContent from './EditorContent';
+import EditorHeader from '../layout/EditorHeader';
+import EditorContent from '../layout/EditorContent';
 
 function EditorPage({ goBackToUpload }) {
 	return (

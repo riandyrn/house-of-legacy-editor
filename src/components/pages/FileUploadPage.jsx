@@ -1,5 +1,5 @@
-import useUIStore from '../store/useUIStore';
-import useGameDataStore from '../store/useGameDataStore';
+import useUIStore from '../../store/useUIStore';
+import useGameDataStore from '../../store/useGameDataStore';
 
 function FileUploadPage({ fileInputRef }) {
 	const { selectedFile, setSelectedFile, setCurrentPage, showError } = useUIStore();

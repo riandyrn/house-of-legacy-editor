@@ -1,13 +1,13 @@
-import ClanMemberTable from './ClanMemberTable';
-import SpouseTable from './SpouseTable';
-import RetainerTable from './RetainerTable';
-import ResourceTable from './ResourceTable';
-import ClanMemberModal from './ClanMemberModal';
-import SpouseModal from './SpouseModal';
-import RetainerModal from './RetainerModal';
-import ResourceModal from './ResourceModal';
-import useUIStore from '../store/useUIStore';
-import useGameDataStore from '../store/useGameDataStore';
+import ClanMemberTable from '../tables/ClanMemberTable';
+import SpouseTable from '../tables/SpouseTable';
+import RetainerTable from '../tables/RetainerTable';
+import ResourceTable from '../tables/ResourceTable';
+import ClanMemberModal from '../modals/ClanMemberModal';
+import SpouseModal from '../modals/SpouseModal';
+import RetainerModal from '../modals/RetainerModal';
+import ResourceModal from '../modals/ResourceModal';
+import useUIStore from '../../store/useUIStore';
+import useGameDataStore from '../../store/useGameDataStore';
 
 function EditorContent() {
 	// UI Store

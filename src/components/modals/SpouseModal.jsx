@@ -1,8 +1,8 @@
 import { useRef } from 'react';
-import useUIStore from '../store/useUIStore';
-import useGameDataStore, { rangeAttrs } from '../store/useGameDataStore';
+import useUIStore from '../../store/useUIStore';
+import useGameDataStore, { rangeAttrs } from '../../store/useGameDataStore';
 
-function ClanMemberModal() {
+function SpouseModal() {
 	const ageRef = useRef(null);
 	const literatureRef = useRef(null);
 	const martialRef = useRef(null);
@@ -13,17 +13,18 @@ function ClanMemberModal() {
 	const luckRef = useRef(null);
 	const charmRef = useRef(null);
 	const healthRef = useRef(null);
+	const talentRef = useRef(null);
 	const talentValueRef = useRef(null);
 	const skillRef = useRef(null);
 	const skillValueRef = useRef(null);
 
-	const { showClanMemberModal, currentClanMemberIdx, closeClanMemberModal } = useUIStore();
-	const { setClanMember, getClanMember } = useGameDataStore();
+	const { showSpouseModal, currentSpouseIdx, closeSpouseModal } = useUIStore();
+	const { setSpouse, getSpouse } = useGameDataStore();
 
-	if (!showClanMemberModal) return null;
+	if (!showSpouseModal) return null;
 
-	// Get current clan member data directly from game data
-	const currentClanMember = getClanMember(currentClanMemberIdx);
+	// Get current spouse data directly from game data
+	const currentSpouse = getSpouse(currentSpouseIdx);
 
 	const handleApply = () => {
 		const updateData = {
@@ -37,12 +38,13 @@ function ClanMemberModal() {
 			luck: Number(luckRef.current?.value) || rangeAttrs.luck[0],
 			charm: Number(charmRef.current?.value) || rangeAttrs.charm[0],
 			health: Number(healthRef.current?.value) || rangeAttrs.health[0],
+			talent: talentRef.current?.value || 'None',
 			talentValue: Number(talentValueRef.current?.value) || rangeAttrs.talentValue[0],
 			skill: skillRef.current?.value || 'None',
 			skillValue: Number(skillValueRef.current?.value) || rangeAttrs.skillValue[0],
 		};
-		setClanMember(currentClanMemberIdx, updateData);
-		closeClanMemberModal();
+		setSpouse(currentSpouseIdx, updateData);
+		closeSpouseModal();
 	};
 
 	const handleMaxAttributes = () => {
@@ -61,27 +63,27 @@ function ClanMemberModal() {
 	};
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={closeClanMemberModal}>
+		<div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={closeSpouseModal}>
 			<div className="flex items-center justify-center min-h-screen p-4">
 				<div className="bg-white rounded-lg shadow-xl w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
 					{/* Modal Header */}
 					<div className="flex justify-between items-center p-6 border-b border-gray-200">
-						<h2 className="text-xl font-semibold text-gray-900">{currentClanMember.name}</h2>
-						<button onClick={closeClanMemberModal} className="text-gray-400 hover:text-gray-600">
+						<h2 className="text-xl font-semibold text-gray-900">{currentSpouse.name}</h2>
+						<button onClick={closeSpouseModal} className="text-gray-400 hover:text-gray-600">
 							<span className="material-icons">close</span>
 						</button>
 					</div>
-
+					
 					{/* Modal Body */}
 					<div className="p-6">
 						<div className="grid grid-cols-2 gap-6">
 							<div className="space-y-3">
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Age</label>
-									<input
+									<input 
 										ref={ageRef}
-										type="number"
-										defaultValue={currentClanMember.age || rangeAttrs.age[0]}
+										type="number" 
+										defaultValue={currentSpouse.age || rangeAttrs.age[0]} 
 										min={rangeAttrs.age[0]}
 										max={rangeAttrs.age[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -89,10 +91,10 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Literature</label>
-									<input
+									<input 
 										ref={literatureRef}
-										type="number"
-										defaultValue={currentClanMember.literature || rangeAttrs.literature[0]}
+										type="number" 
+										defaultValue={currentSpouse.literature || rangeAttrs.literature[0]} 
 										min={rangeAttrs.literature[0]}
 										max={rangeAttrs.literature[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -100,10 +102,10 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Martial</label>
-									<input
-										type="number"
+									<input 
 										ref={martialRef}
-										defaultValue={currentClanMember.martial || rangeAttrs.martial[0]}
+										type="number" 
+										defaultValue={currentSpouse.martial || rangeAttrs.martial[0]} 
 										min={rangeAttrs.martial[0]}
 										max={rangeAttrs.martial[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -111,10 +113,10 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Commerce</label>
-									<input
-										type="number"
+									<input 
 										ref={commerceRef}
-										defaultValue={currentClanMember.commerce || rangeAttrs.commerce[0]}
+										type="number" 
+										defaultValue={currentSpouse.commerce || rangeAttrs.commerce[0]} 
 										min={rangeAttrs.commerce[0]}
 										max={rangeAttrs.commerce[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -122,10 +124,10 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Art</label>
-									<input
-										type="number"
+									<input 
 										ref={artRef}
-										defaultValue={currentClanMember.art || rangeAttrs.art[0]}
+										type="number" 
+										defaultValue={currentSpouse.art || rangeAttrs.art[0]} 
 										min={rangeAttrs.art[0]}
 										max={rangeAttrs.art[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -133,10 +135,10 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Strategy</label>
-									<input
-										type="number"
+									<input 
 										ref={strategyRef}
-										defaultValue={currentClanMember.strategy || rangeAttrs.strategy[0]}
+										type="number" 
+										defaultValue={currentSpouse.strategy || rangeAttrs.strategy[0]} 
 										min={rangeAttrs.strategy[0]}
 										max={rangeAttrs.strategy[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -144,34 +146,34 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Reputation</label>
-									<input
-										type="number"
+									<input 
 										ref={reputationRef}
-										defaultValue={currentClanMember.reputation || rangeAttrs.reputation[0]}
+										type="number" 
+										defaultValue={currentSpouse.reputation || rangeAttrs.reputation[0]} 
 										min={rangeAttrs.reputation[0]}
 										max={rangeAttrs.reputation[1]}
-										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
-									/>
-								</div>
-								<div className="flex justify-between items-center">
-									<label className="text-sm text-gray-700">Luck</label>
-									<input
-										type="number"
-										ref={luckRef}
-										defaultValue={currentClanMember.luck || rangeAttrs.luck[0]}
-										min={rangeAttrs.luck[0]}
-										max={rangeAttrs.luck[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
 							</div>
 							<div className="space-y-3">
 								<div className="flex justify-between items-center">
+									<label className="text-sm text-gray-700">Luck</label>
+									<input 
+										ref={luckRef}
+										type="number" 
+										defaultValue={currentSpouse.luck || rangeAttrs.luck[0]} 
+										min={rangeAttrs.luck[0]}
+										max={rangeAttrs.luck[1]}
+										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
+									/>
+								</div>
+								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Charm</label>
-									<input
-										type="number"
+									<input 
 										ref={charmRef}
-										defaultValue={currentClanMember.charm || rangeAttrs.charm[0]}
+										type="number" 
+										defaultValue={currentSpouse.charm || rangeAttrs.charm[0]} 
 										min={rangeAttrs.charm[0]}
 										max={rangeAttrs.charm[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -179,21 +181,35 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Health</label>
-									<input
-										type="number"
+									<input 
 										ref={healthRef}
-										defaultValue={currentClanMember.health || rangeAttrs.health[0]}
+										type="number" 
+										defaultValue={currentSpouse.health || rangeAttrs.health[0]} 
 										min={rangeAttrs.health[0]}
 										max={rangeAttrs.health[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
 									/>
 								</div>
 								<div className="flex justify-between items-center">
+									<label className="text-sm text-gray-700">Talent</label>
+									<select 
+										ref={talentRef}
+										defaultValue={currentSpouse.talent || 'None'} 
+										className="w-32 px-2 py-2 border border-gray-300 rounded text-center text-xs"
+									>
+										<option value="None">None</option>
+										<option value="Literature">Literature</option>
+										<option value="Martial">Martial</option>
+										<option value="Commerce">Commerce</option>
+										<option value="Art">Art</option>
+									</select>
+								</div>
+								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Talent Value</label>
-									<input
-										type="number"
+									<input 
 										ref={talentValueRef}
-										defaultValue={currentClanMember.talentValue || rangeAttrs.talentValue[0]}
+										type="number" 
+										defaultValue={currentSpouse.talentValue || rangeAttrs.talentValue[0]} 
 										min={rangeAttrs.talentValue[0]}
 										max={rangeAttrs.talentValue[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -201,10 +217,10 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Skill</label>
-									<select
+									<select 
 										ref={skillRef}
-										defaultValue={currentClanMember.skill || 'None'}
-										className="w-24 px-2 py-2 border border-gray-300 rounded text-center text-xs"
+										defaultValue={currentSpouse.skill || 'None'} 
+										className="w-32 px-2 py-2 border border-gray-300 rounded text-center text-xs"
 									>
 										<option value="None">None</option>
 										<option value="Witch">Witch</option>
@@ -217,10 +233,10 @@ function ClanMemberModal() {
 								</div>
 								<div className="flex justify-between items-center">
 									<label className="text-sm text-gray-700">Skill Value</label>
-									<input
-										type="number"
+									<input 
 										ref={skillValueRef}
-										defaultValue={currentClanMember.skillValue || rangeAttrs.skillValue[0]}
+										type="number" 
+										defaultValue={currentSpouse.skillValue || rangeAttrs.skillValue[0]} 
 										min={rangeAttrs.skillValue[0]}
 										max={rangeAttrs.skillValue[1]}
 										className="w-24 px-3 py-2 border border-gray-300 rounded text-center"
@@ -245,4 +261,4 @@ function ClanMemberModal() {
 	);
 }
 
-export default ClanMemberModal;
+export default SpouseModal;

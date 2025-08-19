@@ -1,4 +1,4 @@
-import useUIStore from '../store/useUIStore';
+import useUIStore from '../../store/useUIStore';
 
 function ErrorDialog() {
 	const { showErrorDialog, errorMessage, closeErrorDialog } = useUIStore();
