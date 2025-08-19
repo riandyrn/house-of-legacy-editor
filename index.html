@@ -87,273 +87,70 @@
 				</div>
 			</div>
 		</div>
-			<div class="overflow-x-auto">
+			<!-- Characters Table (Clan Members & Spouses) -->
+			<div id="charactersTable" class="overflow-x-auto">
 				<table class="w-full divide-y divide-gray-200">
 					<thead class="bg-gray-100">
-						<tr id="tableHeaders">
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Name</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Age</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Literature</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Martial</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Commerce</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Art</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Strategy</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Reputation</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Monthly Salary</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Actions</th>
+						<tr>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Name</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Age</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Lit.</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Mar.</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Com.</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Art</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Strat.</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Rep.</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Luck</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Charm</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Health</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Talent</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Talent Val.</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Skill</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Skill Val.</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
 						</tr>
 					</thead>
-					<tbody class="bg-white divide-y divide-gray-200">
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Zilan Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Medical</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
+					<tbody id="charactersTableBody" class="bg-white divide-y divide-gray-200">
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Retainers Table -->
+			<div id="retainersTable" class="overflow-x-auto" style="display: none;">
+				<table class="w-full divide-y divide-gray-200">
+					<thead class="bg-gray-100">
+						<tr>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Name</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Age</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Literature</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Martial</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Commerce</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Art</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Strategy</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Reputation</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Monthly Salary</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
 						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Yier Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">None</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
+					</thead>
+					<tbody id="retainersTableBody" class="bg-white divide-y divide-gray-200">
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Resources Table -->
+			<div id="resourcesTable" class="overflow-x-auto" style="display: none;">
+				<table class="w-full divide-y divide-gray-200">
+					<thead class="bg-gray-100">
+						<tr>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Money</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Yuanbao</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Food</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Vegetables</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Meat</th>
+							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Action</th>
 						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Boxun Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">None</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Zhuyan Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Medical</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Yuanguang Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Medical</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Lugeng Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Medical</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Wangtao Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Craft</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Xinying Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Medical</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mingyan Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">None</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Yushou Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Medical</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Xizhi Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Medical</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
-						<tr class="hover:bg-gray-50">
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Chengxiang Ma</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">87</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 py-2 whitespace-nowrap text-sm text-gray-600">83.5</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">83</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Martial</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">Medical</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-							<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-							</td>
-						</tr>
+					</thead>
+					<tbody id="resourcesTableBody" class="bg-white divide-y divide-gray-200">
 					</tbody>
 				</table>
 			</div>
@@ -632,7 +429,7 @@
 			const activeTab = document.querySelector('.tab-button.active');
 			if (activeTab) {
 				const tabName = activeTab.getAttribute('data-tab');
-				updateTableHeaders(tabName);
+				showTable(tabName);
 				renderTableData(tabName);
 				
 				// Initialize skills selector visibility
@@ -703,61 +500,40 @@
 				maxButtonText.textContent = 'Max All Attributes';
 			}
 
-			// Update table headers and render new table data
-			updateTableHeaders(tabName);
+			// Show/hide appropriate tables and render data
+			showTable(tabName);
 			renderTableData(tabName);
 		}
 
-		function updateTableHeaders(tabName) {
-			const tableHeaders = document.getElementById('tableHeaders');
+		function showTable(tabName) {
+			// Hide all tables
+			document.getElementById('charactersTable').style.display = 'none';
+			document.getElementById('retainersTable').style.display = 'none';
+			document.getElementById('resourcesTable').style.display = 'none';
 			
+			// Show the appropriate table
 			if (tabName === 'retainers') {
-				tableHeaders.innerHTML = `
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Name</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Age</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Literature</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Martial</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Commerce</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Art</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Strategy</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Reputation</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Monthly Salary</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
-				`;
+				document.getElementById('retainersTable').style.display = 'block';
 			} else if (tabName === 'resources') {
-				tableHeaders.innerHTML = `
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Money</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Yuanbao</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Food</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Vegetables</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Meat</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Action</th>
-				`;
+				document.getElementById('resourcesTable').style.display = 'block';
 			} else {
-				// Default headers for clan members and spouses
-				tableHeaders.innerHTML = `
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Name</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Age</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Lit.</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Mar.</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Com.</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Art</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Strat.</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Rep.</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Luck</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Charm</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Health</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Talent</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Talent Val.</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Skill</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Skill Val.</th>
-					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
-				`;
+				// Show characters table for clan members and spouses
+				document.getElementById('charactersTable').style.display = 'block';
 			}
 		}
 
 		function renderTableData(tabName) {
-			const tbody = document.querySelector('tbody');
+			let tbody;
+			
+			// Get the correct table body based on tab
+			if (tabName === 'retainers') {
+				tbody = document.getElementById('retainersTableBody');
+			} else if (tabName === 'resources') {
+				tbody = document.getElementById('resourcesTableBody');
+			} else {
+				tbody = document.getElementById('charactersTableBody');
+			}
+			
 			tbody.innerHTML = '';
 
 			currentTabData.forEach(item => {
