@@ -1,7 +1,9 @@
 import CharacterTable from './CharacterTable';
+import SpouseTable from './SpouseTable';
 import RetainerTable from './RetainerTable';
 import ResourceTable from './ResourceTable';
 import CharacterModal from './CharacterModal';
+import SpouseModal from './SpouseModal';
 import RetainerModal from './RetainerModal';
 import ResourceModal from './ResourceModal';
 import useUIStore from '../store/useUIStore';
@@ -130,9 +132,14 @@ function EditorContent() {
 				</div>
 			</div>
 
-			{/* Characters Table (Clan Members & Spouses) */}
-			{(activeTab === 'clanMembers' || activeTab === 'spouses') && (
-				<CharacterTable data={getCurrentData()} onEdit={openCharacterModal} />
+			{/* Characters Table (Clan Members) */}
+			{activeTab === 'clanMembers' && (
+				<CharacterTable data={getCurrentData(activeTab)} onEdit={openCharacterModal} />
+			)}
+
+			{/* Spouses Table */}
+			{activeTab === 'spouses' && (
+				<SpouseTable />
 			)}
 
 			{/* Retainers Table */}
@@ -153,6 +160,9 @@ function EditorContent() {
 				onSave={handleSaveCharacter}
 				onMaxAttributes={handleMaxCharacterAttributes}
 			/>
+
+			{/* Spouse Modal */}
+			<SpouseModal />
 
 			{/* Retainer Modal */}
 			<RetainerModal />

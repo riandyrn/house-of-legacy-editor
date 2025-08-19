@@ -41,11 +41,6 @@ const useGameDataStore = create((set, get) => ({
     { name: "Madam Liu", age: 38, literature: 88, martial: 20, commerce: 78, art: 85, strategy: 65, reputation: 82, luck: 70, charm: 90, health: 85, talent: "Art", talentValue: 85, skill: "None", skillValue: 0 }
   ],
 
-  retainersData: [
-    { name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 },
-    { name: "Retainer Two", age: 28, literature: 90, martial: 95, commerce: 85, art: 80, strategy: 88, reputation: 92, monthlySalary: 50 }
-  ],
-
   // Parse ES3 file data - throws exception on error
   parseES3Data: (fileContent, originalFilename) => {
     const gameData = JSON.parse(fileContent); // Let JSON.parse throw on error
@@ -226,12 +221,161 @@ const useGameDataStore = create((set, get) => ({
     set({ gameData: updatedGameData });
   },
 
+  getTalentLabel: (talentId) => {
+    let talentLabel = "None";
+    switch (talentId) {
+      case "1":
+        talentLabel = "Literature";
+        break
+      case "2":
+        talentLabel = "Martial";
+        break
+      case "3":
+        talentLabel = "Commerce";
+        break
+      case "4":
+        talentLabel = "Art";
+        break
+    }
+    return talentLabel;
+  },
+
+  getSkillLabel: (skillId) => {
+    let skillLabel = "None";
+    switch (skillId) {
+      case "1":
+        skillLabel = "Witch";
+        break
+      case "2":
+        skillLabel = "Medical";
+        break
+      case "3":
+        skillLabel = "Fortune";
+        break
+      case "4":
+        skillLabel = "Divination";
+        break
+      case "5":
+        skillLabel = "Charm";
+        break
+      case "6":
+        skillLabel = "Craft";
+        break
+    }
+    return skillLabel;
+  },
+
+  newFamilyMember: (rawRecord, memberIdx) => {
+    const { getTalentLabel, getSkillLabel } = get();
+
+    const tokens = rawRecord[2].split("|");
+    const name = tokens[0];
+    const talentId = tokens[2];
+    const talentValue = Number(tokens[3]) || 0;
+    const skillId = tokens[6];
+    const skillValue = Number(tokens[7]) || 0;
+
+    return {
+      name,
+      age: Number(rawRecord[5]) || 0,
+      literature: Number(rawRecord[6]) || 0,
+      martial: Number(rawRecord[7]) || 0,
+      commerce: Number(rawRecord[8]) || 0,
+      art: Number(rawRecord[9]) || 0,
+      strategy: Number(rawRecord[19]) || 0,
+      reputation: Number(rawRecord[12]) || 0,
+      luck: Number(rawRecord[23]) || 0,
+      charm: Number(rawRecord[15]) || 0,
+      health: Number(rawRecord[16]) || 0,
+      talent: getTalentLabel(talentId),
+      talentValue,
+      skill: getSkillLabel(skillId),
+      skillValue,
+      memberIdx,
+    }
+  },
+
+    getSpousesData: () => {
+    /**
+     * We need to return data with the following format:
+     * 
+     *   spousesData: [
+           { name: "Lady Chen", age: 45, literature: 95, martial: 15, commerce: 85, art: 90, strategy: 70, reputation: 88, luck: 75, charm: 95, health: 92, talent: "Commerce", talentValue: 88, skill: "Medical", skillValue: 85, memberIdx: 0 },
+           { name: "Madam Liu", age: 38, literature: 88, martial: 20, commerce: 78, art: 85, strategy: 65, reputation: 82, luck: 70, charm: 90, health: 85, talent: "Art", talentValue: 85, skill: "None", skillValue: 0, memberIdx: 1 }
+         ]
+     */
+    const { gameData, newFamilyMember } = get();
+    return gameData.Member_qu.value.map(newFamilyMember);
+  },
+
+  getSpouse: (spouseIdx) => {
+    const { getSpousesData } = get();
+    const spouses = getSpousesData();
+    return spouses[spouseIdx] || {};
+  },
+
+  setSpouse: (spouseIdx, updateData) => {
+    const { gameData } = get();
+    const updatedGameData = structuredClone(gameData);
+    
+    if (updatedGameData.Member_qu.value[spouseIdx]) {
+      const rawRecord = updatedGameData.Member_qu.value[spouseIdx];
+      
+      // Update basic attributes
+      rawRecord[5] = updateData.age?.toString() || rawRecord[5];
+      rawRecord[6] = updateData.literature?.toString() || rawRecord[6];
+      rawRecord[7] = updateData.martial?.toString() || rawRecord[7];
+      rawRecord[8] = updateData.commerce?.toString() || rawRecord[8];
+      rawRecord[9] = updateData.art?.toString() || rawRecord[9];
+      rawRecord[19] = updateData.strategy?.toString() || rawRecord[19];
+      rawRecord[12] = updateData.reputation?.toString() || rawRecord[12];
+      rawRecord[23] = updateData.luck?.toString() || rawRecord[23];
+      rawRecord[15] = updateData.charm?.toString() || rawRecord[15];
+      rawRecord[16] = updateData.health?.toString() || rawRecord[16];
+      
+      // Update talent value and skill if provided
+      if (updateData.talentValue !== undefined) {
+        const tokens = rawRecord[2].split("|");
+        tokens[3] = updateData.talentValue.toString();
+        rawRecord[2] = tokens.join("|");
+      }
+      
+      if (updateData.skill !== undefined || updateData.skillValue !== undefined) {
+        const tokens = rawRecord[2].split("|");
+        
+        // Map skill names to IDs
+        const skillMap = {
+          'None': '0',
+          'Witch': '1',
+          'Medical': '2',
+          'Fortune': '3',
+          'Divination': '4',
+          'Charm': '5',
+          'Craft': '6'
+        };
+        
+        if (updateData.skill) {
+          tokens[6] = skillMap[updateData.skill] || '0';
+        }
+        if (updateData.skillValue !== undefined) {
+          tokens[7] = updateData.skillValue.toString();
+        }
+        
+        rawRecord[2] = tokens.join("|");
+      }
+      
+      updatedGameData.Member_qu.value[spouseIdx] = rawRecord;
+      set({ gameData: updatedGameData });
+    }
+  },
+
+
   // Get current data based on active tab
   getCurrentData: (activeTab) => {
-    const { clanMembersData, spousesData, getRetainersData, getResourcesData } = get();
+    const { clanMembersData, getSpousesData, getRetainersData, getResourcesData } = get();
     switch (activeTab) {
       case 'clanMembers': return clanMembersData;
-      case 'spouses': return spousesData;
+      case 'spouses': return getSpousesData();
       case 'retainers': return getRetainersData();
       case 'resources': return [getResourcesData()]; // Wrap in array for consistency
       default: return [];

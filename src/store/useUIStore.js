@@ -11,10 +11,12 @@ const useUIStore = create((set) => ({
   
   // Modal state
   showCharacterModal: false,
+  showSpouseModal: false,
   showRetainerModal: false,
   showResourceModal: false,
   editingCharacter: {},
   editingIndex: -1,
+  currentSpouseIdx: -1,
   currentRetainerIdx: -1,
   
   // Error state
@@ -60,6 +62,17 @@ const useUIStore = create((set) => ({
   
   updateEditingCharacter: (character) => set({
     editingCharacter: character
+  }),
+  
+  // Spouse modal actions
+  openSpouseModal: (spouse, spouseIdx) => set({
+    currentSpouseIdx: spouseIdx,
+    showSpouseModal: true
+  }),
+  
+  closeSpouseModal: () => set({
+    showSpouseModal: false,
+    currentSpouseIdx: -1
   }),
   
   // Retainer modal actions
