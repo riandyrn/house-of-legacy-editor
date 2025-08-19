@@ -211,7 +211,7 @@ const useGameDataStore = create((set, get) => ({
   setRetainer: (retainerIdx, { age, literature, martial, commerce, art, strategy, reputation, monthlySalary }) => {
     const { gameData } = get();
     const updatedGameData = structuredClone(gameData);
-    
+
     const rawRecord = updatedGameData.MenKe_Now.value[retainerIdx];
     rawRecord[3] = age.toString();
     rawRecord[4] = literature.toString();
@@ -284,6 +284,26 @@ const useGameDataStore = create((set, get) => ({
     setFood(maxResourceValues.food);
     setVegetables(maxResourceValues.vegetables);
     setMeat(maxResourceValues.meat);
+  },
+
+  allRetainersBestAttributes: () => {
+    const { gameData } = get();
+    const updatedGameData = structuredClone(gameData);
+
+    for (let i = 0; i < updatedGameData.MenKe_Now.value.length; i++) {
+      const rawRecord = updatedGameData.MenKe_Now.value[i];
+      rawRecord[3] = rangeAttrs.age[0].toString(); // Minimum age (youngest)
+      rawRecord[4] = rangeAttrs.literature[1].toString(); // Maximum literature
+      rawRecord[5] = rangeAttrs.martial[1].toString(); // Maximum martial
+      rawRecord[6] = rangeAttrs.commerce[1].toString(); // Maximum commerce
+      rawRecord[7] = rangeAttrs.art[1].toString(); // Maximum art
+      rawRecord[15] = rangeAttrs.strategy[1].toString(); // Maximum strategy
+      rawRecord[11] = rangeAttrs.reputation[1].toString(); // Maximum reputation
+      rawRecord[18] = rangeAttrs.monthlySalary[0].toString(); // Minimum salary (lowest cost)
+
+      updatedGameData.MenKe_Now.value[i] = rawRecord;
+    }
+    set({ gameData: updatedGameData });
   },
 
   // Character data operations

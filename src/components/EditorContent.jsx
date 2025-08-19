@@ -28,20 +28,10 @@ function EditorContent() {
 		applySkillToNone,
 		maxAllAttributes,
 		maxAllResources,
+		allRetainersBestAttributes,
 		saveCharacter,
 		maxCharacterAttributes
 	} = useGameDataStore();
-	
-	const showSkillsSelector = activeTab === 'clanMembers' || activeTab === 'spouses';
-	const maxButtonText = activeTab === 'resources' ? 'Max All Resources' : 'Max All Attributes';
-	
-	const handleMaxAllClick = () => {
-		if (activeTab === 'resources') {
-			maxAllResources();
-		} else {
-			maxAllAttributes(activeTab);
-		}
-	};
 	
 	const handleSaveCharacter = (updatedCharacter) => {
 		saveCharacter(updatedCharacter, editingIndex, activeTab);
@@ -74,29 +64,69 @@ function EditorContent() {
 							</button>
 						))}
 					</nav>
-					<div className="flex items-center space-x-4 py-4">
-						{showSkillsSelector && (
-							<>
-								<div className="flex items-center space-x-2">
-									<label className="text-sm font-medium text-gray-700">Set None Skills to:</label>
-									<select 
-										value={selectedSkill} 
-										onChange={(e) => setSelectedSkill(e.target.value)}
-										className="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
-									>
-										<option value="Medical">Medical</option>
-										<option value="Craft">Craft</option>
-										<option value="Martial">Martial</option>
-									</select>
-									<button onClick={() => applySkillToNone(activeTab, selectedSkill)} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
-								</div>
-								<div className="text-gray-300 text-sm">|</div>
-							</>
-						)}
-						<button onClick={handleMaxAllClick} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
-							{maxButtonText}
-						</button>
-					</div>
+					{/* Clan Members Tab Buttons */}
+					{activeTab === 'clanMembers' && (
+						<div className="flex items-center space-x-4 py-4">
+							<div className="flex items-center space-x-2">
+								<label className="text-sm font-medium text-gray-700">Set None Skills to:</label>
+								<select 
+									value={selectedSkill} 
+									onChange={(e) => setSelectedSkill(e.target.value)}
+									className="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
+								>
+									<option value="Medical">Medical</option>
+									<option value="Craft">Craft</option>
+									<option value="Martial">Martial</option>
+								</select>
+								<button onClick={() => applySkillToNone(activeTab, selectedSkill)} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
+							</div>
+							<div className="text-gray-300 text-sm">|</div>
+							<button onClick={() => maxAllAttributes(activeTab)} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+								Max All Attributes
+							</button>
+						</div>
+					)}
+
+					{/* Spouses Tab Buttons */}
+					{activeTab === 'spouses' && (
+						<div className="flex items-center space-x-4 py-4">
+							<div className="flex items-center space-x-2">
+								<label className="text-sm font-medium text-gray-700">Set None Skills to:</label>
+								<select 
+									value={selectedSkill} 
+									onChange={(e) => setSelectedSkill(e.target.value)}
+									className="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
+								>
+									<option value="Medical">Medical</option>
+									<option value="Craft">Craft</option>
+									<option value="Martial">Martial</option>
+								</select>
+								<button onClick={() => applySkillToNone(activeTab, selectedSkill)} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
+							</div>
+							<div className="text-gray-300 text-sm">|</div>
+							<button onClick={() => maxAllAttributes(activeTab)} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+								Max All Attributes
+							</button>
+						</div>
+					)}
+
+					{/* Retainers Tab Buttons */}
+					{activeTab === 'retainers' && (
+						<div className="flex items-center space-x-4 py-4">
+							<button onClick={allRetainersBestAttributes} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+								All Best Attributes
+							</button>
+						</div>
+					)}
+
+					{/* Resources Tab Buttons */}
+					{activeTab === 'resources' && (
+						<div className="flex items-center space-x-4 py-4">
+							<button onClick={maxAllResources} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+								Max All Resources
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
 
