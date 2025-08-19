@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.file-upload-area {
+  transition: border-color 0.2s ease;
+}
+
+.file-upload-area:hover {
+  border-color: #9ca3af;
+}
+
+.file-upload-area.dragover {
+  border-color: #6b7280;
+  background-color: #f9fafb;
+}
