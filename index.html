@@ -81,39 +81,27 @@
 			<div class="overflow-x-auto">
 				<table class="w-full divide-y divide-gray-200">
 					<thead class="bg-gray-100">
-						<tr>
+						<tr id="tableHeaders">
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
 								scope="col">Name</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
 								scope="col">Age</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Lit.</th>
+								scope="col">Literature</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Mar.</th>
+								scope="col">Martial</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Com.</th>
+								scope="col">Commerce</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
 								scope="col">Art</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Strat.</th>
+								scope="col">Strategy</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Rep.</th>
+								scope="col">Reputation</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Luck</th>
+								scope="col">Monthly Salary</th>
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Charm</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Health</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Talent</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Talent Val.</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Skill</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Skill Val.</th>
-							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-								scope="col">Action</th>
+								scope="col">Actions</th>
 						</tr>
 					</thead>
 					<tbody class="bg-white divide-y divide-gray-200">
@@ -445,6 +433,10 @@
 								<label class="text-sm text-gray-700">Skill Value</label>
 								<input type="number" id="skillValueInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
 							</div>
+							<div class="flex justify-between items-center" id="monthlySalaryField" style="display: none;">
+								<label class="text-sm text-gray-700">Monthly Salary</label>
+								<input type="number" id="monthlySalaryInput" value="0" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -488,10 +480,10 @@
 		];
 
 		const retainersData = [
-			{ name: "Captain Zhou", age: 55, literature: 45, martial: 95, commerce: 30, art: 25, strategy: 88, reputation: 75, luck: 60, charm: 50, health: 90, talent: "Strategy", talentValue: 88, skill: "Martial", skillValue: 95 },
-			{ name: "Guard Chen", age: 48, literature: 40, martial: 90, commerce: 25, art: 20, strategy: 75, reputation: 70, luck: 55, charm: 45, health: 85, talent: "Martial", talentValue: 90, skill: "None", skillValue: 0 },
-			{ name: "Steward Wu", age: 52, literature: 75, martial: 35, commerce: 88, art: 40, strategy: 70, reputation: 82, luck: 65, charm: 60, health: 80, talent: "Commerce", talentValue: 88, skill: "Craft", skillValue: 75 },
-			{ name: "Scout Yang", age: 35, literature: 50, martial: 85, commerce: 40, art: 30, strategy: 80, reputation: 65, luck: 85, charm: 55, health: 88, talent: "Luck", talentValue: 85, skill: "Martial", skillValue: 85 }
+			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 },
+			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 },
+			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 },
+			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 }
 		];
 
 		let currentTabData = clanMembersData;
@@ -531,11 +523,51 @@
 					break;
 			}
 
-			// Render new table data
-			renderTableData();
+			// Update table headers and render new table data
+			updateTableHeaders(tabName);
+			renderTableData(tabName);
 		}
 
-		function renderTableData() {
+		function updateTableHeaders(tabName) {
+			const tableHeaders = document.getElementById('tableHeaders');
+			
+			if (tabName === 'retainers') {
+				tableHeaders.innerHTML = `
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Name</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Age</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Literature</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Martial</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Commerce</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Art</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Strategy</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Reputation</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Monthly Salary</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
+				`;
+			} else {
+				// Default headers for clan members and spouses
+				tableHeaders.innerHTML = `
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Name</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Age</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Lit.</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Mar.</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Com.</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Art</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Strat.</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Rep.</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Luck</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Charm</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Health</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Talent</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Talent Val.</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Skill</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Skill Val.</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
+				`;
+			}
+		}
+
+		function renderTableData(tabName) {
 			const tbody = document.querySelector('tbody');
 			tbody.innerHTML = '';
 
@@ -543,28 +575,45 @@
 				const row = document.createElement('tr');
 				row.className = 'hover:bg-gray-50';
 				
-				const skillClass = person.skill === 'None' ? 'text-gray-500' : 'text-gray-600';
-				
-				row.innerHTML = `
-					<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${person.name}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.age}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.literature}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.martial}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.commerce}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.art}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.strategy}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.reputation}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.luck}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.charm}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.health}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.talent}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.talentValue}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm ${skillClass}">${person.skill}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.skillValue}</td>
-					<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-						<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-					</td>
-				`;
+				if (tabName === 'retainers') {
+					row.innerHTML = `
+						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${person.name}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.age}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.literature}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.martial}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.commerce}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.art}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.strategy}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.reputation}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.monthlySalary}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+							<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
+						</td>
+					`;
+				} else {
+					const skillClass = person.skill === 'None' ? 'text-gray-500' : 'text-gray-600';
+					
+					row.innerHTML = `
+						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${person.name}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.age}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.literature}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.martial}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.commerce}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.art}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.strategy}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.reputation}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.luck}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.charm}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.health}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.talent}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.talentValue}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm ${skillClass}">${person.skill}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.skillValue}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+							<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
+						</td>
+					`;
+				}
 				
 				tbody.appendChild(row);
 			});
@@ -615,25 +664,41 @@
 		function openModal(row) {
 			const cells = row.querySelectorAll('td');
 			const name = cells[0].textContent;
+			const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
 			
 			// Set modal title
 			document.getElementById('modalTitle').textContent = name;
 			
-			// Populate form fields with current row data
-			document.getElementById('ageInput').value = cells[1].textContent;
-			document.getElementById('literatureInput').value = cells[2].textContent;
-			document.getElementById('martialInput').value = cells[3].textContent;
-			document.getElementById('commerceInput').value = cells[4].textContent;
-			document.getElementById('artInput').value = cells[5].textContent;
-			document.getElementById('strategyInput').value = cells[6].textContent;
-			document.getElementById('reputationInput').value = cells[7].textContent;
-			document.getElementById('luckInput').value = cells[8].textContent;
-			document.getElementById('charmInput').value = cells[9].textContent;
-			document.getElementById('healthInput').value = cells[10].textContent;
-			// Skip talent (cells[11]) as it's text
-			document.getElementById('talentValueInput').value = cells[12].textContent;
-			document.getElementById('skillSelect').value = cells[13].textContent;
-			document.getElementById('skillValueInput').value = cells[14].textContent;
+			// Populate form fields with current row data based on tab
+			if (activeTab === 'retainers') {
+				document.getElementById('ageInput').value = cells[1].textContent;
+				document.getElementById('literatureInput').value = cells[2].textContent;
+				document.getElementById('martialInput').value = cells[3].textContent;
+				document.getElementById('commerceInput').value = cells[4].textContent;
+				document.getElementById('artInput').value = cells[5].textContent;
+				document.getElementById('strategyInput').value = cells[6].textContent;
+				document.getElementById('reputationInput').value = cells[7].textContent;
+				// For retainers, we need to hide some fields and show monthly salary
+				hideFieldsForRetainers();
+				document.getElementById('monthlySalaryInput').value = cells[8].textContent;
+			} else {
+				// For clan members and spouses
+				document.getElementById('ageInput').value = cells[1].textContent;
+				document.getElementById('literatureInput').value = cells[2].textContent;
+				document.getElementById('martialInput').value = cells[3].textContent;
+				document.getElementById('commerceInput').value = cells[4].textContent;
+				document.getElementById('artInput').value = cells[5].textContent;
+				document.getElementById('strategyInput').value = cells[6].textContent;
+				document.getElementById('reputationInput').value = cells[7].textContent;
+				document.getElementById('luckInput').value = cells[8].textContent;
+				document.getElementById('charmInput').value = cells[9].textContent;
+				document.getElementById('healthInput').value = cells[10].textContent;
+				// Skip talent (cells[11]) as it's text
+				document.getElementById('talentValueInput').value = cells[12].textContent;
+				document.getElementById('skillSelect').value = cells[13].textContent;
+				document.getElementById('skillValueInput').value = cells[14].textContent;
+				showAllFields();
+			}
 			
 			// Show modal
 			modal.classList.remove('hidden');
@@ -644,30 +709,67 @@
 			currentEditingRow = null;
 		}
 
+		function hideFieldsForRetainers() {
+			// Hide fields not used by retainers
+			document.getElementById('luckInput').parentElement.style.display = 'none';
+			document.getElementById('charmInput').parentElement.style.display = 'none';
+			document.getElementById('healthInput').parentElement.style.display = 'none';
+			document.getElementById('talentValueInput').parentElement.style.display = 'none';
+			document.getElementById('skillSelect').parentElement.style.display = 'none';
+			document.getElementById('skillValueInput').parentElement.style.display = 'none';
+			// Show monthly salary field
+			document.getElementById('monthlySalaryField').style.display = 'flex';
+		}
+
+		function showAllFields() {
+			// Show all fields for clan members and spouses
+			document.getElementById('luckInput').parentElement.style.display = 'flex';
+			document.getElementById('charmInput').parentElement.style.display = 'flex';
+			document.getElementById('healthInput').parentElement.style.display = 'flex';
+			document.getElementById('talentValueInput').parentElement.style.display = 'flex';
+			document.getElementById('skillSelect').parentElement.style.display = 'flex';
+			document.getElementById('skillValueInput').parentElement.style.display = 'flex';
+			// Hide monthly salary field
+			document.getElementById('monthlySalaryField').style.display = 'none';
+		}
+
 		function updateRowData(row) {
 			const cells = row.querySelectorAll('td');
+			const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
 			
-			// Update row with new values
-			cells[1].textContent = document.getElementById('ageInput').value;
-			cells[2].textContent = document.getElementById('literatureInput').value;
-			cells[3].textContent = document.getElementById('martialInput').value;
-			cells[4].textContent = document.getElementById('commerceInput').value;
-			cells[5].textContent = document.getElementById('artInput').value;
-			cells[6].textContent = document.getElementById('strategyInput').value;
-			cells[7].textContent = document.getElementById('reputationInput').value;
-			cells[8].textContent = document.getElementById('luckInput').value;
-			cells[9].textContent = document.getElementById('charmInput').value;
-			cells[10].textContent = document.getElementById('healthInput').value;
-			cells[12].textContent = document.getElementById('talentValueInput').value;
-			cells[13].textContent = document.getElementById('skillSelect').value;
-			cells[14].textContent = document.getElementById('skillValueInput').value;
-			
-			// Update skill color based on selection
-			const skillCell = cells[13];
-			if (document.getElementById('skillSelect').value === 'None') {
-				skillCell.className = skillCell.className.replace('text-gray-600', 'text-gray-500');
+			// Update row with new values based on tab
+			if (activeTab === 'retainers') {
+				cells[1].textContent = document.getElementById('ageInput').value;
+				cells[2].textContent = document.getElementById('literatureInput').value;
+				cells[3].textContent = document.getElementById('martialInput').value;
+				cells[4].textContent = document.getElementById('commerceInput').value;
+				cells[5].textContent = document.getElementById('artInput').value;
+				cells[6].textContent = document.getElementById('strategyInput').value;
+				cells[7].textContent = document.getElementById('reputationInput').value;
+				cells[8].textContent = document.getElementById('monthlySalaryInput').value;
 			} else {
-				skillCell.className = skillCell.className.replace('text-gray-500', 'text-gray-600');
+				// For clan members and spouses
+				cells[1].textContent = document.getElementById('ageInput').value;
+				cells[2].textContent = document.getElementById('literatureInput').value;
+				cells[3].textContent = document.getElementById('martialInput').value;
+				cells[4].textContent = document.getElementById('commerceInput').value;
+				cells[5].textContent = document.getElementById('artInput').value;
+				cells[6].textContent = document.getElementById('strategyInput').value;
+				cells[7].textContent = document.getElementById('reputationInput').value;
+				cells[8].textContent = document.getElementById('luckInput').value;
+				cells[9].textContent = document.getElementById('charmInput').value;
+				cells[10].textContent = document.getElementById('healthInput').value;
+				cells[12].textContent = document.getElementById('talentValueInput').value;
+				cells[13].textContent = document.getElementById('skillSelect').value;
+				cells[14].textContent = document.getElementById('skillValueInput').value;
+				
+				// Update skill color based on selection
+				const skillCell = cells[13];
+				if (document.getElementById('skillSelect').value === 'None') {
+					skillCell.className = skillCell.className.replace('text-gray-600', 'text-gray-500');
+				} else {
+					skillCell.className = skillCell.className.replace('text-gray-500', 'text-gray-600');
+				}
 			}
 		}
 
