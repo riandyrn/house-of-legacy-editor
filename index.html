@@ -46,7 +46,7 @@
 				<div class="text-sm text-gray-500 space-y-2 bg-gray-50 p-4 rounded-lg">
 					<div>C:\Users\{Username}\AppData\LocalLow\S3Studio\House of Legacy\FW\{index}\GameData.es3</div>
 					<div class="text-gray-400">For example:</div>
-					<div>C:\Users\riyan\AppData\LocalLow\S3Studio\House of Legacy\FW\0\GameData.es3</div>
+					<div>C:\Users\DaveAdams\AppData\LocalLow\S3Studio\House of Legacy\FW\0\GameData.es3</div>
 				</div>
 			</div>
 
@@ -266,11 +266,11 @@
 					<tbody class="bg-white divide-y divide-gray-200">
 						<template x-for="(resource, index) in currentData" :key="index">
 							<tr class="hover:bg-gray-50">
-								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.money.toLocaleString()"></td>
-								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.yuanbao.toLocaleString()"></td>
-								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.food.toLocaleString()"></td>
-								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.vegetables.toLocaleString()"></td>
-								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.meat.toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="(resource.money || 0).toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="(resource.yuanbao || 0).toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="(resource.food || 0).toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="(resource.vegetables || 0).toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="(resource.meat || 0).toLocaleString()"></td>
 								<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
 									<a href="#" @click.prevent="openResourceModal(resource, index)" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
 								</td>
@@ -457,23 +457,23 @@
 						<div class="space-y-4">
 							<div class="flex justify-between items-center">
 								<label class="text-sm text-gray-700">Money</label>
-								<input type="number" x-model="editingResource.money" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+								<input type="number" x-model.number="editingResource.money" min="0" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
 							</div>
 							<div class="flex justify-between items-center">
 								<label class="text-sm text-gray-700">Yuanbao</label>
-								<input type="number" x-model="editingResource.yuanbao" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+								<input type="number" x-model.number="editingResource.yuanbao" min="0" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
 							</div>
 							<div class="flex justify-between items-center">
 								<label class="text-sm text-gray-700">Food</label>
-								<input type="number" x-model="editingResource.food" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+								<input type="number" x-model.number="editingResource.food" min="0" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
 							</div>
 							<div class="flex justify-between items-center">
 								<label class="text-sm text-gray-700">Vegetables</label>
-								<input type="number" x-model="editingResource.vegetables" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+								<input type="number" x-model.number="editingResource.vegetables" min="0" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
 							</div>
 							<div class="flex justify-between items-center">
 								<label class="text-sm text-gray-700">Meat</label>
-								<input type="number" x-model="editingResource.meat" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+								<input type="number" x-model.number="editingResource.meat" min="0" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
 							</div>
 						</div>
 					</div>
@@ -684,7 +684,15 @@
 				
 				saveResource() {
 					if (this.editingIndex >= 0) {
-						this.resourcesData[this.editingIndex] = { ...this.editingResource };
+						// Ensure all values are numbers and fallback to 0 if invalid
+						const sanitizedResource = {
+							money: Number(this.editingResource.money) || 0,
+							yuanbao: Number(this.editingResource.yuanbao) || 0,
+							food: Number(this.editingResource.food) || 0,
+							vegetables: Number(this.editingResource.vegetables) || 0,
+							meat: Number(this.editingResource.meat) || 0
+						};
+						this.resourcesData[this.editingIndex] = sanitizedResource;
 					}
 					this.closeResourceModal();
 				},
