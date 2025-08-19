@@ -448,6 +448,8 @@
 							</div>
 						</div>
 					</div>
+					
+
 				</div>
 				
 				<!-- Modal Footer -->
@@ -456,6 +458,54 @@
 						Max All Attributes
 					</button>
 					<button id="applyChanges" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
+						Apply
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Resources Modal -->
+	<div id="resourcesModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+		<div class="flex items-center justify-center min-h-screen p-4">
+			<div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+				<!-- Modal Header -->
+				<div class="flex justify-between items-center p-6 border-b border-gray-200">
+					<h2 class="text-xl font-semibold text-gray-900">Resources</h2>
+					<button id="closeResourcesModal" class="text-gray-400 hover:text-gray-600">
+						<span class="material-icons">close</span>
+					</button>
+				</div>
+				
+				<!-- Modal Body -->
+				<div class="p-6">
+					<div class="space-y-4">
+						<div class="flex justify-between items-center">
+							<label class="text-sm text-gray-700">Money</label>
+							<input type="number" id="resourcesMoneyInput" value="278398881" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+						</div>
+						<div class="flex justify-between items-center">
+							<label class="text-sm text-gray-700">Yuanbao</label>
+							<input type="number" id="resourcesYuanbaoInput" value="3400966" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+						</div>
+						<div class="flex justify-between items-center">
+							<label class="text-sm text-gray-700">Food</label>
+							<input type="number" id="resourcesFoodInput" value="93919765" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+						</div>
+						<div class="flex justify-between items-center">
+							<label class="text-sm text-gray-700">Vegetables</label>
+							<input type="number" id="resourcesVegetablesInput" value="85704326" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+						</div>
+						<div class="flex justify-between items-center">
+							<label class="text-sm text-gray-700">Meat</label>
+							<input type="number" id="resourcesMeatInput" value="84626507" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+						</div>
+					</div>
+				</div>
+				
+				<!-- Modal Footer -->
+				<div class="flex justify-end items-center p-6 border-t border-gray-200">
+					<button id="applyResourcesChanges" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
 						Apply
 					</button>
 				</div>
@@ -710,12 +760,26 @@
 		const maxAllBtn = document.getElementById('maxAllAttributes');
 		let currentEditingRow = null;
 
+		// Resources Modal functionality
+		const resourcesModal = document.getElementById('resourcesModal');
+		const closeResourcesModalBtn = document.getElementById('closeResourcesModal');
+		const applyResourcesBtn = document.getElementById('applyResourcesChanges');
+		let currentEditingResourcesRow = null;
+
 		// Open modal when Edit link is clicked
 		document.addEventListener('click', function(e) {
 			if (e.target.textContent === 'Edit' && e.target.tagName === 'A') {
 				e.preventDefault();
-				currentEditingRow = e.target.closest('tr');
-				openModal(currentEditingRow);
+				const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
+				const row = e.target.closest('tr');
+				
+				if (activeTab === 'resources') {
+					currentEditingResourcesRow = row;
+					openResourcesModal(row);
+				} else {
+					currentEditingRow = row;
+					openModal(row);
+				}
 			}
 		});
 
@@ -735,6 +799,21 @@
 			}
 		});
 
+		// Resources Modal event handlers
+		closeResourcesModalBtn.addEventListener('click', closeResourcesModal);
+		resourcesModal.addEventListener('click', function(e) {
+			if (e.target === resourcesModal) {
+				closeResourcesModal();
+			}
+		});
+
+		applyResourcesBtn.addEventListener('click', function() {
+			if (currentEditingResourcesRow) {
+				updateResourcesRowData(currentEditingResourcesRow);
+				closeResourcesModal();
+			}
+		});
+
 		// Max All Attributes button
 		maxAllBtn.addEventListener('click', function() {
 			const inputs = modal.querySelectorAll('input[type="number"]');
@@ -747,14 +826,12 @@
 
 		function openModal(row) {
 			const cells = row.querySelectorAll('td');
-			const name = cells[0].textContent;
 			const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
-			
-			// Set modal title
-			document.getElementById('modalTitle').textContent = name;
 			
 			// Populate form fields with current row data based on tab
 			if (activeTab === 'retainers') {
+				const name = cells[0].textContent;
+				document.getElementById('modalTitle').textContent = name;
 				document.getElementById('ageInput').value = cells[1].textContent;
 				document.getElementById('literatureInput').value = cells[2].textContent;
 				document.getElementById('martialInput').value = cells[3].textContent;
@@ -762,11 +839,12 @@
 				document.getElementById('artInput').value = cells[5].textContent;
 				document.getElementById('strategyInput').value = cells[6].textContent;
 				document.getElementById('reputationInput').value = cells[7].textContent;
-				// For retainers, we need to hide some fields and show monthly salary
-				hideFieldsForRetainers();
 				document.getElementById('monthlySalaryInput').value = cells[8].textContent;
+				hideFieldsForRetainers();
 			} else {
 				// For clan members and spouses
+				const name = cells[0].textContent;
+				document.getElementById('modalTitle').textContent = name;
 				document.getElementById('ageInput').value = cells[1].textContent;
 				document.getElementById('literatureInput').value = cells[2].textContent;
 				document.getElementById('martialInput').value = cells[3].textContent;
@@ -791,6 +869,50 @@
 		function closeModal() {
 			modal.classList.add('hidden');
 			currentEditingRow = null;
+		}
+
+		function openResourcesModal(row) {
+			const cells = row.querySelectorAll('td');
+			
+			// Populate resources form fields with current row data
+			document.getElementById('resourcesMoneyInput').value = cells[0].textContent.replace(/,/g, '');
+			document.getElementById('resourcesYuanbaoInput').value = cells[1].textContent.replace(/,/g, '');
+			document.getElementById('resourcesFoodInput').value = cells[2].textContent.replace(/,/g, '');
+			document.getElementById('resourcesVegetablesInput').value = cells[3].textContent.replace(/,/g, '');
+			document.getElementById('resourcesMeatInput').value = cells[4].textContent.replace(/,/g, '');
+			
+			// Show resources modal
+			resourcesModal.classList.remove('hidden');
+		}
+
+		function closeResourcesModal() {
+			resourcesModal.classList.add('hidden');
+			currentEditingResourcesRow = null;
+		}
+
+		function updateResourcesRowData(row) {
+			const cells = row.querySelectorAll('td');
+			
+			// Get values from resources form
+			const money = parseInt(document.getElementById('resourcesMoneyInput').value);
+			const yuanbao = parseInt(document.getElementById('resourcesYuanbaoInput').value);
+			const food = parseInt(document.getElementById('resourcesFoodInput').value);
+			const vegetables = parseInt(document.getElementById('resourcesVegetablesInput').value);
+			const meat = parseInt(document.getElementById('resourcesMeatInput').value);
+			
+			// Update table cells with formatted values
+			cells[0].textContent = money.toLocaleString();
+			cells[1].textContent = yuanbao.toLocaleString();
+			cells[2].textContent = food.toLocaleString();
+			cells[3].textContent = vegetables.toLocaleString();
+			cells[4].textContent = meat.toLocaleString();
+			
+			// Update the data source as well
+			currentTabData[0].money = money;
+			currentTabData[0].yuanbao = yuanbao;
+			currentTabData[0].food = food;
+			currentTabData[0].vegetables = vegetables;
+			currentTabData[0].meat = meat;
 		}
 
 		function hideFieldsForRetainers() {
@@ -859,8 +981,12 @@
 
 		// Close modal with Escape key
 		document.addEventListener('keydown', function(e) {
-			if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-				closeModal();
+			if (e.key === 'Escape') {
+				if (!modal.classList.contains('hidden')) {
+					closeModal();
+				} else if (!resourcesModal.classList.contains('hidden')) {
+					closeResourcesModal();
+				}
 			}
 		});
 	</script>
