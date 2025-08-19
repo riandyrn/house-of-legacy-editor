@@ -1,4 +1,12 @@
-function ResourceTable({ data, onEdit }) {
+import useUIStore from '../store/useUIStore';
+import useGameDataStore from '../store/useGameDataStore';
+
+function ResourceTable() {
+	const { openResourceModal } = useUIStore();
+	const { getResourcesData } = useGameDataStore();
+	
+	const resource = getResourcesData();
+
 	return (
 		<div className="overflow-x-auto">
 			<table className="w-full divide-y divide-gray-200">
@@ -13,23 +21,21 @@ function ResourceTable({ data, onEdit }) {
 					</tr>
 				</thead>
 				<tbody className="bg-white divide-y divide-gray-200">
-					{data.map((resource, index) => (
-						<tr key={index} className="hover:bg-gray-50">
-							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.money || 0).toLocaleString()}</td>
-							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.yuanbao || 0).toLocaleString()}</td>
-							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.food || 0).toLocaleString()}</td>
-							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.vegetables || 0).toLocaleString()}</td>
-							<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.meat || 0).toLocaleString()}</td>
-							<td className="px-3 py-4 whitespace-nowrap text-sm font-medium">
-								<button 
-									onClick={() => onEdit(resource, index)} 
-									className="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer"
-								>
-									Edit
-								</button>
-							</td>
-						</tr>
-					))}
+					<tr className="hover:bg-gray-50">
+						<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.money || 0).toLocaleString()}</td>
+						<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.yuanbao || 0).toLocaleString()}</td>
+						<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.food || 0).toLocaleString()}</td>
+						<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.vegetables || 0).toLocaleString()}</td>
+						<td className="px-3 py-4 whitespace-nowrap text-sm text-gray-600">{(resource.meat || 0).toLocaleString()}</td>
+						<td className="px-3 py-4 whitespace-nowrap text-sm font-medium">
+							<button 
+								onClick={() => openResourceModal()} 
+								className="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer"
+							>
+								Edit
+							</button>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

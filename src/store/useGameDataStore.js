@@ -155,13 +155,28 @@ const useGameDataStore = create((set, get) => ({
   // Get resources data from gameData
   getResourcesData: () => {
     const { getMoney, getYuanbao, getFood, getVegetables, getMeat } = get();
-    return [{
+    return {
       money: getMoney(),
       yuanbao: getYuanbao(),
       food: getFood(),
       vegetables: getVegetables(),
       meat: getMeat()
-    }];
+    };
+  },
+
+  newRetainer: (rawRecord, retainerIdx) => {
+    return {
+      name: rawRecord[2].split("|")[0],
+      age: Number(rawRecord[3]) || 0,
+      literature: Number(rawRecord[4]) || 0,
+      martial: Number(rawRecord[5]) || 0,
+      commerce: Number(rawRecord[6]) || 0,
+      art: Number(rawRecord[7]) || 0,
+      strategy: Number(rawRecord[15]) || 0,
+      reputation: Number(rawRecord[11]) || 0,
+      monthlySalary: Number(rawRecord[18]) || 0,
+      retainerIdx,
+    }
   },
 
   getRetainersData: () => {
@@ -173,21 +188,13 @@ const useGameDataStore = create((set, get) => ({
             { name: "Retainer Two", age: 28, literature: 90, martial: 95, commerce: 85, art: 80, strategy: 88, reputation: 92, monthlySalary: 50, retainerIdx: 1 }
           ]
      */
-    const { gameData } = get();
-    return gameData.MenKe_Now.value.map((rawRecord, retainerIdx) => {
-      return {
-        name: rawRecord[2].split("|")[0],
-        age: Number(rawRecord[3]) || 0,
-        literature: Number(rawRecord[4]) || 0,
-        martial: Number(rawRecord[5]) || 0,
-        commerce: Number(rawRecord[6]) || 0,
-        art: Number(rawRecord[7]) || 0,
-        strategy: Number(rawRecord[15]) || 0,
-        reputation: Number(rawRecord[11]) || 0,
-        monthlySalary: Number(rawRecord[18]) || 0,
-        retainerIdx,
-      }
-    });
+    const { gameData, newRetainer } = get();
+    return gameData.MenKe_Now.value.map(newRetainer);
+  },
+
+  getRetainer: (retainerIdx) => {
+    const { gameData, newRetainer } = get();
+    return newRetainer(gameData.MenKe_Now.value[retainerIdx]);
   },
 
   // Get current data based on active tab
@@ -197,7 +204,7 @@ const useGameDataStore = create((set, get) => ({
       case 'clanMembers': return clanMembersData;
       case 'spouses': return spousesData;
       case 'retainers': return getRetainersData();
-      case 'resources': return getResourcesData();
+      case 'resources': return [getResourcesData()]; // Wrap in array for consistency
       default: return [];
     }
   },
@@ -241,7 +248,7 @@ const useGameDataStore = create((set, get) => ({
 
   maxAllResources: () => {
     const { setMoney, setYuanbao, setFood, setVegetables, setMeat } = get();
-    
+
     // Set all resources to their maximum values
     setMoney(maxResourceValues.money);
     setYuanbao(maxResourceValues.yuanbao);

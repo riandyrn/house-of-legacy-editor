@@ -15,7 +15,6 @@ const useUIStore = create((set) => ({
   showResourceModal: false,
   editingCharacter: {},
   editingRetainer: {},
-  editingResource: {},
   editingIndex: -1,
   
   // Error state
@@ -81,20 +80,12 @@ const useUIStore = create((set) => ({
   }),
   
   // Resource modal actions
-  openResourceModal: (resource, index) => set({
-    editingResource: { ...resource },
-    editingIndex: index,
+  openResourceModal: () => set({
     showResourceModal: true
   }),
   
   closeResourceModal: () => set({
-    showResourceModal: false,
-    editingResource: {},
-    editingIndex: -1
-  }),
-  
-  updateEditingResource: (resource) => set({
-    editingResource: resource
+    showResourceModal: false
   })
 }));
 

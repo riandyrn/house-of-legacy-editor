@@ -15,10 +15,8 @@ function EditorContent() {
 		// Modal state
 		showCharacterModal,
 		showRetainerModal, 
-		showResourceModal,
 		editingCharacter,
 		editingRetainer,
-		editingResource,
 		
 		// Actions
 		setActiveTab,
@@ -38,12 +36,7 @@ function EditorContent() {
 		openRetainerModal,
 		closeRetainerModal,
 		saveRetainer,
-		maxRetainerAttributes,
-		
-		// Resource modal actions
-		openResourceModal,
-		closeResourceModal,
-		saveResource
+		maxRetainerAttributes
 	} = useAppStore();
 	
 	const showSkillsSelector = activeTab === 'clanMembers' || activeTab === 'spouses';
@@ -116,7 +109,7 @@ function EditorContent() {
 
 			{/* Resources Table */}
 			{activeTab === 'resources' && (
-				<ResourceTable data={getCurrentData()} onEdit={openResourceModal} />
+				<ResourceTable />
 			)}
 
 			{/* Character Modal */}
@@ -138,12 +131,7 @@ function EditorContent() {
 			/>
 
 			{/* Resource Modal */}
-			<ResourceModal 
-				isOpen={showResourceModal}
-				resource={editingResource}
-				onClose={closeResourceModal}
-				onSave={saveResource}
-			/>
+			<ResourceModal />
 		</main>
 	);
 }
