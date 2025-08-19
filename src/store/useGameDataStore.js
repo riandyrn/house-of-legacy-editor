@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const maxResourceValues = {
+export const maxResourceValues = {
   money: 999_999_999,
   yuanbao: 99_999_999,
   food: 99_999_999,
