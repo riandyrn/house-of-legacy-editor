@@ -85,7 +85,7 @@ function FileUploadPage({ fileInputRef }) {
 						</div>
 					</div>
 				</div>
-
+				<br />
 				<div className="space-y-6">
 					{/* File Upload Area */}
 					<div 

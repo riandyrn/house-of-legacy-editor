@@ -3,7 +3,7 @@ import EditorContent from '../layout/EditorContent';
 
 function EditorPage({ goBackToUpload }) {
 	return (
-		<div>
+		<div className="min-h-screen bg-gray-50">
 			<EditorHeader goBackToUpload={goBackToUpload} />
 			<div className="container mx-auto p-4">
 				<EditorContent />
