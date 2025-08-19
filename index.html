@@ -60,6 +60,11 @@
 						data-tab="retainers">
 						Retainers
 					</button>
+					<button id="resourcesTab"
+						class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base tab-button"
+						data-tab="resources">
+						Resources
+					</button>
 				</nav>
 				<div class="flex items-center space-x-4 py-4">
 					<div class="flex items-center space-x-2" id="skillsSelector">
@@ -76,8 +81,9 @@
 					</div>
 					<div class="text-gray-300 text-sm" id="divider">|</div>
 					<button id="maxAllButton"
-						class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Max
-						All Attributes</button>
+						class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+						<span id="maxButtonText">Max All Attributes</span>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -489,6 +495,10 @@
 			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 }
 		];
 
+		const resourcesData = [
+			{ money: 278398881, yuanbao: 3400966, food: 93919765, vegetables: 85704326, meat: 84626507 }
+		];
+
 		let currentTabData = clanMembersData;
 
 		// Tab functionality
@@ -512,12 +522,21 @@
 				// Initialize skills selector visibility
 				const skillsSelector = document.getElementById('skillsSelector');
 				const divider = document.getElementById('divider');
-				if (tabName === 'retainers') {
+				const maxButtonText = document.getElementById('maxButtonText');
+				
+				if (tabName === 'retainers' || tabName === 'resources') {
 					skillsSelector.style.display = 'none';
 					divider.style.display = 'none';
 				} else {
 					skillsSelector.style.display = 'flex';
 					divider.style.display = 'block';
+				}
+				
+				// Initialize button text based on tab
+				if (tabName === 'resources') {
+					maxButtonText.textContent = 'Max All Resources';
+				} else {
+					maxButtonText.textContent = 'Max All Attributes';
 				}
 			}
 		});
@@ -543,17 +562,29 @@
 				case 'retainers':
 					currentTabData = retainersData;
 					break;
+				case 'resources':
+					currentTabData = resourcesData;
+					break;
 			}
 
 			// Show/hide skills selector and divider based on tab
 			const skillsSelector = document.getElementById('skillsSelector');
 			const divider = document.getElementById('divider');
-			if (tabName === 'retainers') {
+			const maxButtonText = document.getElementById('maxButtonText');
+			
+			if (tabName === 'retainers' || tabName === 'resources') {
 				skillsSelector.style.display = 'none';
 				divider.style.display = 'none';
 			} else {
 				skillsSelector.style.display = 'flex';
 				divider.style.display = 'block';
+			}
+			
+			// Update button text based on tab
+			if (tabName === 'resources') {
+				maxButtonText.textContent = 'Max All Resources';
+			} else {
+				maxButtonText.textContent = 'Max All Attributes';
 			}
 
 			// Update table headers and render new table data
@@ -576,6 +607,15 @@
 					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Reputation</th>
 					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Monthly Salary</th>
 					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
+				`;
+			} else if (tabName === 'resources') {
+				tableHeaders.innerHTML = `
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Money</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Yuanbao</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Food</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Vegetables</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Meat</th>
+					<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Action</th>
 				`;
 			} else {
 				// Default headers for clan members and spouses
@@ -604,44 +644,55 @@
 			const tbody = document.querySelector('tbody');
 			tbody.innerHTML = '';
 
-			currentTabData.forEach(person => {
+			currentTabData.forEach(item => {
 				const row = document.createElement('tr');
 				row.className = 'hover:bg-gray-50';
 				
 				if (tabName === 'retainers') {
 					row.innerHTML = `
-						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${person.name}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.age}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.literature}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.martial}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.commerce}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.art}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.strategy}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.reputation}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.monthlySalary}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.name}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.age}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.literature}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.martial}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.commerce}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.art}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.strategy}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.reputation}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.monthlySalary}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+							<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
+						</td>
+					`;
+				} else if (tabName === 'resources') {
+					row.innerHTML = `
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.money.toLocaleString()}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.yuanbao.toLocaleString()}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.food.toLocaleString()}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.vegetables.toLocaleString()}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.meat.toLocaleString()}</td>
 						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
 							<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
 						</td>
 					`;
 				} else {
-					const skillClass = person.skill === 'None' ? 'text-gray-500' : 'text-gray-600';
+					const skillClass = item.skill === 'None' ? 'text-gray-500' : 'text-gray-600';
 					
 					row.innerHTML = `
-						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${person.name}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.age}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.literature}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.martial}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.commerce}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.art}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.strategy}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.reputation}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.luck}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.charm}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.health}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.talent}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.talentValue}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm ${skillClass}">${person.skill}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${person.skillValue}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.name}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.age}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.literature}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.martial}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.commerce}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.art}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.strategy}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.reputation}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.luck}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.charm}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.health}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.talent}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.talentValue}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm ${skillClass}">${item.skill}</td>
+						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.skillValue}</td>
 						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
 							<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
 						</td>
