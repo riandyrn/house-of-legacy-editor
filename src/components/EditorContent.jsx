@@ -4,49 +4,68 @@ import ResourceTable from './ResourceTable';
 import CharacterModal from './CharacterModal';
 import RetainerModal from './RetainerModal';
 import ResourceModal from './ResourceModal';
-import useAppStore from '../store/useAppStore';
+import useUIStore from '../store/useUIStore';
+import useGameDataStore from '../store/useGameDataStore';
 
 function EditorContent() {
+	// UI Store
 	const {
-		// State
 		activeTab,
 		selectedSkill,
-		
-		// Modal state
 		showCharacterModal,
 		showRetainerModal, 
 		editingCharacter,
 		editingRetainer,
-		
-		// Actions
+		editingIndex,
 		setActiveTab,
 		setSelectedSkill,
+		openCharacterModal,
+		closeCharacterModal,
+		openRetainerModal,
+		closeRetainerModal,
+		updateEditingCharacter,
+		updateEditingRetainer
+	} = useUIStore();
+	
+	// Game Data Store
+	const {
 		getCurrentData,
 		applySkillToNone,
 		maxAllAttributes,
 		maxAllResources,
-		
-		// Character modal actions
-		openCharacterModal,
-		closeCharacterModal,
 		saveCharacter,
 		maxCharacterAttributes,
-		
-		// Retainer modal actions
-		openRetainerModal,
-		closeRetainerModal,
 		saveRetainer,
 		maxRetainerAttributes
-	} = useAppStore();
+	} = useGameDataStore();
 	
 	const showSkillsSelector = activeTab === 'clanMembers' || activeTab === 'spouses';
 	const maxButtonText = activeTab === 'resources' ? 'Max All Resources' : 'Max All Attributes';
+	
 	const handleMaxAllClick = () => {
 		if (activeTab === 'resources') {
 			maxAllResources();
 		} else {
-			maxAllAttributes();
+			maxAllAttributes(activeTab);
 		}
+	};
+	
+	const handleSaveCharacter = (updatedCharacter) => {
+		saveCharacter(updatedCharacter, editingIndex, activeTab);
+	};
+	
+	const handleSaveRetainer = (updatedRetainer) => {
+		saveRetainer(updatedRetainer, editingIndex);
+	};
+	
+	const handleMaxCharacterAttributes = () => {
+		const maxedCharacter = maxCharacterAttributes(editingCharacter);
+		updateEditingCharacter(maxedCharacter);
+	};
+	
+	const handleMaxRetainerAttributes = () => {
+		const maxedRetainer = maxRetainerAttributes(editingRetainer);
+		updateEditingRetainer(maxedRetainer);
 	};
 
 
@@ -85,7 +104,7 @@ function EditorContent() {
 										<option value="Craft">Craft</option>
 										<option value="Martial">Martial</option>
 									</select>
-									<button onClick={applySkillToNone} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
+									<button onClick={() => applySkillToNone(activeTab, selectedSkill)} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
 								</div>
 								<div className="text-gray-300 text-sm">|</div>
 							</>
@@ -117,8 +136,8 @@ function EditorContent() {
 				isOpen={showCharacterModal}
 				character={editingCharacter}
 				onClose={closeCharacterModal}
-				onSave={saveCharacter}
-				onMaxAttributes={maxCharacterAttributes}
+				onSave={handleSaveCharacter}
+				onMaxAttributes={handleMaxCharacterAttributes}
 			/>
 
 			{/* Retainer Modal */}
@@ -126,8 +145,8 @@ function EditorContent() {
 				isOpen={showRetainerModal}
 				retainer={editingRetainer}
 				onClose={closeRetainerModal}
-				onSave={saveRetainer}
-				onMaxAttributes={maxRetainerAttributes}
+				onSave={handleSaveRetainer}
+				onMaxAttributes={handleMaxRetainerAttributes}
 			/>
 
 			{/* Resource Modal */}

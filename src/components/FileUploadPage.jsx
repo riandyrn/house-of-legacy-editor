@@ -1,7 +1,13 @@
-import useAppStore from '../store/useAppStore';
+import useUIStore from '../store/useUIStore';
+import useGameDataStore from '../store/useGameDataStore';
 
 function FileUploadPage({ fileInputRef }) {
-	const { selectedFile, handleFileSelect, openEditor } = useAppStore();
+	const { selectedFile, setSelectedFile, setCurrentPage, showError } = useUIStore();
+	const { parseES3Data } = useGameDataStore();
+
+	const handleFileSelect = (file) => {
+		setSelectedFile(file);
+	};
 
 	const handleFileSelectEvent = (event) => {
 		const file = event.target.files[0];
@@ -26,6 +32,24 @@ function FileUploadPage({ fileInputRef }) {
 		const files = event.dataTransfer.files;
 		if (files.length > 0) {
 			handleFileSelect(files[0]);
+		}
+	};
+
+	const openEditor = () => {
+		if (selectedFile) {
+			// Read the file content and parse it
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				const fileContent = e.target.result;
+				try {
+					parseES3Data(fileContent, selectedFile.name);
+					setCurrentPage('editor');
+				} catch (error) {
+					console.error('Error parsing ES3 file:', error);
+					showError(`Failed to parse ${selectedFile.name}\n\nThe selected file is not a valid ES3 save file or is corrupted. Please make sure you've selected the correct GameData.es3 file from your House of Legacy save directory.`);
+				}
+			};
+			reader.readAsText(selectedFile);
 		}
 	};
 	return (

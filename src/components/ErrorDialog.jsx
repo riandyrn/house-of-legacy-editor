@@ -1,7 +1,7 @@
-import useAppStore from '../store/useAppStore';
+import useUIStore from '../store/useUIStore';
 
 function ErrorDialog() {
-	const { showErrorDialog, errorMessage, closeErrorDialog } = useAppStore();
+	const { showErrorDialog, errorMessage, closeErrorDialog } = useUIStore();
 
 	if (!showErrorDialog) return null;
 

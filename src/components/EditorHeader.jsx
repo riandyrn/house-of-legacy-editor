@@ -1,7 +1,7 @@
-import useAppStore from '../store/useAppStore';
+import useGameDataStore from '../store/useGameDataStore';
 
 function EditorHeader({ goBackToUpload }) {
-	const { saveToFile } = useAppStore();
+	const { saveToFile } = useGameDataStore();
 
 	return (
 		<header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">

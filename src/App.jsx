@@ -2,11 +2,11 @@ import { useRef } from 'react';
 import FileUploadPage from './components/FileUploadPage';
 import EditorPage from './components/EditorPage';
 import ErrorDialog from './components/ErrorDialog';
-import useAppStore from './store/useAppStore';
+import useUIStore from './store/useUIStore';
 
 function App() {
 	const fileInputRef = useRef(null);
-	const { currentPage, goBackToUpload } = useAppStore();
+	const { currentPage, goBackToUpload } = useUIStore();
 
 	const handleGoBackToUpload = () => {
 		goBackToUpload();
