@@ -1,8 +1,22 @@
+import { useState, useEffect } from 'react';
+
 function ResourceModal({ isOpen, resource, onClose, onSave }) {
+	const [localResource, setLocalResource] = useState(resource || {});
+
+	// Update local state when resource prop changes
+	useEffect(() => {
+		setLocalResource(resource || {});
+	}, [resource]);
+
 	if (!isOpen) return null;
 
 	const handleInputChange = (field, value) => {
-		onSave({ ...resource, [field]: Number(value) || 0 });
+		setLocalResource(prev => ({ ...prev, [field]: Number(value) || 0 }));
+	};
+
+	const handleApply = () => {
+		onSave(localResource);
+		onClose();
 	};
 
 	return (
@@ -24,7 +38,7 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 								<label className="text-sm text-gray-700">Money</label>
 								<input 
 									type="number" 
-									value={resource.money || ''} 
+									value={localResource.money || ''} 
 									onChange={(e) => handleInputChange('money', e.target.value)}
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
@@ -34,7 +48,7 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 								<label className="text-sm text-gray-700">Yuanbao</label>
 								<input 
 									type="number" 
-									value={resource.yuanbao || ''} 
+									value={localResource.yuanbao || ''} 
 									onChange={(e) => handleInputChange('yuanbao', e.target.value)}
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
@@ -44,7 +58,7 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 								<label className="text-sm text-gray-700">Food</label>
 								<input 
 									type="number" 
-									value={resource.food || ''} 
+									value={localResource.food || ''} 
 									onChange={(e) => handleInputChange('food', e.target.value)}
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
@@ -54,7 +68,7 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 								<label className="text-sm text-gray-700">Vegetables</label>
 								<input 
 									type="number" 
-									value={resource.vegetables || ''} 
+									value={localResource.vegetables || ''} 
 									onChange={(e) => handleInputChange('vegetables', e.target.value)}
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
@@ -64,7 +78,7 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 								<label className="text-sm text-gray-700">Meat</label>
 								<input 
 									type="number" 
-									value={resource.meat || ''} 
+									value={localResource.meat || ''} 
 									onChange={(e) => handleInputChange('meat', e.target.value)}
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
@@ -74,8 +88,11 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 					</div>
 
 					{/* Modal Footer */}
-					<div className="flex justify-end items-center p-6 border-t border-gray-200">
-						<button onClick={onClose} className="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
+					<div className="flex justify-end items-center p-6 border-t border-gray-200 space-x-3">
+						<button onClick={onClose} className="bg-gray-300 text-gray-700 px-6 py-2 rounded text-sm hover:bg-gray-400">
+							Cancel
+						</button>
+						<button onClick={handleApply} className="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
 							Apply
 						</button>
 					</div>

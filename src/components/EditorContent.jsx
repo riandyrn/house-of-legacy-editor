@@ -26,6 +26,7 @@ function EditorContent() {
 		getCurrentData,
 		applySkillToNone,
 		maxAllAttributes,
+		maxAllResources,
 		
 		// Character modal actions
 		openCharacterModal,
@@ -47,6 +48,13 @@ function EditorContent() {
 	
 	const showSkillsSelector = activeTab === 'clanMembers' || activeTab === 'spouses';
 	const maxButtonText = activeTab === 'resources' ? 'Max All Resources' : 'Max All Attributes';
+	const handleMaxAllClick = () => {
+		if (activeTab === 'resources') {
+			maxAllResources();
+		} else {
+			maxAllAttributes();
+		}
+	};
 
 
 	return (
@@ -89,7 +97,7 @@ function EditorContent() {
 								<div className="text-gray-300 text-sm">|</div>
 							</>
 						)}
-						<button onClick={maxAllAttributes} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+						<button onClick={handleMaxAllClick} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
 							{maxButtonText}
 						</button>
 					</div>

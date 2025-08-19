@@ -53,6 +53,10 @@ const useAppStore = () => {
       gameDataStore.maxAllAttributes(uiStore.activeTab);
     },
     
+    maxAllResources: () => {
+      gameDataStore.maxAllResources();
+    },
+    
     // Character operations with UI state
     saveCharacter: (updatedCharacter) => {
       uiStore.updateEditingCharacter(updatedCharacter);
