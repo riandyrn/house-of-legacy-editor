@@ -305,17 +305,15 @@ const useGameDataStore = create((set, get) => ({
   },
 
   // Resource data operations
-  saveResource: (updatedResource, editingIndex) => {
+  saveResource: (updatedResource) => {
     const { setMoney, setYuanbao, setFood, setVegetables, setMeat } = get();
 
-    if (editingIndex >= 0) {
-      // Use the new setter functions for cleaner code
-      setMoney(updatedResource.money);
-      setYuanbao(updatedResource.yuanbao);
-      setFood(updatedResource.food);
-      setVegetables(updatedResource.vegetables);
-      setMeat(updatedResource.meat);
-    }
+    // Use the new setter functions for cleaner code
+    setMoney(updatedResource.money);
+    setYuanbao(updatedResource.yuanbao);
+    setFood(updatedResource.food);
+    setVegetables(updatedResource.vegetables);
+    setMeat(updatedResource.meat);
   }
 }));
 

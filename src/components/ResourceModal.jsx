@@ -25,7 +25,7 @@ function ResourceModal() {
 			vegetables: Number(vegetablesRef.current?.value) || 0,
 			meat: Number(meatRef.current?.value) || 0,
 		};
-		saveResource(updatedResource, 0); // Resources is always index 0
+		saveResource(updatedResource);
 		closeResourceModal();
 	};
 
