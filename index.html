@@ -42,7 +42,8 @@
 	
 	<div class="container mx-auto p-4">
 		<main class="bg-white rounded-lg shadow-lg p-6 mt-4">
-			<div class="border-b border-gray-200 mb-4">
+					<div class="border-b border-gray-200 mb-4">
+			<div class="flex justify-between items-end">
 				<nav aria-label="Tabs" class="-mb-px flex space-x-8">
 					<button id="clanMembersTab"
 						class="border-gray-800 text-gray-900 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm tab-button active"
@@ -60,24 +61,26 @@
 						Retainers
 					</button>
 				</nav>
-			</div>
-			<div class="flex justify-between items-center mb-4">
-				<div class="flex items-center space-x-2" id="skillsSelector">
-					<label class="text-sm font-medium text-gray-700" for="set-skill">Set None Skills to:</label>
-					<select
-						class="w-36 rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
-						id="set-skill">
-						<option>Medical</option>
-						<option>Craft</option>
-						<option>Martial</option>
-					</select>
-					<button
-						class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
+				<div class="flex items-center space-x-4 pb-4">
+					<div class="flex items-center space-x-2" id="skillsSelector">
+						<label class="text-sm font-medium text-gray-700" for="set-skill">Set None Skills to:</label>
+						<select
+							class="w-36 rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
+							id="set-skill">
+							<option>Medical</option>
+							<option>Craft</option>
+							<option>Martial</option>
+						</select>
+						<button
+							class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
+					</div>
+					<div class="text-gray-300 text-sm" id="divider">|</div>
+					<button id="maxAllButton"
+						class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Max
+						All Attributes</button>
 				</div>
-				<button
-					class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Max
-					All Attributes</button>
 			</div>
+		</div>
 			<div class="overflow-x-auto">
 				<table class="w-full divide-y divide-gray-200">
 					<thead class="bg-gray-100">
@@ -523,15 +526,15 @@
 					break;
 			}
 
-			// Show/hide skills selector based on tab
+			// Show/hide skills selector and divider based on tab
 			const skillsSelector = document.getElementById('skillsSelector');
-			const controlsContainer = skillsSelector.parentElement;
+			const divider = document.getElementById('divider');
 			if (tabName === 'retainers') {
 				skillsSelector.style.display = 'none';
-				controlsContainer.style.justifyContent = 'flex-end';
+				divider.style.display = 'none';
 			} else {
 				skillsSelector.style.display = 'flex';
-				controlsContainer.style.justifyContent = 'space-between';
+				divider.style.display = 'block';
 			}
 
 			// Update table headers and render new table data
