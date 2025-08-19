@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useRef } from 'react';
 
 function ResourceModal({ isOpen, resource, onClose, onSave }) {
-	const [localResource, setLocalResource] = useState(resource || {});
-
-	// Update local state when resource prop changes
-	useEffect(() => {
-		setLocalResource(resource || {});
-	}, [resource]);
+	const moneyRef = useRef(null);
+	const yuanbaoRef = useRef(null);
+	const foodRef = useRef(null);
+	const vegetablesRef = useRef(null);
+	const meatRef = useRef(null);
 
 	if (!isOpen) return null;
 
-	const handleInputChange = (field, value) => {
-		setLocalResource(prev => ({ ...prev, [field]: Number(value) || 0 }));
-	};
-
 	const handleApply = () => {
-		onSave(localResource);
+		const updatedResource = {
+			money: Number(moneyRef.current?.value) || 0,
+			yuanbao: Number(yuanbaoRef.current?.value) || 0,
+			food: Number(foodRef.current?.value) || 0,
+			vegetables: Number(vegetablesRef.current?.value) || 0,
+			meat: Number(meatRef.current?.value) || 0,
+		};
+		onSave(updatedResource);
 		onClose();
 	};
 
@@ -37,9 +39,9 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 							<div className="flex justify-between items-center">
 								<label className="text-sm text-gray-700">Money</label>
 								<input 
+									ref={moneyRef}
 									type="number" 
-									value={localResource.money || ''} 
-									onChange={(e) => handleInputChange('money', e.target.value)}
+									defaultValue={resource?.money || 0} 
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
@@ -47,9 +49,9 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 							<div className="flex justify-between items-center">
 								<label className="text-sm text-gray-700">Yuanbao</label>
 								<input 
+									ref={yuanbaoRef}
 									type="number" 
-									value={localResource.yuanbao || ''} 
-									onChange={(e) => handleInputChange('yuanbao', e.target.value)}
+									defaultValue={resource?.yuanbao || 0} 
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
@@ -57,9 +59,9 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 							<div className="flex justify-between items-center">
 								<label className="text-sm text-gray-700">Food</label>
 								<input 
+									ref={foodRef}
 									type="number" 
-									value={localResource.food || ''} 
-									onChange={(e) => handleInputChange('food', e.target.value)}
+									defaultValue={resource?.food || 0} 
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
@@ -67,9 +69,9 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 							<div className="flex justify-between items-center">
 								<label className="text-sm text-gray-700">Vegetables</label>
 								<input 
+									ref={vegetablesRef}
 									type="number" 
-									value={localResource.vegetables || ''} 
-									onChange={(e) => handleInputChange('vegetables', e.target.value)}
+									defaultValue={resource?.vegetables || 0} 
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
@@ -77,9 +79,9 @@ function ResourceModal({ isOpen, resource, onClose, onSave }) {
 							<div className="flex justify-between items-center">
 								<label className="text-sm text-gray-700">Meat</label>
 								<input 
+									ref={meatRef}
 									type="number" 
-									value={localResource.meat || ''} 
-									onChange={(e) => handleInputChange('meat', e.target.value)}
+									defaultValue={resource?.meat || 0} 
 									min="0" 
 									className="w-32 px-3 py-2 border border-gray-300 rounded text-center"
 								/>
