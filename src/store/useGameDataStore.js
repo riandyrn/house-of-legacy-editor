@@ -24,6 +24,24 @@ export const rangeAttrs = {
   monthlySalary: [0, 9999],
 }
 
+export const skillMap = {
+  'None': '0',
+  'Witch': '1',
+  'Medical': '2',
+  'Fortune': '3',
+  'Divination': '4',
+  'Charm': '5',
+  'Craft': '6'
+}
+
+export const talentMap = {
+  'None': '0',
+  'Literature': '1',
+  'Martial': '2',
+  'Commerce': '3',
+  'Art': '4'
+}
+
 const useGameDataStore = create((set, get) => ({
   // Game data state
   gameData: null,
@@ -300,7 +318,20 @@ const useGameDataStore = create((set, get) => ({
     }
   },
 
-    getSpousesData: () => {
+    getClanMembersData: () => {
+    /**
+     * We need to return data with the following format for clan members:
+     * 
+     *   clanMembersData: [
+           { name: "Zilan Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100, memberIdx: 0 },
+           ...
+         ]
+     */
+    const { gameData, newFamilyMember } = get();
+    return gameData.Member_now.value.map(newFamilyMember);
+  },
+
+  getSpousesData: () => {
     /**
      * We need to return data with the following format:
      * 
@@ -342,15 +373,6 @@ const useGameDataStore = create((set, get) => ({
       if (updateData.talent !== undefined || updateData.talentValue !== undefined) {
         const tokens = rawRecord[2].split("|");
         
-        // Map talent names to IDs
-        const talentMap = {
-          'None': '0',
-          'Literature': '1',
-          'Martial': '2',
-          'Commerce': '3',
-          'Art': '4'
-        };
-        
         if (updateData.talent) {
           tokens[2] = talentMap[updateData.talent] || '0';
         }
@@ -363,17 +385,6 @@ const useGameDataStore = create((set, get) => ({
       
       if (updateData.skill !== undefined || updateData.skillValue !== undefined) {
         const tokens = rawRecord[2].split("|");
-        
-        // Map skill names to IDs
-        const skillMap = {
-          'None': '0',
-          'Witch': '1',
-          'Medical': '2',
-          'Fortune': '3',
-          'Divination': '4',
-          'Charm': '5',
-          'Craft': '6'
-        };
         
         if (updateData.skill) {
           tokens[6] = skillMap[updateData.skill] || '0';
@@ -393,9 +404,9 @@ const useGameDataStore = create((set, get) => ({
 
   // Get current data based on active tab
   getCurrentData: (activeTab) => {
-    const { clanMembersData, getSpousesData, getRetainersData, getResourcesData } = get();
+    const { getClanMembersData, getSpousesData, getRetainersData, getResourcesData } = get();
     switch (activeTab) {
-      case 'clanMembers': return clanMembersData;
+      case 'clanMembers': return getClanMembersData();
       case 'spouses': return getSpousesData();
       case 'retainers': return getRetainersData();
       case 'resources': return [getResourcesData()]; // Wrap in array for consistency
@@ -405,39 +416,95 @@ const useGameDataStore = create((set, get) => ({
 
   // Bulk operations
   applySkillToNone: (activeTab, selectedSkill) => {
-    const { clanMembersData, spousesData } = get();
-
-    const updateSkills = (data) => data.map(item =>
-      item.skill === 'None' ? { ...item, skill: selectedSkill } : item
-    );
+    const { gameData } = get();
+    const updatedGameData = structuredClone(gameData);
 
     if (activeTab === 'clanMembers') {
-      set({ clanMembersData: updateSkills(clanMembersData) });
+      // Update clan members data
+      for (let i = 0; i < updatedGameData.Member_now.value.length; i++) {
+        const rawRecord = updatedGameData.Member_now.value[i];
+        const tokens = rawRecord[2].split("|");
+        
+        // Check if current skill is 'None' (ID '0')
+        if (tokens[6] === '0') {
+          tokens[6] = skillMap[selectedSkill] || '0';
+          rawRecord[2] = tokens.join("|");
+          updatedGameData.Member_now.value[i] = rawRecord;
+        }
+      }
     } else if (activeTab === 'spouses') {
-      set({ spousesData: updateSkills(spousesData) });
+      // Update spouses data
+      for (let i = 0; i < updatedGameData.Member_qu.value.length; i++) {
+        const rawRecord = updatedGameData.Member_qu.value[i];
+        const tokens = rawRecord[2].split("|");
+        
+        // Check if current skill is 'None' (ID '0')
+        if (tokens[6] === '0') {
+          tokens[6] = skillMap[selectedSkill] || '0';
+          rawRecord[2] = tokens.join("|");
+          updatedGameData.Member_qu.value[i] = rawRecord;
+        }
+      }
     }
+    
+    set({ gameData: updatedGameData });
   },
 
   maxAllAttributes: (activeTab) => {
-    const { clanMembersData, spousesData, retainersData } = get();
-
-    const maxAttributes = (data) => data.map(item => {
-      const newItem = { ...item };
-      Object.keys(newItem).forEach(key => {
-        if (typeof newItem[key] === 'number' && key !== 'age') {
-          newItem[key] = 100;
-        }
-      });
-      return newItem;
-    });
+    const { gameData } = get();
+    const updatedGameData = structuredClone(gameData);
 
     if (activeTab === 'clanMembers') {
-      set({ clanMembersData: maxAttributes(clanMembersData) });
+      // Update clan members data
+      for (let i = 0; i < updatedGameData.Member_now.value.length; i++) {
+        const rawRecord = updatedGameData.Member_now.value[i];
+        
+        // Set all attributes to maximum except age (keep minimum age)
+        rawRecord[6] = rangeAttrs.literature[1].toString(); // Maximum literature
+        rawRecord[7] = rangeAttrs.martial[1].toString(); // Maximum martial
+        rawRecord[8] = rangeAttrs.commerce[1].toString(); // Maximum commerce
+        rawRecord[9] = rangeAttrs.art[1].toString(); // Maximum art
+        rawRecord[19] = rangeAttrs.strategy[1].toString(); // Maximum strategy
+        rawRecord[12] = rangeAttrs.reputation[1].toString(); // Maximum reputation
+        rawRecord[23] = rangeAttrs.luck[1].toString(); // Maximum luck
+        rawRecord[15] = rangeAttrs.charm[1].toString(); // Maximum charm
+        rawRecord[16] = rangeAttrs.health[1].toString(); // Maximum health
+        
+        // Update talent value and skill value to maximum
+        const tokens = rawRecord[2].split("|");
+        tokens[3] = rangeAttrs.talentValue[1].toString(); // Maximum talent value
+        tokens[7] = rangeAttrs.skillValue[1].toString(); // Maximum skill value
+        rawRecord[2] = tokens.join("|");
+        
+        updatedGameData.Member_now.value[i] = rawRecord;
+      }
     } else if (activeTab === 'spouses') {
-      set({ spousesData: maxAttributes(spousesData) });
-    } else if (activeTab === 'retainers') {
-      set({ retainersData: maxAttributes(retainersData) });
+      // Update spouses data
+      for (let i = 0; i < updatedGameData.Member_qu.value.length; i++) {
+        const rawRecord = updatedGameData.Member_qu.value[i];
+        
+        // Set all attributes to maximum except age (keep minimum age)
+        rawRecord[6] = rangeAttrs.literature[1].toString(); // Maximum literature
+        rawRecord[7] = rangeAttrs.martial[1].toString(); // Maximum martial
+        rawRecord[8] = rangeAttrs.commerce[1].toString(); // Maximum commerce
+        rawRecord[9] = rangeAttrs.art[1].toString(); // Maximum art
+        rawRecord[19] = rangeAttrs.strategy[1].toString(); // Maximum strategy
+        rawRecord[12] = rangeAttrs.reputation[1].toString(); // Maximum reputation
+        rawRecord[23] = rangeAttrs.luck[1].toString(); // Maximum luck
+        rawRecord[15] = rangeAttrs.charm[1].toString(); // Maximum charm
+        rawRecord[16] = rangeAttrs.health[1].toString(); // Maximum health
+        
+        // Update talent value and skill value to maximum
+        const tokens = rawRecord[2].split("|");
+        tokens[3] = rangeAttrs.talentValue[1].toString(); // Maximum talent value
+        tokens[7] = rangeAttrs.skillValue[1].toString(); // Maximum skill value
+        rawRecord[2] = tokens.join("|");
+        
+        updatedGameData.Member_qu.value[i] = rawRecord;
+      }
     }
+    
+    set({ gameData: updatedGameData });
   },
 
   maxAllResources: () => {

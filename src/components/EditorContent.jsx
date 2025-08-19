@@ -76,9 +76,12 @@ function EditorContent() {
 									onChange={(e) => setSelectedSkill(e.target.value)}
 									className="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
 								>
+									<option value="Witch">Witch</option>
 									<option value="Medical">Medical</option>
+									<option value="Fortune">Fortune</option>
+									<option value="Divination">Divination</option>
+									<option value="Charm">Charm</option>
 									<option value="Craft">Craft</option>
-									<option value="Martial">Martial</option>
 								</select>
 								<button onClick={() => applySkillToNone(activeTab, selectedSkill)} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
 							</div>
@@ -99,9 +102,12 @@ function EditorContent() {
 									onChange={(e) => setSelectedSkill(e.target.value)}
 									className="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
 								>
+									<option value="Witch">Witch</option>
 									<option value="Medical">Medical</option>
+									<option value="Fortune">Fortune</option>
+									<option value="Divination">Divination</option>
+									<option value="Charm">Charm</option>
 									<option value="Craft">Craft</option>
-									<option value="Martial">Martial</option>
 								</select>
 								<button onClick={() => applySkillToNone(activeTab, selectedSkill)} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
 							</div>
