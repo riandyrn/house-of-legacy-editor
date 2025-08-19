@@ -6,15 +6,16 @@
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<title>House of Legacy Save Editor</title>
 	<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 	<link href="https://fonts.googleapis.com" rel="preconnect" />
 	<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-		rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 	<style>
 		body {
 			font-family: 'Inter', sans-serif;
 		}
+		[x-cloak] { display: none !important; }
 	</style>
 </head>
 
@@ -25,13 +26,11 @@
 			<div class="flex justify-between items-center">
 				<h1 class="text-xl font-semibold text-gray-900">House of Legacy Save Editor</h1>
 				<div class="flex items-center space-x-3">
-					<button
-						class="flex items-center bg-gray-800 text-white px-5 py-2.5 rounded-lg shadow hover:bg-gray-900 transition-colors">
+					<button class="flex items-center bg-gray-800 text-white px-5 py-2.5 rounded-lg shadow hover:bg-gray-900 transition-colors">
 						<span class="material-icons mr-2 text-lg">save</span>
 						Save to File
 					</button>
-					<button
-						class="flex items-center bg-gray-100 text-gray-700 px-5 py-2.5 rounded-lg border border-gray-300 hover:bg-gray-200 transition-colors">
+					<button class="flex items-center bg-gray-100 text-gray-700 px-5 py-2.5 rounded-lg border border-gray-300 hover:bg-gray-200 transition-colors">
 						<span class="material-icons mr-2 text-lg">close</span>
 						Cancel
 					</button>
@@ -40,55 +39,52 @@
 		</div>
 	</header>
 	
-	<div class="container mx-auto p-4">
+	<div class="container mx-auto p-4" x-data="houseOfLegacyEditor()">
 		<main class="bg-white rounded-lg shadow-lg p-6 mt-4">
-					<div class="border-b border-gray-200 mb-4">
-			<div class="flex justify-between items-end">
-				<nav aria-label="Tabs" class="-mb-px flex space-x-8">
-					<button id="clanMembersTab"
-						class="border-gray-800 text-gray-900 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base tab-button active"
-						data-tab="clanMembers">
-						Clan Members
-					</button>
-					<button id="spousesTab"
-						class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base tab-button"
-						data-tab="spouses">
-						Spouses
-					</button>
-					<button id="retainersTab"
-						class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base tab-button"
-						data-tab="retainers">
-						Retainers
-					</button>
-					<button id="resourcesTab"
-						class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base tab-button"
-						data-tab="resources">
-						Resources
-					</button>
-				</nav>
-				<div class="flex items-center space-x-4 py-4">
-					<div class="flex items-center space-x-2" id="skillsSelector">
-						<label class="text-sm font-medium text-gray-700" for="set-skill">Set None Skills to:</label>
-						<select
-							class="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
-							id="set-skill">
-							<option>Medical</option>
-							<option>Craft</option>
-							<option>Martial</option>
-						</select>
-						<button
-							class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
+			<div class="border-b border-gray-200 mb-4">
+				<div class="flex justify-between items-end">
+					<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+						<button @click="setActiveTab('clanMembers')"
+							:class="activeTab === 'clanMembers' ? 'border-gray-800 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+							class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base">
+							Clan Members
+						</button>
+						<button @click="setActiveTab('spouses')"
+							:class="activeTab === 'spouses' ? 'border-gray-800 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+							class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base">
+							Spouses
+						</button>
+						<button @click="setActiveTab('retainers')"
+							:class="activeTab === 'retainers' ? 'border-gray-800 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+							class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base">
+							Retainers
+						</button>
+						<button @click="setActiveTab('resources')"
+							:class="activeTab === 'resources' ? 'border-gray-800 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+							class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base">
+							Resources
+						</button>
+					</nav>
+					<div class="flex items-center space-x-4 py-4">
+						<div x-show="showSkillsSelector" class="flex items-center space-x-2">
+							<label class="text-sm font-medium text-gray-700">Set None Skills to:</label>
+							<select x-model="selectedSkill" class="w-36 py-1 px-2 text-sm rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+								<option value="Medical">Medical</option>
+								<option value="Craft">Craft</option>
+								<option value="Martial">Martial</option>
+							</select>
+							<button @click="applySkillToNone" class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">Apply</button>
+						</div>
+						<div x-show="showSkillsSelector" class="text-gray-300 text-sm">|</div>
+						<button @click="maxAllAttributes" class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+							<span x-text="maxButtonText"></span>
+						</button>
 					</div>
-					<div class="text-gray-300 text-sm" id="divider">|</div>
-					<button id="maxAllButton"
-						class="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
-						<span id="maxButtonText">Max All Attributes</span>
-					</button>
 				</div>
 			</div>
-		</div>
+
 			<!-- Characters Table (Clan Members & Spouses) -->
-			<div id="charactersTable" class="overflow-x-auto">
+			<div x-show="activeTab === 'clanMembers' || activeTab === 'spouses'" class="overflow-x-auto">
 				<table class="w-full divide-y divide-gray-200">
 					<thead class="bg-gray-100">
 						<tr>
@@ -110,13 +106,35 @@
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
 						</tr>
 					</thead>
-					<tbody id="charactersTableBody" class="bg-white divide-y divide-gray-200">
+					<tbody class="bg-white divide-y divide-gray-200">
+						<template x-for="(character, index) in currentData" :key="character.name + index">
+							<tr class="hover:bg-gray-50">
+								<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900" x-text="character.name"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.age"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.literature"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.martial"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.commerce"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.art"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.strategy"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.reputation"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.luck"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.charm"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.health"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.talent"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.talentValue"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm" :class="character.skill === 'None' ? 'text-gray-500' : 'text-gray-600'" x-text="character.skill"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="character.skillValue"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+									<a href="#" @click.prevent="openCharacterModal(character, index)" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
+								</td>
+							</tr>
+						</template>
 					</tbody>
 				</table>
 			</div>
 
 			<!-- Retainers Table -->
-			<div id="retainersTable" class="overflow-x-auto" style="display: none;">
+			<div x-show="activeTab === 'retainers'" class="overflow-x-auto">
 				<table class="w-full divide-y divide-gray-200">
 					<thead class="bg-gray-100">
 						<tr>
@@ -132,13 +150,29 @@
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Actions</th>
 						</tr>
 					</thead>
-					<tbody id="retainersTableBody" class="bg-white divide-y divide-gray-200">
+					<tbody class="bg-white divide-y divide-gray-200">
+						<template x-for="(retainer, index) in currentData" :key="retainer.name + index">
+							<tr class="hover:bg-gray-50">
+								<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900" x-text="retainer.name"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="retainer.age"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="retainer.literature"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="retainer.martial"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="retainer.commerce"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="retainer.art"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="retainer.strategy"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="retainer.reputation"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="retainer.monthlySalary"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+									<a href="#" @click.prevent="openRetainerModal(retainer, index)" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
+								</td>
+							</tr>
+						</template>
 					</tbody>
 				</table>
 			</div>
 
 			<!-- Resources Table -->
-			<div id="resourcesTable" class="overflow-x-auto" style="display: none;">
+			<div x-show="activeTab === 'resources'" class="overflow-x-auto">
 				<table class="w-full divide-y divide-gray-200">
 					<thead class="bg-gray-100">
 						<tr>
@@ -150,713 +184,400 @@
 							<th class="px-3 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" scope="col">Action</th>
 						</tr>
 					</thead>
-					<tbody id="resourcesTableBody" class="bg-white divide-y divide-gray-200">
+					<tbody class="bg-white divide-y divide-gray-200">
+						<template x-for="(resource, index) in currentData" :key="index">
+							<tr class="hover:bg-gray-50">
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.money.toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.yuanbao.toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.food.toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.vegetables.toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600" x-text="resource.meat.toLocaleString()"></td>
+								<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+									<a href="#" @click.prevent="openResourceModal(resource, index)" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
+								</td>
+							</tr>
+						</template>
 					</tbody>
 				</table>
 			</div>
 		</main>
-	</div>
 
-	<!-- Modal -->
-	<div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-		<div class="flex items-center justify-center min-h-screen p-4">
-			<div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
-				<!-- Modal Header -->
-				<div class="flex justify-between items-center p-6 border-b border-gray-200">
-					<h2 id="modalTitle" class="text-xl font-semibold text-gray-900">Zilan Ma</h2>
-					<button id="closeModal" class="text-gray-400 hover:text-gray-600">
-						<span class="material-icons">close</span>
-					</button>
-				</div>
-				
-				<!-- Modal Body -->
-				<div class="p-6">
-					<div class="grid grid-cols-2 gap-6">
-						<!-- Left Column -->
-						<div class="space-y-3">
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Age</label>
-								<input type="number" id="ageInput" value="87" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Literature</label>
-								<input type="number" id="literatureInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Martial</label>
-								<input type="number" id="martialInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Commerce</label>
-								<input type="number" id="commerceInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Art</label>
-								<input type="number" id="artInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Strategy</label>
-								<input type="number" id="strategyInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Reputation</label>
-								<input type="number" id="reputationInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-						</div>
-						
-						<!-- Right Column -->
-						<div class="space-y-3">
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Luck</label>
-								<input type="number" id="luckInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Charm</label>
-								<input type="number" id="charmInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Health</label>
-								<input type="number" id="healthInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Talent</label>
-								<input type="number" id="talentInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Talent Value</label>
-								<input type="number" id="talentValueInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Skill</label>
-								<select id="skillSelect" class="w-32 px-3 py-2 border border-gray-300 rounded">
-									<option value="Medical">Medical</option>
-									<option value="Craft">Craft</option>
-									<option value="Martial">Martial</option>
-									<option value="None">None</option>
-								</select>
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Skill Value</label>
-								<input type="number" id="skillValueInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-						</div>
+		<!-- Character Modal -->
+		<div x-show="showCharacterModal" x-cloak @click.self="closeCharacterModal" @keydown.escape.window="closeCharacterModal" class="fixed inset-0 bg-black bg-opacity-50 z-50">
+			<div class="flex items-center justify-center min-h-screen p-4">
+				<div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
+					<!-- Modal Header -->
+					<div class="flex justify-between items-center p-6 border-b border-gray-200">
+						<h2 class="text-xl font-semibold text-gray-900" x-text="editingCharacter.name">Character Name</h2>
+						<button @click="closeCharacterModal" class="text-gray-400 hover:text-gray-600">
+							<span class="material-icons">close</span>
+						</button>
 					</div>
 					
-
-				</div>
-				
-				<!-- Modal Footer -->
-				<div class="flex justify-between items-center p-6 border-t border-gray-200">
-					<button id="maxAllAttributes" class="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-900">
-						Max All Attributes
-					</button>
-					<button id="applyChanges" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
-						Apply
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Resources Modal -->
-	<div id="resourcesModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-		<div class="flex items-center justify-center min-h-screen p-4">
-			<div class="bg-white rounded-lg shadow-xl w-full max-w-md">
-				<!-- Modal Header -->
-				<div class="flex justify-between items-center p-6 border-b border-gray-200">
-					<h2 class="text-xl font-semibold text-gray-900">Resources</h2>
-					<button id="closeResourcesModal" class="text-gray-400 hover:text-gray-600">
-						<span class="material-icons">close</span>
-					</button>
-				</div>
-				
-				<!-- Modal Body -->
-				<div class="p-6">
-					<div class="space-y-4">
-						<div class="flex justify-between items-center">
-							<label class="text-sm text-gray-700">Money</label>
-							<input type="number" id="resourcesMoneyInput" value="278398881" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
-						</div>
-						<div class="flex justify-between items-center">
-							<label class="text-sm text-gray-700">Yuanbao</label>
-							<input type="number" id="resourcesYuanbaoInput" value="3400966" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
-						</div>
-						<div class="flex justify-between items-center">
-							<label class="text-sm text-gray-700">Food</label>
-							<input type="number" id="resourcesFoodInput" value="93919765" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
-						</div>
-						<div class="flex justify-between items-center">
-							<label class="text-sm text-gray-700">Vegetables</label>
-							<input type="number" id="resourcesVegetablesInput" value="85704326" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
-						</div>
-						<div class="flex justify-between items-center">
-							<label class="text-sm text-gray-700">Meat</label>
-							<input type="number" id="resourcesMeatInput" value="84626507" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
-						</div>
-					</div>
-				</div>
-				
-				<!-- Modal Footer -->
-				<div class="flex justify-end items-center p-6 border-t border-gray-200">
-					<button id="applyResourcesChanges" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
-						Apply
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Retainers Modal -->
-	<div id="retainersModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-		<div class="flex items-center justify-center min-h-screen p-4">
-			<div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-				<!-- Modal Header -->
-				<div class="flex justify-between items-center p-6 border-b border-gray-200">
-					<h2 id="retainersModalTitle" class="text-xl font-semibold text-gray-900">Retainer Name</h2>
-					<button id="closeRetainersModal" class="text-gray-400 hover:text-gray-600">
-						<span class="material-icons">close</span>
-					</button>
-				</div>
-				
-				<!-- Modal Body -->
-				<div class="p-6">
-					<div class="grid grid-cols-2 gap-6">
-						<!-- Left Column -->
-						<div class="space-y-3">
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Age</label>
-								<input type="number" id="retainersAgeInput" value="35" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+					<!-- Modal Body -->
+					<div class="p-6">
+						<div class="grid grid-cols-2 gap-6">
+							<div class="space-y-3">
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Age</label>
+									<input type="number" x-model="editingCharacter.age" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Literature</label>
+									<input type="number" x-model="editingCharacter.literature" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Martial</label>
+									<input type="number" x-model="editingCharacter.martial" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Commerce</label>
+									<input type="number" x-model="editingCharacter.commerce" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Art</label>
+									<input type="number" x-model="editingCharacter.art" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Strategy</label>
+									<input type="number" x-model="editingCharacter.strategy" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Reputation</label>
+									<input type="number" x-model="editingCharacter.reputation" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Luck</label>
+									<input type="number" x-model="editingCharacter.luck" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
 							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Literature</label>
-								<input type="number" id="retainersLiteratureInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Martial</label>
-								<input type="number" id="retainersMartialInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Commerce</label>
-								<input type="number" id="retainersCommerceInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-						</div>
-						
-						<!-- Right Column -->
-						<div class="space-y-3">
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Art</label>
-								<input type="number" id="retainersArtInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Strategy</label>
-								<input type="number" id="retainersStrategyInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Reputation</label>
-								<input type="number" id="retainersReputationInput" value="100" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
-							</div>
-							<div class="flex justify-between items-center">
-								<label class="text-sm text-gray-700">Monthly Salary</label>
-								<input type="number" id="retainersMonthlySalaryInput" value="0" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+							<div class="space-y-3">
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Charm</label>
+									<input type="number" x-model="editingCharacter.charm" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Health</label>
+									<input type="number" x-model="editingCharacter.health" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Talent Value</label>
+									<input type="number" x-model="editingCharacter.talentValue" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Skill</label>
+									<select x-model="editingCharacter.skill" class="w-24 px-2 py-2 border border-gray-300 rounded text-center text-xs">
+										<option value="None">None</option>
+										<option value="Medical">Medical</option>
+										<option value="Craft">Craft</option>
+										<option value="Martial">Martial</option>
+									</select>
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Skill Value</label>
+									<input type="number" x-model="editingCharacter.skillValue" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
 							</div>
 						</div>
 					</div>
+
+					<!-- Modal Footer -->
+					<div class="flex justify-between items-center p-6 border-t border-gray-200">
+						<button @click="maxCharacterAttributes" class="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-900">
+							Max All Attributes
+						</button>
+						<button @click="saveCharacter" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
+							Apply
+						</button>
+					</div>
 				</div>
-				
-				<!-- Modal Footer -->
-				<div class="flex justify-between items-center p-6 border-t border-gray-200">
-					<button id="maxAllRetainersAttributes" class="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-900">
-						Max All Attributes
-					</button>
-					<button id="applyRetainersChanges" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
-						Apply
-					</button>
+			</div>
+		</div>
+
+		<!-- Retainer Modal -->
+		<div x-show="showRetainerModal" x-cloak @click.self="closeRetainerModal" @keydown.escape.window="closeRetainerModal" class="fixed inset-0 bg-black bg-opacity-50 z-50">
+			<div class="flex items-center justify-center min-h-screen p-4">
+				<div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+					<!-- Modal Header -->
+					<div class="flex justify-between items-center p-6 border-b border-gray-200">
+						<h2 class="text-xl font-semibold text-gray-900" x-text="editingRetainer.name">Retainer Name</h2>
+						<button @click="closeRetainerModal" class="text-gray-400 hover:text-gray-600">
+							<span class="material-icons">close</span>
+						</button>
+					</div>
+
+					<!-- Modal Body -->
+					<div class="p-6">
+						<div class="grid grid-cols-2 gap-6">
+							<div class="space-y-3">
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Age</label>
+									<input type="number" x-model="editingRetainer.age" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Literature</label>
+									<input type="number" x-model="editingRetainer.literature" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Martial</label>
+									<input type="number" x-model="editingRetainer.martial" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Commerce</label>
+									<input type="number" x-model="editingRetainer.commerce" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+							</div>
+							<div class="space-y-3">
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Art</label>
+									<input type="number" x-model="editingRetainer.art" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Strategy</label>
+									<input type="number" x-model="editingRetainer.strategy" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Reputation</label>
+									<input type="number" x-model="editingRetainer.reputation" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+								<div class="flex justify-between items-center">
+									<label class="text-sm text-gray-700">Monthly Salary</label>
+									<input type="number" x-model="editingRetainer.monthlySalary" class="w-24 px-3 py-2 border border-gray-300 rounded text-center">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="flex justify-between items-center p-6 border-t border-gray-200">
+						<button @click="maxRetainerAttributes" class="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-900">
+							Max All Attributes
+						</button>
+						<button @click="saveRetainer" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
+							Apply
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Resource Modal -->
+		<div x-show="showResourceModal" x-cloak @click.self="closeResourceModal" @keydown.escape.window="closeResourceModal" class="fixed inset-0 bg-black bg-opacity-50 z-50">
+			<div class="flex items-center justify-center min-h-screen p-4">
+				<div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+					<!-- Modal Header -->
+					<div class="flex justify-between items-center p-6 border-b border-gray-200">
+						<h2 class="text-xl font-semibold text-gray-900">Resources</h2>
+						<button @click="closeResourceModal" class="text-gray-400 hover:text-gray-600">
+							<span class="material-icons">close</span>
+						</button>
+					</div>
+
+					<!-- Modal Body -->
+					<div class="p-6">
+						<div class="space-y-4">
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Money</label>
+								<input type="number" x-model="editingResource.money" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Yuanbao</label>
+								<input type="number" x-model="editingResource.yuanbao" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Food</label>
+								<input type="number" x-model="editingResource.food" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Vegetables</label>
+								<input type="number" x-model="editingResource.vegetables" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+							<div class="flex justify-between items-center">
+								<label class="text-sm text-gray-700">Meat</label>
+								<input type="number" x-model="editingResource.meat" class="w-32 px-3 py-2 border border-gray-300 rounded text-center">
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="flex justify-end items-center p-6 border-t border-gray-200">
+						<button @click="saveResource" class="bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900">
+							Apply
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		// Data sets for different tabs
-		const clanMembersData = [
-			{ name: "Zilan Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
-			{ name: "Yier Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "None", skillValue: 100 },
-			{ name: "Boxun Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "None", skillValue: 100 },
-			{ name: "Zhuyan Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
-			{ name: "Yuanguang Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
-			{ name: "Lugeng Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
-			{ name: "Wangtao Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Craft", skillValue: 100 },
-			{ name: "Xinying Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
-			{ name: "Mingyan Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "None", skillValue: 100 },
-			{ name: "Yushou Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
-			{ name: "Xizhi Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
-			{ name: "Chengxiang Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 }
-		];
-
-		const spousesData = [
-			{ name: "Lady Chen", age: 45, literature: 95, martial: 15, commerce: 85, art: 90, strategy: 70, reputation: 88, luck: 75, charm: 95, health: 92, talent: "Commerce", talentValue: 88, skill: "Medical", skillValue: 85 },
-			{ name: "Madam Liu", age: 38, literature: 88, martial: 20, commerce: 78, art: 85, strategy: 65, reputation: 82, luck: 70, charm: 90, health: 85, talent: "Art", talentValue: 85, skill: "None", skillValue: 0 },
-			{ name: "Lady Wang", age: 42, literature: 92, martial: 18, commerce: 80, art: 88, strategy: 68, reputation: 85, luck: 72, charm: 88, health: 90, talent: "Literature", talentValue: 92, skill: "Craft", skillValue: 78 },
-			{ name: "Madam Zhang", age: 35, literature: 85, martial: 22, commerce: 75, art: 82, strategy: 62, reputation: 80, luck: 68, charm: 85, health: 88, talent: "Charm", talentValue: 85, skill: "Medical", skillValue: 80 },
-			{ name: "Lady Li", age: 40, literature: 90, martial: 16, commerce: 83, art: 87, strategy: 66, reputation: 84, luck: 74, charm: 92, health: 86, talent: "Commerce", talentValue: 83, skill: "None", skillValue: 0 }
-		];
-
-		const retainersData = [
-			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 },
-			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 },
-			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 },
-			{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 }
-		];
-
-		const resourcesData = [
-			{ money: 278398881, yuanbao: 3400966, food: 93919765, vegetables: 85704326, meat: 84626507 }
-		];
-
-		let currentTabData = clanMembersData;
-
-		// Tab functionality
-		document.addEventListener('DOMContentLoaded', function() {
-			const tabButtons = document.querySelectorAll('.tab-button');
-			
-			tabButtons.forEach(button => {
-				button.addEventListener('click', function() {
-					const tabName = this.getAttribute('data-tab');
-					switchTab(tabName, this);
-				});
-			});
-
-			// Initialize the page with the correct table for the active tab
-			const activeTab = document.querySelector('.tab-button.active');
-			if (activeTab) {
-				const tabName = activeTab.getAttribute('data-tab');
-				showTable(tabName);
-				renderTableData(tabName);
+		function houseOfLegacyEditor() {
+			return {
+				// State
+				activeTab: 'clanMembers',
+				selectedSkill: 'Medical',
 				
-				// Initialize skills selector visibility
-				const skillsSelector = document.getElementById('skillsSelector');
-				const divider = document.getElementById('divider');
-				const maxButtonText = document.getElementById('maxButtonText');
+				// Modal state
+				showCharacterModal: false,
+				showRetainerModal: false,
+				showResourceModal: false,
 				
-				if (tabName === 'retainers' || tabName === 'resources') {
-					skillsSelector.style.display = 'none';
-					divider.style.display = 'none';
-				} else {
-					skillsSelector.style.display = 'flex';
-					divider.style.display = 'block';
-				}
+				// Editing state
+				editingCharacter: {},
+				editingRetainer: {},
+				editingResource: {},
+				editingIndex: -1,
 				
-				// Initialize button text based on tab
-				if (tabName === 'resources') {
-					maxButtonText.textContent = 'Max All Resources';
-				} else {
-					maxButtonText.textContent = 'Max All Attributes';
-				}
-			}
-		});
-
-		function switchTab(tabName, clickedButton) {
-			// Update tab appearance
-			document.querySelectorAll('.tab-button').forEach(btn => {
-				btn.classList.remove('border-gray-800', 'text-gray-900', 'active');
-				btn.classList.add('border-transparent', 'text-gray-500');
-			});
-			
-			clickedButton.classList.remove('border-transparent', 'text-gray-500');
-			clickedButton.classList.add('border-gray-800', 'text-gray-900', 'active');
-
-			// Switch data based on tab
-			switch(tabName) {
-				case 'clanMembers':
-					currentTabData = clanMembersData;
-					break;
-				case 'spouses':
-					currentTabData = spousesData;
-					break;
-				case 'retainers':
-					currentTabData = retainersData;
-					break;
-				case 'resources':
-					currentTabData = resourcesData;
-					break;
-			}
-
-			// Show/hide skills selector and divider based on tab
-			const skillsSelector = document.getElementById('skillsSelector');
-			const divider = document.getElementById('divider');
-			const maxButtonText = document.getElementById('maxButtonText');
-			
-			if (tabName === 'retainers' || tabName === 'resources') {
-				skillsSelector.style.display = 'none';
-				divider.style.display = 'none';
-			} else {
-				skillsSelector.style.display = 'flex';
-				divider.style.display = 'block';
-			}
-			
-			// Update button text based on tab
-			if (tabName === 'resources') {
-				maxButtonText.textContent = 'Max All Resources';
-			} else {
-				maxButtonText.textContent = 'Max All Attributes';
-			}
-
-			// Show/hide appropriate tables and render data
-			showTable(tabName);
-			renderTableData(tabName);
-		}
-
-		function showTable(tabName) {
-			// Hide all tables
-			document.getElementById('charactersTable').style.display = 'none';
-			document.getElementById('retainersTable').style.display = 'none';
-			document.getElementById('resourcesTable').style.display = 'none';
-			
-			// Show the appropriate table
-			if (tabName === 'retainers') {
-				document.getElementById('retainersTable').style.display = 'block';
-			} else if (tabName === 'resources') {
-				document.getElementById('resourcesTable').style.display = 'block';
-			} else {
-				// Show characters table for clan members and spouses
-				document.getElementById('charactersTable').style.display = 'block';
-			}
-		}
-
-		function renderTableData(tabName) {
-			let tbody;
-			
-			// Get the correct table body based on tab
-			if (tabName === 'retainers') {
-				tbody = document.getElementById('retainersTableBody');
-			} else if (tabName === 'resources') {
-				tbody = document.getElementById('resourcesTableBody');
-			} else {
-				tbody = document.getElementById('charactersTableBody');
-			}
-			
-			tbody.innerHTML = '';
-
-			currentTabData.forEach(item => {
-				const row = document.createElement('tr');
-				row.className = 'hover:bg-gray-50';
+				// Data
+				clanMembersData: [
+					{ name: "Zilan Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "Medical", skillValue: 100 },
+					{ name: "Yier Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "None", skillValue: 100 },
+					{ name: "Boxun Ma", age: 87, literature: 100, martial: 83.5, commerce: 100, art: 100, strategy: 100, reputation: 100, luck: 100, charm: 83, health: 100, talent: "Martial", talentValue: 100, skill: "None", skillValue: 100 }
+				],
 				
-				if (tabName === 'retainers') {
-					row.innerHTML = `
-						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.name}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.age}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.literature}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.martial}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.commerce}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.art}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.strategy}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.reputation}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.monthlySalary}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-							<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-						</td>
-					`;
-				} else if (tabName === 'resources') {
-					row.innerHTML = `
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.money.toLocaleString()}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.yuanbao.toLocaleString()}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.food.toLocaleString()}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.vegetables.toLocaleString()}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.meat.toLocaleString()}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-							<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-						</td>
-					`;
-				} else {
-					const skillClass = item.skill === 'None' ? 'text-gray-500' : 'text-gray-600';
-					
-					row.innerHTML = `
-						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.name}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.age}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.literature}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.martial}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.commerce}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.art}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.strategy}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.reputation}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.luck}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.charm}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.health}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.talent}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.talentValue}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm ${skillClass}">${item.skill}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm text-gray-600">${item.skillValue}</td>
-						<td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
-							<a href="#" class="text-gray-800 hover:text-gray-900 underline hover:no-underline cursor-pointer">Edit</a>
-						</td>
-					`;
-				}
+				spousesData: [
+					{ name: "Lady Chen", age: 45, literature: 95, martial: 15, commerce: 85, art: 90, strategy: 70, reputation: 88, luck: 75, charm: 95, health: 92, talent: "Commerce", talentValue: 88, skill: "Medical", skillValue: 85 },
+					{ name: "Madam Liu", age: 38, literature: 88, martial: 20, commerce: 78, art: 85, strategy: 65, reputation: 82, luck: 70, charm: 90, health: 85, talent: "Art", talentValue: 85, skill: "None", skillValue: 0 }
+				],
 				
-				tbody.appendChild(row);
-			});
-		}
-
-		// Modal functionality
-		const modal = document.getElementById('editModal');
-		const closeModalBtn = document.getElementById('closeModal');
-		const applyBtn = document.getElementById('applyChanges');
-		const maxAllBtn = document.getElementById('maxAllAttributes');
-		let currentEditingRow = null;
-
-		// Resources Modal functionality
-		const resourcesModal = document.getElementById('resourcesModal');
-		const closeResourcesModalBtn = document.getElementById('closeResourcesModal');
-		const applyResourcesBtn = document.getElementById('applyResourcesChanges');
-		let currentEditingResourcesRow = null;
-
-		// Retainers Modal functionality
-		const retainersModal = document.getElementById('retainersModal');
-		const closeRetainersModalBtn = document.getElementById('closeRetainersModal');
-		const applyRetainersBtn = document.getElementById('applyRetainersChanges');
-		const maxAllRetainersBtn = document.getElementById('maxAllRetainersAttributes');
-		let currentEditingRetainersRow = null;
-
-		// Open modal when Edit link is clicked
-		document.addEventListener('click', function(e) {
-			if (e.target.textContent === 'Edit' && e.target.tagName === 'A') {
-				e.preventDefault();
-				const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
-				const row = e.target.closest('tr');
+				retainersData: [
+					{ name: "Jieci Qiang", age: 35, literature: 100, martial: 100, commerce: 100, art: 100, strategy: 100, reputation: 100, monthlySalary: 0 },
+					{ name: "Retainer Two", age: 28, literature: 90, martial: 95, commerce: 85, art: 80, strategy: 88, reputation: 92, monthlySalary: 50 }
+				],
 				
-				if (activeTab === 'resources') {
-					currentEditingResourcesRow = row;
-					openResourcesModal(row);
-				} else if (activeTab === 'retainers') {
-					currentEditingRetainersRow = row;
-					openRetainersModal(row);
-				} else {
-					currentEditingRow = row;
-					openModal(row);
+				resourcesData: [
+					{ money: 278398881, yuanbao: 3400966, food: 93919765, vegetables: 85704326, meat: 84626507 }
+				],
+				
+				// Computed properties
+				get currentData() {
+					switch(this.activeTab) {
+						case 'clanMembers': return this.clanMembersData;
+						case 'spouses': return this.spousesData;
+						case 'retainers': return this.retainersData;
+						case 'resources': return this.resourcesData;
+						default: return [];
+					}
+				},
+				
+				get showSkillsSelector() {
+					return this.activeTab === 'clanMembers' || this.activeTab === 'spouses';
+				},
+				
+				get maxButtonText() {
+					return this.activeTab === 'resources' ? 'Max All Resources' : 'Max All Attributes';
+				},
+				
+				// Methods
+				setActiveTab(tab) {
+					this.activeTab = tab;
+				},
+				
+				applySkillToNone() {
+					this.currentData.forEach(item => {
+						if (item.skill === 'None') {
+							item.skill = this.selectedSkill;
+						}
+					});
+				},
+				
+				maxAllAttributes() {
+					if (this.activeTab === 'resources') {
+						// Max resources - set to high values
+						this.currentData.forEach(item => {
+							item.money = 999999999;
+							item.yuanbao = 999999999;
+							item.food = 999999999;
+							item.vegetables = 999999999;
+							item.meat = 999999999;
+						});
+					} else {
+						// Max all numeric attributes except age
+						this.currentData.forEach(item => {
+							Object.keys(item).forEach(key => {
+								if (typeof item[key] === 'number' && key !== 'age') {
+									item[key] = 100;
+								}
+							});
+						});
+					}
+				},
+				
+				// Modal methods
+				openCharacterModal(character, index) {
+					this.editingCharacter = { ...character };
+					this.editingIndex = index;
+					this.showCharacterModal = true;
+				},
+				
+				closeCharacterModal() {
+					this.showCharacterModal = false;
+					this.editingCharacter = {};
+					this.editingIndex = -1;
+				},
+				
+				saveCharacter() {
+					if (this.editingIndex >= 0) {
+						this.currentData[this.editingIndex] = { ...this.editingCharacter };
+					}
+					this.closeCharacterModal();
+				},
+				
+				openRetainerModal(retainer, index) {
+					this.editingRetainer = { ...retainer };
+					this.editingIndex = index;
+					this.showRetainerModal = true;
+				},
+				
+				closeRetainerModal() {
+					this.showRetainerModal = false;
+					this.editingRetainer = {};
+					this.editingIndex = -1;
+				},
+				
+				saveRetainer() {
+					if (this.editingIndex >= 0) {
+						this.retainersData[this.editingIndex] = { ...this.editingRetainer };
+					}
+					this.closeRetainerModal();
+				},
+				
+				openResourceModal(resource, index) {
+					this.editingResource = { ...resource };
+					this.editingIndex = index;
+					this.showResourceModal = true;
+				},
+				
+				closeResourceModal() {
+					this.showResourceModal = false;
+					this.editingResource = {};
+					this.editingIndex = -1;
+				},
+				
+				saveResource() {
+					if (this.editingIndex >= 0) {
+						this.resourcesData[this.editingIndex] = { ...this.editingResource };
+					}
+					this.closeResourceModal();
+				},
+				
+				maxCharacterAttributes() {
+					Object.keys(this.editingCharacter).forEach(key => {
+						if (typeof this.editingCharacter[key] === 'number' && key !== 'age') {
+							this.editingCharacter[key] = 100;
+						}
+					});
+				},
+				
+				maxRetainerAttributes() {
+					Object.keys(this.editingRetainer).forEach(key => {
+						if (typeof this.editingRetainer[key] === 'number' && key !== 'age') {
+							this.editingRetainer[key] = 100;
+						}
+					});
 				}
 			}
-		});
-
-		// Close modal when X is clicked or when clicking outside
-		closeModalBtn.addEventListener('click', closeModal);
-		modal.addEventListener('click', function(e) {
-			if (e.target === modal) {
-				closeModal();
-			}
-		});
-
-		// Apply button functionality
-		applyBtn.addEventListener('click', function() {
-			if (currentEditingRow) {
-				updateRowData(currentEditingRow);
-				closeModal();
-			}
-		});
-
-		// Resources Modal event handlers
-		closeResourcesModalBtn.addEventListener('click', closeResourcesModal);
-		resourcesModal.addEventListener('click', function(e) {
-			if (e.target === resourcesModal) {
-				closeResourcesModal();
-			}
-		});
-
-		applyResourcesBtn.addEventListener('click', function() {
-			if (currentEditingResourcesRow) {
-				updateResourcesRowData(currentEditingResourcesRow);
-				closeResourcesModal();
-			}
-		});
-
-		// Retainers Modal event handlers
-		closeRetainersModalBtn.addEventListener('click', closeRetainersModal);
-		retainersModal.addEventListener('click', function(e) {
-			if (e.target === retainersModal) {
-				closeRetainersModal();
-			}
-		});
-
-		applyRetainersBtn.addEventListener('click', function() {
-			if (currentEditingRetainersRow) {
-				updateRetainersRowData(currentEditingRetainersRow);
-				closeRetainersModal();
-			}
-		});
-
-		maxAllRetainersBtn.addEventListener('click', function() {
-			const inputs = retainersModal.querySelectorAll('input[type="number"]');
-			inputs.forEach(input => {
-				if (input.id !== 'retainersAgeInput') { // Don't max out age
-					input.value = '100';
-				}
-			});
-		});
-
-		// Max All Attributes button
-		maxAllBtn.addEventListener('click', function() {
-			const inputs = modal.querySelectorAll('input[type="number"]');
-			inputs.forEach(input => {
-				if (input.id !== 'ageInput') { // Don't max out age
-					input.value = '100';
-				}
-			});
-		});
-
-		function openModal(row) {
-			const cells = row.querySelectorAll('td');
-			const name = cells[0].textContent;
-			
-			// Set modal title
-			document.getElementById('modalTitle').textContent = name;
-			
-			// Populate form fields with current row data for clan members and spouses
-			document.getElementById('ageInput').value = cells[1].textContent;
-			document.getElementById('literatureInput').value = cells[2].textContent;
-			document.getElementById('martialInput').value = cells[3].textContent;
-			document.getElementById('commerceInput').value = cells[4].textContent;
-			document.getElementById('artInput').value = cells[5].textContent;
-			document.getElementById('strategyInput').value = cells[6].textContent;
-			document.getElementById('reputationInput').value = cells[7].textContent;
-			document.getElementById('luckInput').value = cells[8].textContent;
-			document.getElementById('charmInput').value = cells[9].textContent;
-			document.getElementById('healthInput').value = cells[10].textContent;
-			// Skip talent (cells[11]) as it's text
-			document.getElementById('talentValueInput').value = cells[12].textContent;
-			document.getElementById('skillSelect').value = cells[13].textContent;
-			document.getElementById('skillValueInput').value = cells[14].textContent;
-			
-			// Show modal
-			modal.classList.remove('hidden');
 		}
-
-		function closeModal() {
-			modal.classList.add('hidden');
-			currentEditingRow = null;
-		}
-
-		function openResourcesModal(row) {
-			const cells = row.querySelectorAll('td');
-			
-			// Populate resources form fields with current row data
-			document.getElementById('resourcesMoneyInput').value = cells[0].textContent.replace(/,/g, '');
-			document.getElementById('resourcesYuanbaoInput').value = cells[1].textContent.replace(/,/g, '');
-			document.getElementById('resourcesFoodInput').value = cells[2].textContent.replace(/,/g, '');
-			document.getElementById('resourcesVegetablesInput').value = cells[3].textContent.replace(/,/g, '');
-			document.getElementById('resourcesMeatInput').value = cells[4].textContent.replace(/,/g, '');
-			
-			// Show resources modal
-			resourcesModal.classList.remove('hidden');
-		}
-
-		function closeResourcesModal() {
-			resourcesModal.classList.add('hidden');
-			currentEditingResourcesRow = null;
-		}
-
-		function updateResourcesRowData(row) {
-			const cells = row.querySelectorAll('td');
-			
-			// Get values from resources form
-			const money = parseInt(document.getElementById('resourcesMoneyInput').value);
-			const yuanbao = parseInt(document.getElementById('resourcesYuanbaoInput').value);
-			const food = parseInt(document.getElementById('resourcesFoodInput').value);
-			const vegetables = parseInt(document.getElementById('resourcesVegetablesInput').value);
-			const meat = parseInt(document.getElementById('resourcesMeatInput').value);
-			
-			// Update table cells with formatted values
-			cells[0].textContent = money.toLocaleString();
-			cells[1].textContent = yuanbao.toLocaleString();
-			cells[2].textContent = food.toLocaleString();
-			cells[3].textContent = vegetables.toLocaleString();
-			cells[4].textContent = meat.toLocaleString();
-			
-			// Update the data source as well
-			currentTabData[0].money = money;
-			currentTabData[0].yuanbao = yuanbao;
-			currentTabData[0].food = food;
-			currentTabData[0].vegetables = vegetables;
-			currentTabData[0].meat = meat;
-		}
-
-		function openRetainersModal(row) {
-			const cells = row.querySelectorAll('td');
-			const name = cells[0].textContent;
-			
-			// Set modal title
-			document.getElementById('retainersModalTitle').textContent = name;
-			
-			// Populate retainers form fields with current row data
-			document.getElementById('retainersAgeInput').value = cells[1].textContent;
-			document.getElementById('retainersLiteratureInput').value = cells[2].textContent;
-			document.getElementById('retainersMartialInput').value = cells[3].textContent;
-			document.getElementById('retainersCommerceInput').value = cells[4].textContent;
-			document.getElementById('retainersArtInput').value = cells[5].textContent;
-			document.getElementById('retainersStrategyInput').value = cells[6].textContent;
-			document.getElementById('retainersReputationInput').value = cells[7].textContent;
-			document.getElementById('retainersMonthlySalaryInput').value = cells[8].textContent;
-			
-			// Show retainers modal
-			retainersModal.classList.remove('hidden');
-		}
-
-		function closeRetainersModal() {
-			retainersModal.classList.add('hidden');
-			currentEditingRetainersRow = null;
-		}
-
-		function updateRetainersRowData(row) {
-			const cells = row.querySelectorAll('td');
-			
-			// Update table cells with new values
-			cells[1].textContent = document.getElementById('retainersAgeInput').value;
-			cells[2].textContent = document.getElementById('retainersLiteratureInput').value;
-			cells[3].textContent = document.getElementById('retainersMartialInput').value;
-			cells[4].textContent = document.getElementById('retainersCommerceInput').value;
-			cells[5].textContent = document.getElementById('retainersArtInput').value;
-			cells[6].textContent = document.getElementById('retainersStrategyInput').value;
-			cells[7].textContent = document.getElementById('retainersReputationInput').value;
-			cells[8].textContent = document.getElementById('retainersMonthlySalaryInput').value;
-		}
-
-
-
-		function updateRowData(row) {
-			const cells = row.querySelectorAll('td');
-			
-			// Update row with new values for clan members and spouses
-			cells[1].textContent = document.getElementById('ageInput').value;
-			cells[2].textContent = document.getElementById('literatureInput').value;
-			cells[3].textContent = document.getElementById('martialInput').value;
-			cells[4].textContent = document.getElementById('commerceInput').value;
-			cells[5].textContent = document.getElementById('artInput').value;
-			cells[6].textContent = document.getElementById('strategyInput').value;
-			cells[7].textContent = document.getElementById('reputationInput').value;
-			cells[8].textContent = document.getElementById('luckInput').value;
-			cells[9].textContent = document.getElementById('charmInput').value;
-			cells[10].textContent = document.getElementById('healthInput').value;
-			cells[12].textContent = document.getElementById('talentValueInput').value;
-			cells[13].textContent = document.getElementById('skillSelect').value;
-			cells[14].textContent = document.getElementById('skillValueInput').value;
-			
-			// Update skill color based on selection
-			const skillCell = cells[13];
-			if (document.getElementById('skillSelect').value === 'None') {
-				skillCell.className = skillCell.className.replace('text-gray-600', 'text-gray-500');
-			} else {
-				skillCell.className = skillCell.className.replace('text-gray-500', 'text-gray-600');
-			}
-		}
-
-		// Close modal with Escape key
-		document.addEventListener('keydown', function(e) {
-			if (e.key === 'Escape') {
-				if (!modal.classList.contains('hidden')) {
-					closeModal();
-				} else if (!resourcesModal.classList.contains('hidden')) {
-					closeResourcesModal();
-				} else if (!retainersModal.classList.contains('hidden')) {
-					closeRetainersModal();
-				}
-			}
-		});
 	</script>
 </body>
 
