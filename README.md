@@ -9,9 +9,13 @@ A modern web-based save editor for [House of Legacy](https://store.steampowered.
 
 ## 🌐 Quick Start
 
-**[✨ Try the Editor Online →](https://riandyrn.github.io/house-of-legacy-editor/)**
+**[✨ Try the Editor Online](https://riandyrn.github.io/house-of-legacy-editor/)**
 
-*No installation required - runs entirely in your browser with secure client-side processing*
+*No installation required - runs entirely in your browser with secure client-side processing!*
+
+**[📖 How to Use - Video Tutorial](https://youtu.be/QZVOL1Z5jPo)**
+
+*Step by step on how to use the save editor. We will use it to set maximum amount of money and yuanbao.*
 
 ## ✨ Features
 
@@ -66,6 +70,8 @@ npm run build
 2. **Edit Values** - Modify the attributes, resources, or character stats as desired
 3. **Download** - Save the modified file back to your game directory
 4. **Play** - Launch House of Legacy and enjoy your customized gameplay
+
+**[📖 How to Use - Video Tutorial](https://youtu.be/QZVOL1Z5jPo)**
 
 ## 🛠️ Tech Stack
 
