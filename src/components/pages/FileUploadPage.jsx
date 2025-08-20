@@ -102,7 +102,7 @@ function FileUploadPage({ fileInputRef }) {
 							<div className="space-y-1">
 								<p className="text-sm font-medium text-gray-900">Choose a file</p>
 								<p className="text-xs text-gray-500">or drag and drop</p>
-								<p className="text-xs text-gray-400">ES3 files only</p>
+								<p className="text-xs text-gray-400">*.es3 files only</p>
 							</div>
 						</div>
 					</div>
