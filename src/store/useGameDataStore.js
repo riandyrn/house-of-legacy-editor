@@ -68,6 +68,15 @@ const useGameDataStore = create((set, get) => ({
   parseES3Data: (fileContent, originalFilename) => {
     const gameData = JSON.parse(fileContent); // Let JSON.parse throw on error
 
+    // validate money & yuanbao
+    if (!gameData.CGNum || !gameData.CGNum.value || !Array.isArray(gameData.CGNum.value)) {
+      throw new Error("money & yuanbao not found");
+    }
+    // validate props
+    if (!gameData.Prop_have || !gameData.Prop_have.value || !Array.isArray(gameData.Prop_have.value)) {
+      throw new Error("props not found")
+    }
+
     // find index storage for food, vegetables, meat
     const props = gameData.Prop_have.value;
     let idxFood, idxVegetables, idxMeat;
@@ -84,6 +93,24 @@ const useGameDataStore = create((set, get) => ({
           idxMeat = i;
           break
       }
+    }
+
+    // hande if food record is not found, we will just create it
+    if(!idxFood) {
+      gameData.Prop_have.value.push(["2", "0"]);
+      idxFood = gameData.Prop_have.value.length - 1;
+    }
+
+    // handle if vegetable record is not found, we will just create it
+    if (!idxVegetables) {
+      gameData.Prop_have.value.push(["3", "0"]);
+      idxVegetables = gameData.Prop_have.value.length - 1;
+    }
+
+    // handle if meat record is not found, we will just create it
+    if (!idxMeat) {
+      gameData.Prop_have.value.push(["4", "0"]);
+      idxMeat = gameData.Prop_have.value.length - 1;
     }
 
     // Store the entire game data and filename
