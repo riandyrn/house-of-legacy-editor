@@ -2,7 +2,7 @@ import { rangeAttrs } from '../constants/gameConstants';
 
 class RetainerUtils {
   constructor(gameData) {
-    this.gameData = gameData;
+    this.gameData = structuredClone(gameData);
   }
 
   // Pure function to create retainer object from raw data
@@ -39,9 +39,7 @@ class RetainerUtils {
 
   // Update single retainer
   setRetainer(retainerIdx, { age, literature, martial, commerce, art, strategy, reputation, monthlySalary }) {
-    const updatedGameData = structuredClone(this.gameData);
-
-    const rawRecord = updatedGameData.MenKe_Now.value[retainerIdx];
+    const rawRecord = this.gameData.MenKe_Now.value[retainerIdx];
     rawRecord[3] = age.toString();
     rawRecord[4] = literature.toString();
     rawRecord[5] = martial.toString();
@@ -51,16 +49,14 @@ class RetainerUtils {
     rawRecord[11] = reputation.toString();
     rawRecord[18] = monthlySalary.toString();
 
-    updatedGameData.MenKe_Now.value[retainerIdx] = rawRecord;
-    return updatedGameData;
+    this.gameData.MenKe_Now.value[retainerIdx] = rawRecord;
+    return this.gameData;
   }
 
   // Set all retainers to best attributes
   allRetainersBestAttributes() {
-    const updatedGameData = structuredClone(this.gameData);
-
-    for (let i = 0; i < updatedGameData.MenKe_Now.value.length; i++) {
-      const rawRecord = updatedGameData.MenKe_Now.value[i];
+    for (let i = 0; i < this.gameData.MenKe_Now.value.length; i++) {
+      const rawRecord = this.gameData.MenKe_Now.value[i];
       rawRecord[3] = rangeAttrs.age[0].toString(); // Minimum age (youngest)
       rawRecord[4] = rangeAttrs.literature[1].toString(); // Maximum literature
       rawRecord[5] = rangeAttrs.martial[1].toString(); // Maximum martial
@@ -70,10 +66,10 @@ class RetainerUtils {
       rawRecord[11] = rangeAttrs.reputation[1].toString(); // Maximum reputation
       rawRecord[18] = rangeAttrs.monthlySalary[0].toString(); // Minimum salary (lowest cost)
 
-      updatedGameData.MenKe_Now.value[i] = rawRecord;
+      this.gameData.MenKe_Now.value[i] = rawRecord;
     }
     
-    return updatedGameData;
+    return this.gameData;
   }
 }
 

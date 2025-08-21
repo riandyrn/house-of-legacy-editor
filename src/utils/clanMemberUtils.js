@@ -8,7 +8,7 @@ import {
 
 class ClanMemberUtils {
   constructor(gameData) {
-    this.gameData = gameData;
+    this.gameData = structuredClone(gameData);
   }
 
   // Pure function to create clan member object from raw data
@@ -58,10 +58,8 @@ class ClanMemberUtils {
 
   // Update single clan member
   setClanMember(memberIdx, updateData) {
-    const updatedGameData = structuredClone(this.gameData);
-
-    if (updatedGameData.Member_now.value[memberIdx]) {
-      const rawRecord = updatedGameData.Member_now.value[memberIdx];
+    if (this.gameData.Member_now.value[memberIdx]) {
+      const rawRecord = this.gameData.Member_now.value[memberIdx];
 
       // Update basic attributes using clan member field indices
       rawRecord[6] = updateData.age?.toString() || rawRecord[6];
@@ -102,39 +100,35 @@ class ClanMemberUtils {
         rawRecord[4] = tokens.join("|");
       }
 
-      updatedGameData.Member_now.value[memberIdx] = rawRecord;
+      this.gameData.Member_now.value[memberIdx] = rawRecord;
     }
 
-    return updatedGameData;
+    return this.gameData;
   }
 
   // Apply skill to clan members with "None" skill
   applyClanMembersSkillToNone(selectedSkill) {
-    const updatedGameData = structuredClone(this.gameData);
-
     // Update clan members data
-    for (let i = 0; i < updatedGameData.Member_now.value.length; i++) {
-      const rawRecord = updatedGameData.Member_now.value[i];
+    for (let i = 0; i < this.gameData.Member_now.value.length; i++) {
+      const rawRecord = this.gameData.Member_now.value[i];
       const tokens = rawRecord[4].split("|");
 
       // Check if current skill is 'None' (ID '0')
       if (tokens[6] === '0') {
         tokens[6] = skillMap[selectedSkill] || '0';
         rawRecord[4] = tokens.join("|");
-        updatedGameData.Member_now.value[i] = rawRecord;
+        this.gameData.Member_now.value[i] = rawRecord;
       }
     }
 
-    return updatedGameData;
+    return this.gameData;
   }
 
   // Max all clan member attributes
   maxAllClanMemberAttributes() {
-    const updatedGameData = structuredClone(this.gameData);
-
     // Update clan members data using correct field indices
-    for (let i = 0; i < updatedGameData.Member_now.value.length; i++) {
-      const rawRecord = updatedGameData.Member_now.value[i];
+    for (let i = 0; i < this.gameData.Member_now.value.length; i++) {
+      const rawRecord = this.gameData.Member_now.value[i];
 
       // Set all attributes to maximum (don't modify age)
       rawRecord[7] = rangeAttrs.literature[1].toString(); // Maximum literature
@@ -153,10 +147,10 @@ class ClanMemberUtils {
       tokens[7] = rangeAttrs.skillValue[1].toString(); // Maximum skill value
       rawRecord[4] = tokens.join("|");
 
-      updatedGameData.Member_now.value[i] = rawRecord;
+      this.gameData.Member_now.value[i] = rawRecord;
     }
 
-    return updatedGameData;
+    return this.gameData;
   }
 }
 

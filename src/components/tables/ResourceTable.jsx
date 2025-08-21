@@ -5,10 +5,7 @@ import ResourceUtils from '../../utils/resourceUtils';
 function ResourceTable() {
 	const { openResourceModal } = useUIStore();
 	const { gameData } = useGameDataStore(); // Subscribe to gameData changes
-	
-	// Force re-render when gameData changes (eslint-disable-next-line)
-	gameData;
-	
+
 	const resourceUtils = new ResourceUtils(gameData);
 	const resource = resourceUtils.getResourcesData();
 

@@ -5,11 +5,6 @@ const useGameDataStore = create((set, get) => ({
   gameData: null,
   originalFilename: null,
 
-  // index for finding resources (needed for resource store)
-  idxFood: -1,
-  idxVegetables: -1,
-  idxMeat: -1,
-
   // Parse ES3 file data - throws exception on error
   parseES3Data: (fileContent, originalFilename) => {
     const gameData = JSON.parse(fileContent); // Let JSON.parse throw on error
@@ -34,50 +29,10 @@ const useGameDataStore = create((set, get) => ({
     if (!gameData.Member_now || !gameData.Member_now.value || !Array.isArray(gameData.Member_now.value)) {
       throw new Error("clan members field not found");
     }
-
-    // find index storage for food, vegetables, meat
-    const props = gameData.Prop_have.value;
-    let idxFood, idxVegetables, idxMeat;
-    for (let i = 0; i < props.length; i++) {
-      const [id, _] = props[i];
-      switch (id) {
-        case "2":
-          idxFood = i;
-          break
-        case "3":
-          idxVegetables = i;
-          break
-        case "4":
-          idxMeat = i;
-          break
-      }
-    }
-
-    // hande if food record is not found, we will just create it
-    if(idxFood === undefined) {
-      gameData.Prop_have.value.push(["2", "0"]);
-      idxFood = gameData.Prop_have.value.length - 1;
-    }
-
-    // handle if vegetable record is not found, we will just create it
-    if (idxVegetables === undefined) {
-      gameData.Prop_have.value.push(["3", "0"]);
-      idxVegetables = gameData.Prop_have.value.length - 1;
-    }
-
-    // handle if meat record is not found, we will just create it
-    if (idxMeat === undefined) {
-      gameData.Prop_have.value.push(["4", "0"]);
-      idxMeat = gameData.Prop_have.value.length - 1;
-    }
-
     // Store the entire game data and filename
     set({
       gameData,
       originalFilename,
-      idxFood,
-      idxVegetables,
-      idxMeat,
     });
   },
 

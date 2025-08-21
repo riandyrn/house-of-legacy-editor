@@ -6,9 +6,6 @@ function SpouseTable() {
 	const { openSpouseModal } = useUIStore();
 	const { gameData } = useGameDataStore(); // Subscribe to gameData changes
 	
-	// Force re-render when gameData changes (eslint-disable-next-line)
-	gameData;
-	
 	const spouseUtils = new SpouseUtils(gameData);
 	const spousesData = spouseUtils.getSpousesData();
 

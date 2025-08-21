@@ -6,9 +6,6 @@ function RetainerTable() {
 	const { openRetainerModal } = useUIStore();
 	const { gameData } = useGameDataStore(); // Subscribe to gameData changes
 	
-	// Force re-render when gameData changes (eslint-disable-next-line)
-	gameData;
-	
 	const retainerUtils = new RetainerUtils(gameData);
 	const data = retainerUtils.getRetainersData();
 

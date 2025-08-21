@@ -8,7 +8,7 @@ import {
 
 class SpouseUtils {
   constructor(gameData) {
-    this.gameData = gameData;
+    this.gameData = structuredClone(gameData);
   }
 
   // Pure function to create spouse object from raw data
@@ -58,10 +58,8 @@ class SpouseUtils {
 
   // Update single spouse
   setSpouse(spouseIdx, updateData) {
-    const updatedGameData = structuredClone(this.gameData);
-
-    if (updatedGameData.Member_qu.value[spouseIdx]) {
-      const rawRecord = updatedGameData.Member_qu.value[spouseIdx];
+    if (this.gameData.Member_qu.value[spouseIdx]) {
+      const rawRecord = this.gameData.Member_qu.value[spouseIdx];
 
       // Update basic attributes
       rawRecord[5] = updateData.age?.toString() || rawRecord[5];
@@ -102,39 +100,35 @@ class SpouseUtils {
         rawRecord[2] = tokens.join("|");
       }
 
-      updatedGameData.Member_qu.value[spouseIdx] = rawRecord;
+      this.gameData.Member_qu.value[spouseIdx] = rawRecord;
     }
 
-    return updatedGameData;
+    return this.gameData;
   }
 
   // Apply skill to spouses with "None" skill
   applySpousesSkillToNone(selectedSkill) {
-    const updatedGameData = structuredClone(this.gameData);
-
     // Update spouses data
-    for (let i = 0; i < updatedGameData.Member_qu.value.length; i++) {
-      const rawRecord = updatedGameData.Member_qu.value[i];
+    for (let i = 0; i < this.gameData.Member_qu.value.length; i++) {
+      const rawRecord = this.gameData.Member_qu.value[i];
       const tokens = rawRecord[2].split("|");
 
       // Check if current skill is 'None' (ID '0')
       if (tokens[6] === '0') {
         tokens[6] = skillMap[selectedSkill] || '0';
         rawRecord[2] = tokens.join("|");
-        updatedGameData.Member_qu.value[i] = rawRecord;
+        this.gameData.Member_qu.value[i] = rawRecord;
       }
     }
 
-    return updatedGameData;
+    return this.gameData;
   }
 
   // Max all spouse attributes
   maxAllSpouseAttributes() {
-    const updatedGameData = structuredClone(this.gameData);
-
     // Update spouses data using correct field indices
-    for (let i = 0; i < updatedGameData.Member_qu.value.length; i++) {
-      const rawRecord = updatedGameData.Member_qu.value[i];
+    for (let i = 0; i < this.gameData.Member_qu.value.length; i++) {
+      const rawRecord = this.gameData.Member_qu.value[i];
 
       // Set all attributes to maximum (don't modify age)
       rawRecord[6] = rangeAttrs.literature[1].toString(); // Maximum literature
@@ -153,10 +147,10 @@ class SpouseUtils {
       tokens[7] = rangeAttrs.skillValue[1].toString(); // Maximum skill value
       rawRecord[2] = tokens.join("|");
 
-      updatedGameData.Member_qu.value[i] = rawRecord;
+      this.gameData.Member_qu.value[i] = rawRecord;
     }
 
-    return updatedGameData;
+    return this.gameData;
   }
 }
 
