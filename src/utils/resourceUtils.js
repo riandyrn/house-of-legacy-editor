@@ -3,11 +3,11 @@ import { maxResourceValues } from '../constants/gameConstants';
 class ResourceUtils {
   constructor(gameData) {
     this.gameData = structuredClone(gameData);
-    
+
     // Find index storage for food, vegetables, meat
     const props = this.gameData.Prop_have.value;
     let idxFood, idxVegetables, idxMeat;
-    
+
     for (let i = 0; i < props.length; i++) {
       const [id, _] = props[i];
       switch (id) {
@@ -117,26 +117,30 @@ class ResourceUtils {
     // Update money and yuanbao
     this.gameData.CGNum.value[0] = updatedResource.money.toString();
     this.gameData.CGNum.value[1] = updatedResource.yuanbao.toString();
-    
+
     // Update food, vegetables, and meat
     this.gameData.Prop_have.value[this.idxFood][1] = updatedResource.food.toString();
     this.gameData.Prop_have.value[this.idxVegetables][1] = updatedResource.vegetables.toString();
     this.gameData.Prop_have.value[this.idxMeat][1] = updatedResource.meat.toString();
-    
+
+    return this.gameData;
+  }
+
+  maxAllFinance() {
+    // Set money and yuanbao to maximum
+    this.gameData.CGNum.value[0] = maxResourceValues.money.toString();
+    this.gameData.CGNum.value[1] = maxResourceValues.yuanbao.toString();
+
     return this.gameData;
   }
 
   // Max all resources
   maxAllResources() {
-    // Set money and yuanbao to maximum
-    this.gameData.CGNum.value[0] = maxResourceValues.money.toString();
-    this.gameData.CGNum.value[1] = maxResourceValues.yuanbao.toString();
-    
     // Set food, vegetables, and meat to maximum
     this.gameData.Prop_have.value[this.idxFood][1] = maxResourceValues.food.toString();
     this.gameData.Prop_have.value[this.idxVegetables][1] = maxResourceValues.vegetables.toString();
     this.gameData.Prop_have.value[this.idxMeat][1] = maxResourceValues.meat.toString();
-    
+
     return this.gameData;
   }
 }
