@@ -113,7 +113,7 @@ class ResourceUtils {
   }
 
   // Save resource data
-  saveResource(updatedResource) {
+  setResource(updatedResource) {
     // Update money and yuanbao
     this.gameData.CGNum.value[0] = updatedResource.money.toString();
     this.gameData.CGNum.value[1] = updatedResource.yuanbao.toString();

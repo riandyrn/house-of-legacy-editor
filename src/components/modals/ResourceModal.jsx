@@ -28,7 +28,7 @@ function ResourceModal() {
 			vegetables: Number(vegetablesRef.current?.value) || 0,
 			meat: Number(meatRef.current?.value) || 0,
 		};
-		const updatedGameData = resourceUtils.saveResource(updatedResource);
+		const updatedGameData = resourceUtils.setResource(updatedResource);
 		updateGameData(updatedGameData);
 		closeResourceModal();
 	};
