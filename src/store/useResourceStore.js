@@ -1,13 +1,6 @@
 import { create } from 'zustand';
 import useGameDataStore from './useGameDataStore';
-
-export const maxResourceValues = {
-  money: 999_999_999,
-  yuanbao: 99_999_999,
-  food: 99_999_999,
-  vegetables: 99_999_999,
-  meat: 99_999_999,
-}
+import { maxResourceValues } from '../constants/gameConstants';
 
 const useResourceStore = create((set, get) => ({
   // Resource getters and setters

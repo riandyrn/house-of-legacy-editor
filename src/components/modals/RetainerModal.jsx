@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useRetainerStore, { rangeAttrs } from '../../store/useRetainerStore';
+import useRetainerStore from '../../store/useRetainerStore';
+import { rangeAttrs } from '../../constants/gameConstants';
 
 function RetainerModal() {
 	const ageRef = useRef(null);

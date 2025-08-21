@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useResourceStore, { maxResourceValues } from '../../store/useResourceStore';
+import useResourceStore from '../../store/useResourceStore';
+import { maxResourceValues } from '../../constants/gameConstants';
 
 function ResourceModal() {
 	const moneyRef = useRef(null);

@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useSpouseStore, { rangeAttrs } from '../../store/useSpouseStore';
+import useSpouseStore from '../../store/useSpouseStore';
+import { rangeAttrs } from '../../constants/gameConstants';
 
 function SpouseModal() {
 	const ageRef = useRef(null);

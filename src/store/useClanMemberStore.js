@@ -1,88 +1,14 @@
 import { create } from 'zustand';
 import useGameDataStore from './useGameDataStore';
+import { 
+  skillMap, 
+  talentMap, 
+  rangeAttrs,
+  getTalentLabel,
+  getSkillLabel
+} from '../constants/gameConstants';
 
-export const skillMap = {
-  'None': '0',
-  'Witch': '1',
-  'Medical': '2',
-  'Fortune': '3',
-  'Divination': '4',
-  'Charm': '5',
-  'Craft': '6'
-}
-
-export const talentMap = {
-  'None': '0',
-  'Literature': '1',
-  'Martial': '2',
-  'Commerce': '3',
-  'Art': '4'
-}
-
-export const rangeAttrs = {
-  age: [18, 100],
-  literature: [0, 100],
-  martial: [0, 100],
-  commerce: [0, 100],
-  art: [0, 100],
-  strategy: [0, 100],
-  reputation: [0, 100],
-  luck: [0, 100],
-  charm: [0, 100],
-  health: [0, 100],
-  talentValue: [0, 100],
-  skillValue: [0, 100],
-  monthlySalary: [0, 9999],
-}
-
-const useClanMemberStore = create((set, get) => ({
-  getTalentLabel: (talentId) => {
-    let talentLabel = "None";
-    switch (talentId) {
-      case "1":
-        talentLabel = "Literature";
-        break
-      case "2":
-        talentLabel = "Martial";
-        break
-      case "3":
-        talentLabel = "Commerce";
-        break
-      case "4":
-        talentLabel = "Art";
-        break
-    }
-    return talentLabel;
-  },
-
-  getSkillLabel: (skillId) => {
-    let skillLabel = "None";
-    switch (skillId) {
-      case "1":
-        skillLabel = "Witch";
-        break
-      case "2":
-        skillLabel = "Medical";
-        break
-      case "3":
-        skillLabel = "Fortune";
-        break
-      case "4":
-        skillLabel = "Divination";
-        break
-      case "5":
-        skillLabel = "Charm";
-        break
-      case "6":
-        skillLabel = "Craft";
-        break
-    }
-    return skillLabel;
-  },
-
-  newClanMember: (rawRecord, memberIdx) => {
-    const { getTalentLabel, getSkillLabel } = get();
-
+const useClanMemberStore = create((set, get) => ({  newClanMember: (rawRecord, memberIdx) => {
     const tokens = rawRecord[4].split("|");
     const name = tokens[0];
     const talentId = tokens[2];

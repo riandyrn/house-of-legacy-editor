@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useClanMemberStore, { rangeAttrs } from '../../store/useClanMemberStore';
+import useClanMemberStore from '../../store/useClanMemberStore';
+import { rangeAttrs } from '../../constants/gameConstants';
 
 function ClanMemberModal() {
 	const ageRef = useRef(null);

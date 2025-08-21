@@ -1,21 +1,6 @@
 import { create } from 'zustand';
 import useGameDataStore from './useGameDataStore';
-
-export const rangeAttrs = {
-  age: [18, 100],
-  literature: [0, 100],
-  martial: [0, 100],
-  commerce: [0, 100],
-  art: [0, 100],
-  strategy: [0, 100],
-  reputation: [0, 100],
-  luck: [0, 100],
-  charm: [0, 100],
-  health: [0, 100],
-  talentValue: [0, 100],
-  skillValue: [0, 100],
-  monthlySalary: [0, 9999],
-}
+import { rangeAttrs } from '../constants/gameConstants';
 
 const useRetainerStore = create((set, get) => ({
   newRetainer: (rawRecord, retainerIdx) => {
