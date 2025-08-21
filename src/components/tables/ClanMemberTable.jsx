@@ -1,11 +1,11 @@
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore from '../../store/useGameDataStore';
+import useClanMemberStore from '../../store/useClanMemberStore';
 
 function ClanMemberTable() {
 	const { openClanMemberModal } = useUIStore();
-	const { getCurrentData } = useGameDataStore();
+	const { getClanMembersData } = useClanMemberStore();
 
-	const data = getCurrentData('clanMembers');
+	const data = getClanMembersData();
 
 	return (
 		<div className="overflow-x-auto">

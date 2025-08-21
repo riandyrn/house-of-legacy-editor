@@ -7,7 +7,10 @@ import SpouseModal from '../modals/SpouseModal';
 import RetainerModal from '../modals/RetainerModal';
 import ResourceModal from '../modals/ResourceModal';
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore from '../../store/useGameDataStore';
+import useClanMemberStore from '../../store/useClanMemberStore';
+import useSpouseStore from '../../store/useSpouseStore';
+import useRetainerStore from '../../store/useRetainerStore';
+import useResourceStore from '../../store/useResourceStore';
 
 function EditorContent() {
 	// UI Store
@@ -18,13 +21,44 @@ function EditorContent() {
 		setSelectedSkill
 	} = useUIStore();
 
-	// Game Data Store
+	// Clan Member Store
 	const {
-		applySkillToNone,
-		maxAllAttributes,
-		maxAllResources,
+		applyClanMembersSkillToNone,
+		maxAllClanMemberAttributes
+	} = useClanMemberStore();
+
+	// Spouse Store
+	const {
+		applySpousesSkillToNone,
+		maxAllSpouseAttributes
+	} = useSpouseStore();
+
+	// Retainer Store
+	const {
 		allRetainersBestAttributes
-	} = useGameDataStore();
+	} = useRetainerStore();
+
+	// Resource Store
+	const {
+		maxAllResources
+	} = useResourceStore();
+
+	// Helper functions to handle tab-specific operations
+	const applySkillToNone = (activeTab, selectedSkill) => {
+		if (activeTab === 'clanMembers') {
+			applyClanMembersSkillToNone(selectedSkill);
+		} else if (activeTab === 'spouses') {
+			applySpousesSkillToNone(selectedSkill);
+		}
+	};
+
+	const maxAllAttributes = (activeTab) => {
+		if (activeTab === 'clanMembers') {
+			maxAllClanMemberAttributes();
+		} else if (activeTab === 'spouses') {
+			maxAllSpouseAttributes();
+		}
+	};
 
 
 

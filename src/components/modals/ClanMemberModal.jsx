@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore, { rangeAttrs } from '../../store/useGameDataStore';
+import useClanMemberStore, { rangeAttrs } from '../../store/useClanMemberStore';
 
 function ClanMemberModal() {
 	const ageRef = useRef(null);
@@ -18,7 +18,7 @@ function ClanMemberModal() {
 	const skillValueRef = useRef(null);
 
 	const { showClanMemberModal, currentClanMemberIdx, closeClanMemberModal } = useUIStore();
-	const { setClanMember, getClanMember } = useGameDataStore();
+	const { setClanMember, getClanMember } = useClanMemberStore();
 
 	if (!showClanMemberModal) return null;
 

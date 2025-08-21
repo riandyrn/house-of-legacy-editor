@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore, { rangeAttrs } from '../../store/useGameDataStore';
+import useSpouseStore, { rangeAttrs } from '../../store/useSpouseStore';
 
 function SpouseModal() {
 	const ageRef = useRef(null);
@@ -19,7 +19,7 @@ function SpouseModal() {
 	const skillValueRef = useRef(null);
 
 	const { showSpouseModal, currentSpouseIdx, closeSpouseModal } = useUIStore();
-	const { setSpouse, getSpouse } = useGameDataStore();
+	const { setSpouse, getSpouse } = useSpouseStore();
 
 	if (!showSpouseModal) return null;
 

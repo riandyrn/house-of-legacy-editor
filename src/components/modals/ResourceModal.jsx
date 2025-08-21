@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore, { maxResourceValues } from '../../store/useGameDataStore';
+import useResourceStore, { maxResourceValues } from '../../store/useResourceStore';
 
 function ResourceModal() {
 	const moneyRef = useRef(null);
@@ -10,7 +10,7 @@ function ResourceModal() {
 	const meatRef = useRef(null);
 
 	const { showResourceModal, closeResourceModal } = useUIStore();
-	const { saveResource, getResourcesData } = useGameDataStore();
+	const { saveResource, getResourcesData } = useResourceStore();
 	
 	// Get current resource data directly from game data
 	const currentResource = getResourcesData(); // Resources is now a single object

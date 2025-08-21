@@ -1,9 +1,9 @@
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore from '../../store/useGameDataStore';
+import useSpouseStore from '../../store/useSpouseStore';
 
 function SpouseTable() {
 	const { openSpouseModal } = useUIStore();
-	const { getSpousesData } = useGameDataStore();
+	const { getSpousesData } = useSpouseStore();
 	
 	const spousesData = getSpousesData();
 

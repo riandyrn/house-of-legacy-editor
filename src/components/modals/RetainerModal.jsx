@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore, { rangeAttrs } from '../../store/useGameDataStore';
+import useRetainerStore, { rangeAttrs } from '../../store/useRetainerStore';
 
 function RetainerModal() {
 	const ageRef = useRef(null);
@@ -13,7 +13,7 @@ function RetainerModal() {
 	const monthlySalaryRef = useRef(null);
 
 	const { showRetainerModal, currentRetainerIdx, closeRetainerModal } = useUIStore();
-	const { setRetainer, getRetainer } = useGameDataStore();
+	const { setRetainer, getRetainer } = useRetainerStore();
 
 	if (!showRetainerModal) return null;
 

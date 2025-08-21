@@ -1,9 +1,9 @@
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore from '../../store/useGameDataStore';
+import useResourceStore from '../../store/useResourceStore';
 
 function ResourceTable() {
 	const { openResourceModal } = useUIStore();
-	const { getResourcesData } = useGameDataStore();
+	const { getResourcesData } = useResourceStore();
 	
 	const resource = getResourcesData();
 

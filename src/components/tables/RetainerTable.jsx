@@ -1,9 +1,9 @@
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore from '../../store/useGameDataStore';
+import useRetainerStore from '../../store/useRetainerStore';
 
 function RetainerTable() {
 	const { openRetainerModal } = useUIStore();
-	const { getRetainersData } = useGameDataStore();
+	const { getRetainersData } = useRetainerStore();
 	
 	const data = getRetainersData();
 
