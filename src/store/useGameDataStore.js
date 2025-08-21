@@ -96,19 +96,19 @@ const useGameDataStore = create((set, get) => ({
     }
 
     // hande if food record is not found, we will just create it
-    if(!idxFood) {
+    if(idxFood === undefined) {
       gameData.Prop_have.value.push(["2", "0"]);
       idxFood = gameData.Prop_have.value.length - 1;
     }
 
     // handle if vegetable record is not found, we will just create it
-    if (!idxVegetables) {
+    if (idxVegetables === undefined) {
       gameData.Prop_have.value.push(["3", "0"]);
       idxVegetables = gameData.Prop_have.value.length - 1;
     }
 
     // handle if meat record is not found, we will just create it
-    if (!idxMeat) {
+    if (idxMeat === undefined) {
       gameData.Prop_have.value.push(["4", "0"]);
       idxMeat = gameData.Prop_have.value.length - 1;
     }
