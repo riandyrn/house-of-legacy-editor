@@ -1,11 +1,13 @@
 import useUIStore from '../../store/useUIStore';
 import useGameDataStore from '../../store/useGameDataStore';
+import SpouseUtils from '../../utils/spouseUtils';
 
 function SpouseTable() {
 	const { openSpouseModal } = useUIStore();
-	const { getSpousesData } = useGameDataStore();
+	const { gameData } = useGameDataStore(); // Subscribe to gameData changes
 	
-	const spousesData = getSpousesData();
+	const spouseUtils = new SpouseUtils(gameData);
+	const spousesData = spouseUtils.getSpousesData();
 
 	return (
 		<div className="overflow-x-auto">

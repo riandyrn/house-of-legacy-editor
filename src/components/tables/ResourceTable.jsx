@@ -1,11 +1,13 @@
 import useUIStore from '../../store/useUIStore';
 import useGameDataStore from '../../store/useGameDataStore';
+import ResourceUtils from '../../utils/resourceUtils';
 
 function ResourceTable() {
 	const { openResourceModal } = useUIStore();
-	const { getResourcesData } = useGameDataStore();
-	
-	const resource = getResourcesData();
+	const { gameData } = useGameDataStore(); // Subscribe to gameData changes
+
+	const resourceUtils = new ResourceUtils(gameData);
+	const resource = resourceUtils.getResourcesData();
 
 	return (
 		<div className="overflow-x-auto">

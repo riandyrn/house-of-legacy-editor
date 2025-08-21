@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore, { rangeAttrs } from '../../store/useGameDataStore';
+import useGameDataStore from '../../store/useGameDataStore';
+import ClanMemberUtils from '../../utils/clanMemberUtils';
+import { rangeAttrs } from '../../constants/gameConstants';
 
 function ClanMemberModal() {
 	const ageRef = useRef(null);
@@ -18,12 +20,13 @@ function ClanMemberModal() {
 	const skillValueRef = useRef(null);
 
 	const { showClanMemberModal, currentClanMemberIdx, closeClanMemberModal } = useUIStore();
-	const { setClanMember, getClanMember } = useGameDataStore();
+	const { gameData, updateGameData } = useGameDataStore();
 
 	if (!showClanMemberModal) return null;
 
 	// Get current clan member data directly from game data
-	const currentClanMember = getClanMember(currentClanMemberIdx);
+	const clanMemberUtils = new ClanMemberUtils(gameData);
+	const currentClanMember = clanMemberUtils.getClanMember(currentClanMemberIdx);
 
 	const handleApply = () => {
 		const updateData = {
@@ -41,7 +44,8 @@ function ClanMemberModal() {
 			skill: skillRef.current?.value || 'None',
 			skillValue: Number(skillValueRef.current?.value) || rangeAttrs.skillValue[0],
 		};
-		setClanMember(currentClanMemberIdx, updateData);
+		const updatedGameData = clanMemberUtils.setClanMember(currentClanMemberIdx, updateData);
+		updateGameData(updatedGameData);
 		closeClanMemberModal();
 	};
 

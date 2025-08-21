@@ -8,6 +8,10 @@ import RetainerModal from '../modals/RetainerModal';
 import ResourceModal from '../modals/ResourceModal';
 import useUIStore from '../../store/useUIStore';
 import useGameDataStore from '../../store/useGameDataStore';
+import ClanMemberUtils from '../../utils/clanMemberUtils';
+import SpouseUtils from '../../utils/spouseUtils';
+import RetainerUtils from '../../utils/retainerUtils';
+import ResourceUtils from '../../utils/resourceUtils';
 
 function EditorContent() {
 	// UI Store
@@ -19,12 +23,44 @@ function EditorContent() {
 	} = useUIStore();
 
 	// Game Data Store
-	const {
-		applySkillToNone,
-		maxAllAttributes,
-		maxAllResources,
-		allRetainersBestAttributes
-	} = useGameDataStore();
+	const { gameData, updateGameData } = useGameDataStore();
+
+	// Helper functions to handle tab-specific operations
+	const applySkillToNone = (activeTab, selectedSkill) => {
+		if (activeTab === 'clanMembers') {
+			const clanMemberUtils = new ClanMemberUtils(gameData);
+			const updatedGameData = clanMemberUtils.applyClanMembersSkillToNone(selectedSkill);
+			updateGameData(updatedGameData);
+		} else if (activeTab === 'spouses') {
+			const spouseUtils = new SpouseUtils(gameData);
+			const updatedGameData = spouseUtils.applySpousesSkillToNone(selectedSkill);
+			updateGameData(updatedGameData);
+		}
+	};
+
+	const maxAllAttributes = (activeTab) => {
+		if (activeTab === 'clanMembers') {
+			const clanMemberUtils = new ClanMemberUtils(gameData);
+			const updatedGameData = clanMemberUtils.maxAllClanMemberAttributes();
+			updateGameData(updatedGameData);
+		} else if (activeTab === 'spouses') {
+			const spouseUtils = new SpouseUtils(gameData);
+			const updatedGameData = spouseUtils.maxAllSpouseAttributes();
+			updateGameData(updatedGameData);
+		}
+	};
+
+	const handleAllRetainersBestAttributes = () => {
+		const retainerUtils = new RetainerUtils(gameData);
+		const updatedGameData = retainerUtils.allRetainersBestAttributes();
+		updateGameData(updatedGameData);
+	};
+
+	const handleMaxAllResources = () => {
+		const resourceUtils = new ResourceUtils(gameData);
+		const updatedGameData = resourceUtils.maxAllResources();
+		updateGameData(updatedGameData);
+	};
 
 
 
@@ -104,7 +140,7 @@ function EditorContent() {
 					{/* Retainers Tab Buttons */}
 					{activeTab === 'retainers' && (
 						<div className="flex items-center space-x-4 py-4">
-							<button onClick={allRetainersBestAttributes} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+							<button onClick={handleAllRetainersBestAttributes} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
 								All Best Attributes
 							</button>
 						</div>
@@ -113,7 +149,7 @@ function EditorContent() {
 					{/* Resources Tab Buttons */}
 					{activeTab === 'resources' && (
 						<div className="flex items-center space-x-4 py-4">
-							<button onClick={maxAllResources} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+							<button onClick={handleMaxAllResources} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
 								Max All Resources
 							</button>
 						</div>

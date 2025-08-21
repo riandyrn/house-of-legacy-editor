@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useGameDataStore, { rangeAttrs } from '../../store/useGameDataStore';
+import useGameDataStore from '../../store/useGameDataStore';
+import RetainerUtils from '../../utils/retainerUtils';
+import { rangeAttrs } from '../../constants/gameConstants';
 
 function RetainerModal() {
 	const ageRef = useRef(null);
@@ -13,12 +15,13 @@ function RetainerModal() {
 	const monthlySalaryRef = useRef(null);
 
 	const { showRetainerModal, currentRetainerIdx, closeRetainerModal } = useUIStore();
-	const { setRetainer, getRetainer } = useGameDataStore();
+	const { gameData, updateGameData } = useGameDataStore();
 
 	if (!showRetainerModal) return null;
 
 	// Get current retainer data directly from game data
-	const currentRetainer = getRetainer(currentRetainerIdx);
+	const retainerUtils = new RetainerUtils(gameData);
+	const currentRetainer = retainerUtils.getRetainer(currentRetainerIdx);
 
 	const handleApply = () => {
 		const updateData = {
@@ -31,7 +34,8 @@ function RetainerModal() {
 			reputation: Number(reputationRef.current?.value) || rangeAttrs.reputation[0],
 			monthlySalary: Number(monthlySalaryRef.current?.value) || rangeAttrs.monthlySalary[0],
 		};
-		setRetainer(currentRetainerIdx, updateData);
+		const updatedGameData = retainerUtils.setRetainer(currentRetainerIdx, updateData);
+		updateGameData(updatedGameData);
 		closeRetainerModal();
 	};
 
