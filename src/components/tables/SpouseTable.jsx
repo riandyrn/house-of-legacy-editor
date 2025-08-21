@@ -1,11 +1,16 @@
 import useUIStore from '../../store/useUIStore';
-import useSpouseStore from '../../store/useSpouseStore';
+import useGameDataStore from '../../store/useGameDataStore';
+import SpouseUtils from '../../utils/spouseUtils';
 
 function SpouseTable() {
 	const { openSpouseModal } = useUIStore();
-	const { getSpousesData } = useSpouseStore();
+	const { gameData } = useGameDataStore(); // Subscribe to gameData changes
 	
-	const spousesData = getSpousesData();
+	// Force re-render when gameData changes (eslint-disable-next-line)
+	gameData;
+	
+	const spouseUtils = new SpouseUtils(gameData);
+	const spousesData = spouseUtils.getSpousesData();
 
 	return (
 		<div className="overflow-x-auto">

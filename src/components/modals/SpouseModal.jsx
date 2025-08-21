@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useSpouseStore from '../../store/useSpouseStore';
+import useGameDataStore from '../../store/useGameDataStore';
+import SpouseUtils from '../../utils/spouseUtils';
 import { rangeAttrs } from '../../constants/gameConstants';
 
 function SpouseModal() {
@@ -14,18 +15,19 @@ function SpouseModal() {
 	const luckRef = useRef(null);
 	const charmRef = useRef(null);
 	const healthRef = useRef(null);
-	const talentRef = useRef(null);
 	const talentValueRef = useRef(null);
+	const talentRef = useRef(null);
 	const skillRef = useRef(null);
 	const skillValueRef = useRef(null);
 
 	const { showSpouseModal, currentSpouseIdx, closeSpouseModal } = useUIStore();
-	const { setSpouse, getSpouse } = useSpouseStore();
+	const { gameData, updateGameData } = useGameDataStore();
 
 	if (!showSpouseModal) return null;
 
 	// Get current spouse data directly from game data
-	const currentSpouse = getSpouse(currentSpouseIdx);
+	const spouseUtils = new SpouseUtils(gameData);
+	const currentSpouse = spouseUtils.getSpouse(currentSpouseIdx);
 
 	const handleApply = () => {
 		const updateData = {
@@ -39,12 +41,12 @@ function SpouseModal() {
 			luck: Number(luckRef.current?.value) || rangeAttrs.luck[0],
 			charm: Number(charmRef.current?.value) || rangeAttrs.charm[0],
 			health: Number(healthRef.current?.value) || rangeAttrs.health[0],
-			talent: talentRef.current?.value || 'None',
 			talentValue: Number(talentValueRef.current?.value) || rangeAttrs.talentValue[0],
 			skill: skillRef.current?.value || 'None',
 			skillValue: Number(skillValueRef.current?.value) || rangeAttrs.skillValue[0],
 		};
-		setSpouse(currentSpouseIdx, updateData);
+		const updatedGameData = spouseUtils.setSpouse(currentSpouseIdx, updateData);
+		updateGameData(updatedGameData);
 		closeSpouseModal();
 	};
 

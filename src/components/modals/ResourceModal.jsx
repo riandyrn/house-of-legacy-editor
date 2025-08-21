@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import useUIStore from '../../store/useUIStore';
-import useResourceStore from '../../store/useResourceStore';
+import useGameDataStore from '../../store/useGameDataStore';
+import ResourceUtils from '../../utils/resourceUtils';
 import { maxResourceValues } from '../../constants/gameConstants';
 
 function ResourceModal() {
@@ -11,22 +12,24 @@ function ResourceModal() {
 	const meatRef = useRef(null);
 
 	const { showResourceModal, closeResourceModal } = useUIStore();
-	const { saveResource, getResourcesData } = useResourceStore();
-	
-	// Get current resource data directly from game data
-	const currentResource = getResourcesData(); // Resources is now a single object
+	const { gameData, updateGameData } = useGameDataStore();
 
 	if (!showResourceModal) return null;
 
+	// Get current resource data directly from game data
+	const resourceUtils = new ResourceUtils(gameData);
+	const currentResource = resourceUtils.getResourcesData(); // Resources is now a single object
+
 	const handleApply = () => {
 		const updatedResource = {
-			money: Math.min(Number(moneyRef.current?.value) || 0, maxResourceValues.money),
-			yuanbao: Math.min(Number(yuanbaoRef.current?.value) || 0, maxResourceValues.yuanbao),
-			food: Math.min(Number(foodRef.current?.value) || 0, maxResourceValues.food),
-			vegetables: Math.min(Number(vegetablesRef.current?.value) || 0, maxResourceValues.vegetables),
-			meat: Math.min(Number(meatRef.current?.value) || 0, maxResourceValues.meat),
+			money: Number(moneyRef.current?.value) || 0,
+			yuanbao: Number(yuanbaoRef.current?.value) || 0,
+			food: Number(foodRef.current?.value) || 0,
+			vegetables: Number(vegetablesRef.current?.value) || 0,
+			meat: Number(meatRef.current?.value) || 0,
 		};
-		saveResource(updatedResource);
+		const updatedGameData = resourceUtils.saveResource(updatedResource);
+		updateGameData(updatedGameData);
 		closeResourceModal();
 	};
 

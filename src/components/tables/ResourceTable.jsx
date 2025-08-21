@@ -1,11 +1,16 @@
 import useUIStore from '../../store/useUIStore';
-import useResourceStore from '../../store/useResourceStore';
+import useGameDataStore from '../../store/useGameDataStore';
+import ResourceUtils from '../../utils/resourceUtils';
 
 function ResourceTable() {
 	const { openResourceModal } = useUIStore();
-	const { getResourcesData } = useResourceStore();
+	const { gameData } = useGameDataStore(); // Subscribe to gameData changes
 	
-	const resource = getResourcesData();
+	// Force re-render when gameData changes (eslint-disable-next-line)
+	gameData;
+	
+	const resourceUtils = new ResourceUtils(gameData);
+	const resource = resourceUtils.getResourcesData();
 
 	return (
 		<div className="overflow-x-auto">

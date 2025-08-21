@@ -1,5 +1,3 @@
-import { create } from 'zustand';
-import useGameDataStore from './useGameDataStore';
 import { 
   skillMap, 
   talentMap, 
@@ -8,11 +6,13 @@ import {
   getSkillLabel
 } from '../constants/gameConstants';
 
-const useSpouseStore = create((set, get) => ({
-  // Reactive state
-  spouses: [],
-  
-  newSpouse: (rawRecord, memberIdx) => {
+class SpouseUtils {
+  constructor(gameData) {
+    this.gameData = gameData;
+  }
+
+  // Pure function to create spouse object from raw data
+  createSpouse(rawRecord, memberIdx) {
     const tokens = rawRecord[2].split("|");
     const name = tokens[0];
     const talentId = tokens[2];
@@ -37,33 +37,28 @@ const useSpouseStore = create((set, get) => ({
       skill: getSkillLabel(skillId),
       skillValue,
       memberIdx,
-    }
-  },
+    };
+  }
 
-  // Sync from gameData
-  syncFromGameData: () => {
-    const { gameData } = useGameDataStore.getState();
-    const { newSpouse } = get();
-    if (gameData?.Member_qu?.value) {
-      const spouses = gameData.Member_qu.value.map((rawRecord, index) => 
-        newSpouse(rawRecord, index)
+  // Get all spouses data
+  getSpousesData() {
+    if (this.gameData?.Member_qu?.value) {
+      return this.gameData.Member_qu.value.map((rawRecord, index) => 
+        this.createSpouse(rawRecord, index)
       );
-      set({ spouses });
     }
-  },
-  
-  // Get spouses data (reactive)
-  getSpousesData: () => get().spouses,
+    return [];
+  }
 
-  getSpouse: (spouseIdx) => {
-    const { getSpousesData } = get();
-    const spouses = getSpousesData();
+  // Get single spouse
+  getSpouse(spouseIdx) {
+    const spouses = this.getSpousesData();
     return spouses[spouseIdx] || {};
-  },
+  }
 
-  setSpouse: (spouseIdx, updateData) => {
-    const { gameData, updateGameData } = useGameDataStore.getState();
-    const updatedGameData = structuredClone(gameData);
+  // Update single spouse
+  setSpouse(spouseIdx, updateData) {
+    const updatedGameData = structuredClone(this.gameData);
 
     if (updatedGameData.Member_qu.value[spouseIdx]) {
       const rawRecord = updatedGameData.Member_qu.value[spouseIdx];
@@ -108,16 +103,14 @@ const useSpouseStore = create((set, get) => ({
       }
 
       updatedGameData.Member_qu.value[spouseIdx] = rawRecord;
-      updateGameData(updatedGameData);
-      // Trigger sync after update
-      get().syncFromGameData();
     }
-  },
 
-  // Bulk operations for spouses
-  applySpousesSkillToNone: (selectedSkill) => {
-    const { gameData, updateGameData } = useGameDataStore.getState();
-    const updatedGameData = structuredClone(gameData);
+    return updatedGameData;
+  }
+
+  // Apply skill to spouses with "None" skill
+  applySpousesSkillToNone(selectedSkill) {
+    const updatedGameData = structuredClone(this.gameData);
 
     // Update spouses data
     for (let i = 0; i < updatedGameData.Member_qu.value.length; i++) {
@@ -132,15 +125,12 @@ const useSpouseStore = create((set, get) => ({
       }
     }
 
-    // Update game data
-    updateGameData(updatedGameData);
-    // Trigger sync after update
-    get().syncFromGameData();
-  },
+    return updatedGameData;
+  }
 
-  maxAllSpouseAttributes: () => {
-    const { gameData, updateGameData } = useGameDataStore.getState();
-    const updatedGameData = structuredClone(gameData);
+  // Max all spouse attributes
+  maxAllSpouseAttributes() {
+    const updatedGameData = structuredClone(this.gameData);
 
     // Update spouses data using correct field indices
     for (let i = 0; i < updatedGameData.Member_qu.value.length; i++) {
@@ -166,11 +156,8 @@ const useSpouseStore = create((set, get) => ({
       updatedGameData.Member_qu.value[i] = rawRecord;
     }
 
-    // Update game data
-    updateGameData(updatedGameData);
-    // Trigger sync after update
-    get().syncFromGameData();
-  },
-}));
+    return updatedGameData;
+  }
+}
 
-export default useSpouseStore;
+export default SpouseUtils;

@@ -1,11 +1,16 @@
 import useUIStore from '../../store/useUIStore';
-import useRetainerStore from '../../store/useRetainerStore';
+import useGameDataStore from '../../store/useGameDataStore';
+import RetainerUtils from '../../utils/retainerUtils';
 
 function RetainerTable() {
 	const { openRetainerModal } = useUIStore();
-	const { getRetainersData } = useRetainerStore();
+	const { gameData } = useGameDataStore(); // Subscribe to gameData changes
 	
-	const data = getRetainersData();
+	// Force re-render when gameData changes (eslint-disable-next-line)
+	gameData;
+	
+	const retainerUtils = new RetainerUtils(gameData);
+	const data = retainerUtils.getRetainersData();
 
 	return (
 		<div className="overflow-x-auto">

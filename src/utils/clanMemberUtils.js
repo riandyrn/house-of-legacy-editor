@@ -1,5 +1,3 @@
-import { create } from 'zustand';
-import useGameDataStore from './useGameDataStore';
 import { 
   skillMap, 
   talentMap, 
@@ -8,11 +6,13 @@ import {
   getSkillLabel
 } from '../constants/gameConstants';
 
-const useClanMemberStore = create((set, get) => ({
-  // Reactive state
-  clanMembers: [],
-  
-  newClanMember: (rawRecord, memberIdx) => {
+class ClanMemberUtils {
+  constructor(gameData) {
+    this.gameData = gameData;
+  }
+
+  // Pure function to create clan member object from raw data
+  createClanMember(rawRecord, memberIdx) {
     const tokens = rawRecord[4].split("|");
     const name = tokens[0];
     const talentId = tokens[2];
@@ -37,33 +37,28 @@ const useClanMemberStore = create((set, get) => ({
       skill: getSkillLabel(skillId),
       skillValue,
       memberIdx,
-    }
-  },
+    };
+  }
 
-  // Sync from gameData
-  syncFromGameData: () => {
-    const { gameData } = useGameDataStore.getState();
-    const { newClanMember } = get();
-    if (gameData?.Member_now?.value) {
-      const clanMembers = gameData.Member_now.value.map((rawRecord, index) => 
-        newClanMember(rawRecord, index)
+  // Get all clan members data
+  getClanMembersData() {
+    if (this.gameData?.Member_now?.value) {
+      return this.gameData.Member_now.value.map((rawRecord, index) => 
+        this.createClanMember(rawRecord, index)
       );
-      set({ clanMembers });
     }
-  },
-  
-  // Get clan members data (reactive)
-  getClanMembersData: () => get().clanMembers,
+    return [];
+  }
 
-  getClanMember: (memberIdx) => {
-    const { getClanMembersData } = get();
-    const clanMembers = getClanMembersData();
+  // Get single clan member
+  getClanMember(memberIdx) {
+    const clanMembers = this.getClanMembersData();
     return clanMembers[memberIdx] || {};
-  },
+  }
 
-  setClanMember: (memberIdx, updateData) => {
-    const { gameData, updateGameData } = useGameDataStore.getState();
-    const updatedGameData = structuredClone(gameData);
+  // Update single clan member
+  setClanMember(memberIdx, updateData) {
+    const updatedGameData = structuredClone(this.gameData);
 
     if (updatedGameData.Member_now.value[memberIdx]) {
       const rawRecord = updatedGameData.Member_now.value[memberIdx];
@@ -82,7 +77,7 @@ const useClanMemberStore = create((set, get) => ({
 
       // Update talent and talent value if provided
       if (updateData.talent !== undefined || updateData.talentValue !== undefined) {
-        const tokens = rawRecord[4].split("|"); // Clan members use field [4]
+        const tokens = rawRecord[4].split("|");
 
         if (updateData.talent) {
           tokens[2] = talentMap[updateData.talent] || '0';
@@ -95,7 +90,7 @@ const useClanMemberStore = create((set, get) => ({
       }
 
       if (updateData.skill !== undefined || updateData.skillValue !== undefined) {
-        const tokens = rawRecord[4].split("|"); // Clan members use field [4]
+        const tokens = rawRecord[4].split("|");
 
         if (updateData.skill) {
           tokens[6] = skillMap[updateData.skill] || '0';
@@ -108,21 +103,19 @@ const useClanMemberStore = create((set, get) => ({
       }
 
       updatedGameData.Member_now.value[memberIdx] = rawRecord;
-      updateGameData(updatedGameData);
-      // Trigger sync after update
-      get().syncFromGameData();
     }
-  },
 
-  // Bulk operations for clan members
-  applyClanMembersSkillToNone: (selectedSkill) => {
-    const { gameData, updateGameData } = useGameDataStore.getState();
-    const updatedGameData = structuredClone(gameData);
+    return updatedGameData;
+  }
+
+  // Apply skill to clan members with "None" skill
+  applyClanMembersSkillToNone(selectedSkill) {
+    const updatedGameData = structuredClone(this.gameData);
 
     // Update clan members data
     for (let i = 0; i < updatedGameData.Member_now.value.length; i++) {
       const rawRecord = updatedGameData.Member_now.value[i];
-      const tokens = rawRecord[4].split("|"); // Clan members use field [4] not [2]
+      const tokens = rawRecord[4].split("|");
 
       // Check if current skill is 'None' (ID '0')
       if (tokens[6] === '0') {
@@ -132,15 +125,12 @@ const useClanMemberStore = create((set, get) => ({
       }
     }
 
-    // Update game data
-    updateGameData(updatedGameData);
-    // Trigger sync after update
-    get().syncFromGameData();
-  },
+    return updatedGameData;
+  }
 
-  maxAllClanMemberAttributes: () => {
-    const { gameData, updateGameData } = useGameDataStore.getState();
-    const updatedGameData = structuredClone(gameData);
+  // Max all clan member attributes
+  maxAllClanMemberAttributes() {
+    const updatedGameData = structuredClone(this.gameData);
 
     // Update clan members data using correct field indices
     for (let i = 0; i < updatedGameData.Member_now.value.length; i++) {
@@ -158,7 +148,7 @@ const useClanMemberStore = create((set, get) => ({
       rawRecord[21] = rangeAttrs.health[1].toString(); // Maximum health
 
       // Update talent value and skill value to maximum
-      const tokens = rawRecord[4].split("|"); // Clan members use field [4]
+      const tokens = rawRecord[4].split("|");
       tokens[3] = rangeAttrs.talentValue[1].toString(); // Maximum talent value
       tokens[7] = rangeAttrs.skillValue[1].toString(); // Maximum skill value
       rawRecord[4] = tokens.join("|");
@@ -166,22 +156,8 @@ const useClanMemberStore = create((set, get) => ({
       updatedGameData.Member_now.value[i] = rawRecord;
     }
 
-    // Update game data
-    updateGameData(updatedGameData);
-    // Trigger sync after update
-    get().syncFromGameData();
-  },
+    return updatedGameData;
+  }
+}
 
-  // Character data operations (legacy compatibility)
-  maxClanMemberAttributes: (character) => {
-    const newCharacter = { ...character };
-    Object.keys(newCharacter).forEach(key => {
-      if (typeof newCharacter[key] === 'number' && key !== 'age') {
-        newCharacter[key] = 100;
-      }
-    });
-    return newCharacter;
-  },
-}));
-
-export default useClanMemberStore;
+export default ClanMemberUtils;
