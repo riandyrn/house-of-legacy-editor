@@ -1,11 +1,14 @@
 import useUIStore from '../../store/useUIStore';
 import useSpouseStore from '../../store/useSpouseStore';
+import useGameDataStore from '../../store/useGameDataStore';
 
 function SpouseTable() {
 	const { openSpouseModal } = useUIStore();
 	const { getSpousesData } = useSpouseStore();
+	const { gameData } = useGameDataStore(); // Subscribe to gameData changes to trigger re-renders
 	
-	const spousesData = getSpousesData();
+	// Re-compute data when gameData changes (reactive)
+	const spousesData = gameData ? getSpousesData() : [];
 
 	return (
 		<div className="overflow-x-auto">

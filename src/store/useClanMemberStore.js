@@ -8,7 +8,8 @@ import {
   getSkillLabel
 } from '../constants/gameConstants';
 
-const useClanMemberStore = create((set, get) => ({  newClanMember: (rawRecord, memberIdx) => {
+const useClanMemberStore = create((set, get) => ({
+  newClanMember: (rawRecord, memberIdx) => {
     const tokens = rawRecord[4].split("|");
     const name = tokens[0];
     const talentId = tokens[2];
