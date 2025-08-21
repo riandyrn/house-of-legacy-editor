@@ -56,32 +56,35 @@ function EditorContent() {
 		updateGameData(updatedGameData);
 	};
 
+	const handleMaxAllFinance = () => {
+		const resourceUtils = new ResourceUtils(gameData);
+		const updatedGameData = resourceUtils.maxAllFinance();
+		updateGameData(updatedGameData);
+	};
+
 	const handleMaxAllResources = () => {
 		const resourceUtils = new ResourceUtils(gameData);
 		const updatedGameData = resourceUtils.maxAllResources();
 		updateGameData(updatedGameData);
 	};
 
-
-
-
 	return (
 		<main className="bg-white rounded-lg shadow-lg p-6 mt-4">
 			<div className="border-b border-gray-200 mb-4">
 				<div className="flex justify-between items-end">
 					<nav aria-label="Tabs" className="-mb-px flex space-x-8">
-						{['clanMembers', 'spouses', 'retainers', 'resources'].map((tab) => (
+						{['clanMembers', 'spouses', 'retainers', 'financeResources'].map((tab) => (
 							<button
 								key={tab}
 								onClick={() => setActiveTab(tab)}
 								className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base ${activeTab === tab
-										? 'border-gray-800 text-gray-900'
-										: 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+									? 'border-gray-800 text-gray-900'
+									: 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
 									}`}
 							>
 								{tab === 'clanMembers' ? 'Clan Members' :
 									tab === 'spouses' ? 'Spouses' :
-										tab === 'retainers' ? 'Retainers' : 'Resources'}
+										tab === 'retainers' ? 'Retainers' : 'Finance & Resources'}
 							</button>
 						))}
 					</nav>
@@ -147,11 +150,19 @@ function EditorContent() {
 					)}
 
 					{/* Resources Tab Buttons */}
-					{activeTab === 'resources' && (
-						<div className="flex items-center space-x-4 py-4">
-							<button onClick={handleMaxAllResources} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
-								Max All Resources
-							</button>
+					{activeTab === 'financeResources' && (
+						<div className="flex items-center space-x-2 py-4">
+							<div className="flex items-center">
+								<button onClick={handleMaxAllFinance} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+									Max All Finance
+								</button>
+							</div>
+							<div className="text-gray-300 text-sm">|</div>
+							<div className="flex items-center">
+								<button onClick={handleMaxAllResources} className="bg-gray-800 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600">
+									Max All Resources
+								</button>
+							</div>
 						</div>
 					)}
 				</div>
@@ -172,8 +183,8 @@ function EditorContent() {
 				<RetainerTable />
 			)}
 
-			{/* Resources Table */}
-			{activeTab === 'resources' && (
+			{/* Finance & Resources Table */}
+			{activeTab === 'financeResources' && (
 				<ResourceTable />
 			)}
 
