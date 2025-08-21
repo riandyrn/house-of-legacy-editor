@@ -9,6 +9,9 @@ import {
 } from '../constants/gameConstants';
 
 const useSpouseStore = create((set, get) => ({
+  // Reactive state
+  spouses: [],
+  
   newSpouse: (rawRecord, memberIdx) => {
     const tokens = rawRecord[2].split("|");
     const name = tokens[0];
@@ -37,11 +40,20 @@ const useSpouseStore = create((set, get) => ({
     }
   },
 
-  getSpousesData: () => {
+  // Sync from gameData
+  syncFromGameData: () => {
     const { gameData } = useGameDataStore.getState();
     const { newSpouse } = get();
-    return gameData.Member_qu.value.map(newSpouse);
+    if (gameData?.Member_qu?.value) {
+      const spouses = gameData.Member_qu.value.map((rawRecord, index) => 
+        newSpouse(rawRecord, index)
+      );
+      set({ spouses });
+    }
   },
+  
+  // Get spouses data (reactive)
+  getSpousesData: () => get().spouses,
 
   getSpouse: (spouseIdx) => {
     const { getSpousesData } = get();
@@ -97,6 +109,8 @@ const useSpouseStore = create((set, get) => ({
 
       updatedGameData.Member_qu.value[spouseIdx] = rawRecord;
       updateGameData(updatedGameData);
+      // Trigger sync after update
+      get().syncFromGameData();
     }
   },
 
@@ -118,7 +132,10 @@ const useSpouseStore = create((set, get) => ({
       }
     }
 
+    // Update game data
     updateGameData(updatedGameData);
+    // Trigger sync after update
+    get().syncFromGameData();
   },
 
   maxAllSpouseAttributes: () => {
@@ -149,7 +166,10 @@ const useSpouseStore = create((set, get) => ({
       updatedGameData.Member_qu.value[i] = rawRecord;
     }
 
+    // Update game data
     updateGameData(updatedGameData);
+    // Trigger sync after update
+    get().syncFromGameData();
   },
 }));
 

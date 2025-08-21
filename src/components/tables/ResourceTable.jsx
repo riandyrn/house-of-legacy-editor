@@ -1,14 +1,11 @@
 import useUIStore from '../../store/useUIStore';
 import useResourceStore from '../../store/useResourceStore';
-import useGameDataStore from '../../store/useGameDataStore';
 
 function ResourceTable() {
 	const { openResourceModal } = useUIStore();
 	const { getResourcesData } = useResourceStore();
-	const { gameData } = useGameDataStore(); // Subscribe to gameData changes to trigger re-renders
 	
-	// Re-compute data when gameData changes (reactive)
-	const resource = gameData ? getResourcesData() : {};
+	const resource = getResourcesData();
 
 	return (
 		<div className="overflow-x-auto">

@@ -9,6 +9,9 @@ import {
 } from '../constants/gameConstants';
 
 const useClanMemberStore = create((set, get) => ({
+  // Reactive state
+  clanMembers: [],
+  
   newClanMember: (rawRecord, memberIdx) => {
     const tokens = rawRecord[4].split("|");
     const name = tokens[0];
@@ -37,11 +40,20 @@ const useClanMemberStore = create((set, get) => ({
     }
   },
 
-  getClanMembersData: () => {
+  // Sync from gameData
+  syncFromGameData: () => {
     const { gameData } = useGameDataStore.getState();
     const { newClanMember } = get();
-    return gameData.Member_now.value.map(newClanMember);
+    if (gameData?.Member_now?.value) {
+      const clanMembers = gameData.Member_now.value.map((rawRecord, index) => 
+        newClanMember(rawRecord, index)
+      );
+      set({ clanMembers });
+    }
   },
+  
+  // Get clan members data (reactive)
+  getClanMembersData: () => get().clanMembers,
 
   getClanMember: (memberIdx) => {
     const { getClanMembersData } = get();
@@ -97,6 +109,8 @@ const useClanMemberStore = create((set, get) => ({
 
       updatedGameData.Member_now.value[memberIdx] = rawRecord;
       updateGameData(updatedGameData);
+      // Trigger sync after update
+      get().syncFromGameData();
     }
   },
 
@@ -118,7 +132,10 @@ const useClanMemberStore = create((set, get) => ({
       }
     }
 
+    // Update game data
     updateGameData(updatedGameData);
+    // Trigger sync after update
+    get().syncFromGameData();
   },
 
   maxAllClanMemberAttributes: () => {
@@ -149,7 +166,10 @@ const useClanMemberStore = create((set, get) => ({
       updatedGameData.Member_now.value[i] = rawRecord;
     }
 
+    // Update game data
     updateGameData(updatedGameData);
+    // Trigger sync after update
+    get().syncFromGameData();
   },
 
   // Character data operations (legacy compatibility)

@@ -1,14 +1,11 @@
 import useUIStore from '../../store/useUIStore';
 import useRetainerStore from '../../store/useRetainerStore';
-import useGameDataStore from '../../store/useGameDataStore';
 
 function RetainerTable() {
 	const { openRetainerModal } = useUIStore();
 	const { getRetainersData } = useRetainerStore();
-	const { gameData } = useGameDataStore(); // Subscribe to gameData changes to trigger re-renders
 	
-	// Re-compute data when gameData changes (reactive)
-	const data = gameData ? getRetainersData() : [];
+	const data = getRetainersData();
 
 	return (
 		<div className="overflow-x-auto">

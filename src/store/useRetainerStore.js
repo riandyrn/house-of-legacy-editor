@@ -3,6 +3,9 @@ import useGameDataStore from './useGameDataStore';
 import { rangeAttrs } from '../constants/gameConstants';
 
 const useRetainerStore = create((set, get) => ({
+  // Reactive state
+  retainers: [],
+  
   newRetainer: (rawRecord, retainerIdx) => {
     return {
       name: rawRecord[2].split("|")[0],
@@ -18,16 +21,25 @@ const useRetainerStore = create((set, get) => ({
     }
   },
 
-  getRetainersData: () => {
+  // Sync from gameData
+  syncFromGameData: () => {
     const { gameData } = useGameDataStore.getState();
     const { newRetainer } = get();
-    return gameData.MenKe_Now.value.map(newRetainer);
+    if (gameData?.MenKe_Now?.value) {
+      const retainers = gameData.MenKe_Now.value.map((rawRecord, index) => 
+        newRetainer(rawRecord, index)
+      );
+      set({ retainers });
+    }
   },
+  
+  // Get retainers data (reactive)
+  getRetainersData: () => get().retainers,
 
   getRetainer: (retainerIdx) => {
-    const { gameData } = useGameDataStore.getState();
-    const { newRetainer } = get();
-    return newRetainer(gameData.MenKe_Now.value[retainerIdx]);
+    const { getRetainersData } = get();
+    const retainers = getRetainersData();
+    return retainers[retainerIdx] || {};
   },
 
   setRetainer: (retainerIdx, { age, literature, martial, commerce, art, strategy, reputation, monthlySalary }) => {
@@ -46,6 +58,8 @@ const useRetainerStore = create((set, get) => ({
 
     updatedGameData.MenKe_Now.value[retainerIdx] = rawRecord;
     updateGameData(updatedGameData);
+    // Trigger sync after update
+    get().syncFromGameData();
   },
 
   // Set all retainers to best attributes
@@ -66,7 +80,11 @@ const useRetainerStore = create((set, get) => ({
 
       updatedGameData.MenKe_Now.value[i] = rawRecord;
     }
+    
+    // Update game data
     updateGameData(updatedGameData);
+    // Trigger sync after update
+    get().syncFromGameData();
   },
 }));
 

@@ -1,14 +1,11 @@
 import useUIStore from '../../store/useUIStore';
 import useClanMemberStore from '../../store/useClanMemberStore';
-import useGameDataStore from '../../store/useGameDataStore';
 
 function ClanMemberTable() {
 	const { openClanMemberModal } = useUIStore();
 	const { getClanMembersData } = useClanMemberStore();
-	const { gameData } = useGameDataStore(); // Subscribe to gameData changes to trigger re-renders
 
-	// Re-compute data when gameData changes (reactive)
-	const data = gameData ? getClanMembersData() : [];
+	const data = getClanMembersData();
 
 	return (
 		<div className="overflow-x-auto">

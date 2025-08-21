@@ -1,9 +1,17 @@
 import useUIStore from '../../store/useUIStore';
 import useGameDataStore from '../../store/useGameDataStore';
+import useClanMemberStore from '../../store/useClanMemberStore';
+import useSpouseStore from '../../store/useSpouseStore';
+import useRetainerStore from '../../store/useRetainerStore';
+import useResourceStore from '../../store/useResourceStore';
 
 function FileUploadPage({ fileInputRef }) {
 	const { selectedFile, setSelectedFile, setCurrentPage, showError } = useUIStore();
 	const { parseES3Data } = useGameDataStore();
+	const { syncFromGameData: syncClanMembers } = useClanMemberStore();
+	const { syncFromGameData: syncSpouses } = useSpouseStore();
+	const { syncFromGameData: syncRetainers } = useRetainerStore();
+	const { syncFromGameData: syncResources } = useResourceStore();
 
 	const handleFileSelect = (file) => {
 		setSelectedFile(file);
@@ -43,6 +51,11 @@ function FileUploadPage({ fileInputRef }) {
 				const fileContent = e.target.result;
 				try {
 					parseES3Data(fileContent, selectedFile.name);
+					// Sync all stores after parsing
+					syncClanMembers();
+					syncSpouses();
+					syncRetainers();
+					syncResources();
 					setCurrentPage('editor');
 				} catch (error) {
 					console.error('Error parsing ES3 file:', error);
